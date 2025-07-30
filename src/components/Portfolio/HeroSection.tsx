@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-export const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  audioEnabled?: boolean;
+  frequencyData?: number[];
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ 
+  audioEnabled = false, 
+  frequencyData = [] 
+}) => {
   const [typedText, setTypedText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
   const fullText = 'KRINHJ';
@@ -74,14 +82,84 @@ export const HeroSection: React.FC = () => {
           RONNIE TALABUCON JR.
         </h1>
 
-        {/* Scan line under big name */}
-        <div className="scan-line" style={{ marginBottom: '1rem' }}>
-          <div style={{
-            height: '1px',
-            background: 'linear-gradient(to right, transparent, hsl(var(--primary)), transparent)',
-            width: '60%',
-            margin: '0 auto'
-          }} />
+        {/* Audio Visualizer or Scan line under big name */}
+        <div style={{ marginBottom: '1rem', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {audioEnabled ? (
+            frequencyData.length > 0 ? (
+              // Audio Waveform Line
+              <svg 
+                width="400" 
+                height="40" 
+                style={{ overflow: 'visible' }}
+              >
+                <defs>
+                  <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style={{ stopColor: 'transparent', stopOpacity: 0 }} />
+                    <stop offset="20%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0.8 }} />
+                    <stop offset="50%" style={{ stopColor: 'hsl(var(--primary-glow))', stopOpacity: 1 }} />
+                    <stop offset="80%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0.8 }} />
+                    <stop offset="100%" style={{ stopColor: 'transparent', stopOpacity: 0 }} />
+                  </linearGradient>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge> 
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                <path
+                  d={`M 0 20 ${frequencyData.slice(0, 32).map((value, index) => {
+                    const x = (index / 31) * 400;
+                    // Much more dramatic amplitude - boost the values
+                    const amplified = Math.max(0.05, value * 8); // Amplify by 8x
+                    const y = 20 + (amplified - 0.4) * 100; // Bigger ±50px amplitude
+                    return `L ${x} ${Math.max(2, Math.min(38, y))}`;
+                  }).join(' ')}`}
+                  fill="none"
+                  stroke="url(#waveGradient)"
+                  strokeWidth="3"
+                  filter="url(#glow)"
+                  style={{ 
+                    transition: 'none' // Remove transition for immediate response
+                  }}
+                />
+              </svg>
+            ) : (
+              // Audio enabled but no data - show gentle wave
+              <svg 
+                width="400" 
+                height="40" 
+                style={{ overflow: 'visible' }}
+              >
+                <defs>
+                  <linearGradient id="staticGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style={{ stopColor: 'transparent', stopOpacity: 0 }} />
+                    <stop offset="20%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0.6 }} />
+                    <stop offset="50%" style={{ stopColor: 'hsl(var(--primary-glow))', stopOpacity: 0.8 }} />
+                    <stop offset="80%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0.6 }} />
+                    <stop offset="100%" style={{ stopColor: 'transparent', stopOpacity: 0 }} />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M 0 20 Q 100 15 200 20 T 400 20"
+                  fill="none"
+                  stroke="url(#staticGradient)"
+                  strokeWidth="2"
+                  opacity="0.7"
+                />
+              </svg>
+            )
+          ) : (
+            // Static Scan Line
+            <div className="scan-line" style={{ width: '60%' }}>
+              <div style={{
+                height: '1px',
+                background: 'linear-gradient(to right, transparent, hsl(var(--primary)), transparent)',
+                width: '100%'
+              }} />
+            </div>
+          )}
         </div>
 
         {/* Terminal-style username */}

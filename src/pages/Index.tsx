@@ -12,7 +12,13 @@ import { ContactPortal } from '../components/Portfolio/ContactPortal';
 const Index: React.FC = () => {
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [audioLoaded, setAudioLoaded] = useState(false);
+  const [audioData, setAudioData] = useState<number>(0);
+  const [frequencyData, setFrequencyData] = useState<number[]>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const dataArrayRef = useRef<Uint8Array | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,12 +40,82 @@ const Index: React.FC = () => {
     }
   }, []);
 
+  const setupAudioAnalysis = () => {
+    if (!audioRef.current) return;
+
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const analyser = audioContext.createAnalyser();
+      const source = audioContext.createMediaElementSource(audioRef.current);
+      
+      analyser.fftSize = 256;
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      
+      source.connect(analyser);
+      analyser.connect(audioContext.destination);
+      
+      audioContextRef.current = audioContext;
+      analyserRef.current = analyser;
+      dataArrayRef.current = dataArray;
+      
+      startAudioAnalysis();
+    } catch (error) {
+      console.error('Audio analysis setup failed:', error);
+    }
+  };
+
+  const startAudioAnalysis = () => {
+    if (!analyserRef.current || !dataArrayRef.current) return;
+    
+    const updateAudioData = () => {
+      if (analyserRef.current && dataArrayRef.current && audioEnabled) {
+        analyserRef.current.getByteFrequencyData(dataArrayRef.current);
+        
+        // Calculate average amplitude from lower frequencies (bass/mids)
+        const bassRange = dataArrayRef.current.slice(0, 64);
+        const average = bassRange.reduce((sum, value) => sum + value, 0) / bassRange.length;
+        const normalized = average / 255; // Normalize to 0-1
+        
+        // Create frequency bars data (32 bars covering different frequency ranges)
+        const barCount = 32;
+        const barsData: number[] = [];
+        const chunkSize = Math.floor(dataArrayRef.current.length / barCount);
+        
+        for (let i = 0; i < barCount; i++) {
+          const start = i * chunkSize;
+          const end = start + chunkSize;
+          const chunk = dataArrayRef.current.slice(start, end);
+          const barValue = chunk.reduce((sum, value) => sum + value, 0) / chunk.length;
+          barsData.push(barValue / 255); // Normalize to 0-1
+        }
+        
+        setAudioData(normalized);
+        setFrequencyData(barsData);
+        animationFrameRef.current = requestAnimationFrame(updateAudioData);
+      }
+    };
+    
+    updateAudioData();
+  };
+
   const toggleAudio = () => {
     if (audioRef.current && audioLoaded) {
       if (audioEnabled) {
         audioRef.current.pause();
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+        }
+        setAudioData(0);
+        setFrequencyData([]);
       } else {
-        audioRef.current.play().catch(console.error);
+        audioRef.current.play().then(() => {
+          if (!audioContextRef.current) {
+            setupAudioAnalysis();
+          } else {
+            startAudioAnalysis();
+          }
+        }).catch(console.error);
       }
       setAudioEnabled(!audioEnabled);
     }
@@ -50,7 +126,7 @@ const Index: React.FC = () => {
   };
 
   return (
-    <SynthwaveBackground disablePageScroll={false}>
+    <SynthwaveBackground disablePageScroll={false} audioData={audioData} frequencyData={frequencyData}>
       {/* Hidden audio element */}
       <audio 
         ref={audioRef}
@@ -124,7 +200,7 @@ const Index: React.FC = () => {
         width: '100%',
         minHeight: '100vh'
       }}>
-        <HeroSection />
+        <HeroSection audioEnabled={audioEnabled} frequencyData={frequencyData} />
         <ProjectMatrix />
         <ExperienceTimeline />
         <TechnicalArsenal />

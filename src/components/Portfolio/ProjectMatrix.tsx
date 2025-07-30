@@ -38,6 +38,28 @@ export const ProjectMatrix = () => {
     },
     {
       id: 4,
+      name: "3D Disaster Simulation Game",
+      subtitle: "Unity Thesis Project",
+      description: "Comprehensive 3D disaster simulation game built in Unity with C#. Features real-time scoring algorithms, Firebase-powered leaderboards, and persistent run history system for educational disaster preparedness training.",
+      tech: ["Unity", "C#", "Firebase", "Unity Editor"],
+      status: "COMPLETED",
+      link: "#",
+      github: "https://github.com/Krinhj",
+      color: "primary-glow"
+    },
+    {
+      id: 5,
+      name: "Baptism Records Manager",
+      subtitle: "Parish Management Desktop App",
+      description: "Comprehensive parish management system built with Tauri V2. Features full CRUD operations, permissions-based access control, automated backup/restore system, and detailed audit logging for all administrative actions.",
+      tech: ["React", "Tailwind", "Tauri V2", "Rust"],
+      status: "PRODUCTION",
+      link: "#",
+      github: "https://github.com/Krinhj",
+      color: "primary"
+    },
+    {
+      id: 6,
       name: "TDEE Calculator API",
       subtitle: "Production REST API",
       description: "High-performance REST API deployed on RapidAPI marketplace. Calculates Total Daily Energy Expenditure with precision algorithms.",
@@ -45,7 +67,7 @@ export const ProjectMatrix = () => {
       status: "LIVE",
       link: "#",
       github: "https://github.com/Krinhj",
-      color: "primary"
+      color: "primary-dim"
     }
   ];
 

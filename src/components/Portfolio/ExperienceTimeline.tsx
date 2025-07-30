@@ -29,6 +29,9 @@ export const ExperienceTimeline = () => {
       achievements: [
         "Full-stack development specialization",
         "Database architecture and optimization focus",
+        "Unity 3D game development with C# programming",
+        "Firebase integration for real-time data management",
+        "Advanced scoring algorithms and leaderboard systems",
         "AI/ML project development experience",
         "Software engineering best practices"
       ],

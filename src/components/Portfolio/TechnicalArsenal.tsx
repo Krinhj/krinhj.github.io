@@ -16,12 +16,12 @@ export const TechnicalArsenal = () => {
     {
       title: "Databases",
       icon: Database,
-      skills: ["SQL Server", "MySQL", "MongoDB", "Supabase"]
+      skills: ["SQL Server", "MySQL", "MongoDB", "Supabase", "Firebase"]
     },
     {
       title: "Tools",
       icon: Wrench,
-      skills: ["VS Code", "Visual Studio 2022", "Postman", "Git"]
+      skills: ["VS Code", "Visual Studio 2022", "Unity Editor", "Postman", "Git"]
     }
   ];
 
