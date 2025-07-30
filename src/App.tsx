@@ -1,38 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 // Import pages
-import { TerminalPage } from './pages/TerminalPage';
-import { Portfolio } from './pages/Portfolio';
-import { BootSequence } from './components/Effects/BootSequence';
+import Index from './pages/Index';
+import TerminalPage from './pages/TerminalPage';
+import NotFound from './pages/NotFound';
 
 const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<'terminal' | 'boot' | 'portfolio'>('terminal');
-
-  const handleBootStart = () => {
-    setCurrentView('boot');
-  };
-
-  const handleBootComplete = () => {
-    setCurrentView('portfolio');
-  };
-
-  const handleReturnToCLI = () => {
-    setCurrentView('terminal');
-  };
-
-  // Render based on current view
-  switch (currentView) {
-    case 'boot':
-      return <BootSequence onComplete={handleBootComplete} />;
-    
-    case 'portfolio':
-      return <Portfolio onReturnToCLI={handleReturnToCLI} />;
-    
-    case 'terminal':
-    default:
-      return <TerminalPage onBootStart={handleBootStart} />;
-  }
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/terminal" element={<TerminalPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 export default App;

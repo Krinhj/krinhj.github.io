@@ -1,7 +1,5 @@
 import React from 'react';
 import { ExternalLink, Github } from 'lucide-react';
-import { SectionTitle } from '../UI/HolographicText';
-import { ProjectButton } from '../UI/NeonButton';
 
 export const ProjectMatrix = () => {
   const projects = [
@@ -52,60 +50,137 @@ export const ProjectMatrix = () => {
   ];
 
   return (
-    <section className="py-20 px-4 relative">
-      <div className="max-w-7xl mx-auto">
-        {/* Section header with glitch effect and scan line */}
-        <SectionTitle subtitle="Cutting-edge applications pushing the boundaries of web technology">
-          PROJECT MATRIX
-        </SectionTitle>
+    <section id="projects-section" style={{
+      padding: '5rem 1rem',
+      position: 'relative'
+    }}>
+      <div style={{
+        maxWidth: '80rem',
+        margin: '0 auto'
+      }}>
+        {/* Section header */}
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '4rem'
+        }}>
+          <h2 
+            className="glitch"
+            data-text="PROJECT MATRIX"
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              fontWeight: 900,
+              color: 'hsl(var(--primary))',
+              textTransform: 'uppercase',
+              letterSpacing: '0.2em',
+              marginBottom: '1rem',
+              textShadow: '0 0 20px hsl(var(--primary) / 0.5)'
+            }}
+          >
+            PROJECT MATRIX
+          </h2>
+          <p style={{
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+            color: 'hsl(var(--muted-foreground))',
+            maxWidth: '48rem',
+            margin: '0 auto'
+          }}>
+            Cutting-edge applications pushing the boundaries of web technology
+          </p>
+        </div>
 
         {/* Projects grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
+          gap: '2rem',
+          marginBottom: '4rem'
+        }}>
           {projects.map((project, index) => (
             <div 
               key={project.id}
-              className="energy-card rounded-xl p-6 group"
-              style={{ 
-                animationDelay: `${index * 0.2}s`,
-                animation: 'fade-in 0.8s ease-out forwards'
+              className="energy-card"
+              style={{
+                borderRadius: '12px',
+                padding: '2rem',
+                position: 'relative',
+                animationDelay: `${index * 0.2}s`
               }}
             >
               {/* Project header */}
-              <div className="flex justify-between items-start mb-4">
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                marginBottom: '1rem'
+              }}>
                 <div>
-                  <h3 className="text-xl font-bold text-red-electric mb-1">
+                  <h3 style={{
+                    fontSize: '1.5rem',
+                    fontWeight: 'bold',
+                    color: 'hsl(var(--primary))',
+                    marginBottom: '0.25rem'
+                  }}>
                     {project.name}
                   </h3>
-                  <p className="text-sm text-gray-400">
+                  <p style={{
+                    fontSize: '0.875rem',
+                    color: 'hsl(var(--muted-foreground))'
+                  }}>
                     {project.subtitle}
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span 
-                    className={`px-3 py-1 rounded-full text-xs font-bold ${
-                      project.status === 'LIVE' 
-                        ? 'bg-red-electric bg-opacity-20 text-red-electric animate-pulse' 
-                        : project.status === 'PRODUCTION'
-                        ? 'bg-red-primary bg-opacity-20 text-red-primary'
-                        : 'bg-gray-600 bg-opacity-20 text-gray-400'
-                    }`}
-                  >
+                <div>
+                  <span style={{
+                    padding: '0.25rem 0.75rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.75rem',
+                    fontWeight: 'bold',
+                    backgroundColor: project.status === 'LIVE' 
+                      ? 'hsl(var(--primary) / 0.2)' 
+                      : project.status === 'PRODUCTION'
+                      ? 'hsl(var(--primary) / 0.2)'
+                      : 'hsl(var(--muted) / 0.2)',
+                    color: project.status === 'LIVE' 
+                      ? 'hsl(var(--primary))' 
+                      : project.status === 'PRODUCTION'
+                      ? 'hsl(var(--primary))'
+                      : 'hsl(var(--muted-foreground))',
+                    animation: project.status === 'LIVE' ? 'energy-pulse 2s ease-in-out infinite' : 'none'
+                  }}>
                     {project.status}
                   </span>
                 </div>
               </div>
 
               {/* Project description */}
-              <p className="text-white text-opacity-80 mb-6 leading-relaxed">
+              <p style={{
+                color: 'hsl(var(--foreground) / 0.8)',
+                marginBottom: '1.5rem',
+                lineHeight: 1.6,
+                fontSize: '1rem'
+              }}>
                 {project.description}
               </p>
 
               {/* Tech stack */}
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '0.5rem',
+                marginBottom: '1.5rem'
+              }}>
                 {project.tech.map((tech, techIndex) => (
                   <span 
                     key={techIndex}
-                    className="px-3 py-1 bg-red-primary bg-opacity-10 border border-red-primary border-opacity-30 rounded-lg text-sm text-red-electric font-mono"
+                    style={{
+                      padding: '0.25rem 0.75rem',
+                      backgroundColor: 'hsl(var(--primary) / 0.1)',
+                      border: '1px solid hsl(var(--primary) / 0.3)',
+                      borderRadius: '6px',
+                      fontSize: '0.875rem',
+                      color: 'hsl(var(--primary))',
+                      fontFamily: 'monospace'
+                    }}
                   >
                     {tech}
                   </span>
@@ -113,40 +188,62 @@ export const ProjectMatrix = () => {
               </div>
 
               {/* Action buttons */}
-              <div className="flex gap-4">
+              <div style={{
+                display: 'flex',
+                gap: '1rem'
+              }}>
                 {project.status === 'LIVE' && project.link && project.link !== '#' && (
-                  <ProjectButton
-                    isLive={true}
+                  <a
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    icon={<ExternalLink size={16} />}
+                    className="neon-button"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      padding: '0.5rem 1rem',
+                      fontSize: '0.875rem',
+                      borderRadius: '6px',
+                      textDecoration: 'none'
+                    }}
                   >
+                    <ExternalLink size={16} />
                     VIEW LIVE
-                  </ProjectButton>
+                  </a>
                 )}
-                <ProjectButton
-                  isLive={false}
+                <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  icon={<Github size={16} />}
+                  className="neon-button"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem 1rem',
+                    fontSize: '0.875rem',
+                    borderRadius: '6px',
+                    textDecoration: 'none',
+                    backgroundColor: 'transparent'
+                  }}
                 >
+                  <Github size={16} />
                   CODE
-                </ProjectButton>
-              </div>
-
-              {/* Hover effect overlay - SUBTLE VERSION */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-r from-red-electric from-opacity-5 to-red-primary to-opacity-5 rounded-xl" />
+                </a>
               </div>
             </div>
           ))}
         </div>
 
         {/* Bottom scan line */}
-        <div className="mt-16 scan-line">
-          <div className="h-px bg-gradient-to-r from-transparent via-red-electric to-transparent" />
+        <div className="scan-line" style={{
+          marginTop: '4rem'
+        }}>
+          <div style={{
+            height: '1px',
+            background: 'linear-gradient(to right, transparent, hsl(var(--primary)), transparent)'
+          }} />
         </div>
       </div>
     </section>

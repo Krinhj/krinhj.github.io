@@ -1,83 +1,254 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const HeroSection: React.FC = () => {
+  const [typedText, setTypedText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+  const fullText = 'KRINHJ';
+
+  useEffect(() => {
+    let index = 0;
+    const typeInterval = setInterval(() => {
+      if (index < fullText.length) {
+        setTypedText(fullText.slice(0, index + 1));
+        index++;
+      } else {
+        clearInterval(typeInterval);
+      }
+    }, 150);
+
+    return () => clearInterval(typeInterval);
+  }, []);
+
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 500);
+
+    return () => clearInterval(cursorInterval);
+  }, []);
+
   return (
-    <section className="min-h-screen flex items-center justify-center px-4">
-      <div className="text-center max-w-4xl">
-        {/* Main holographic name - matching your screenshot */}
-        <div className="mb-4">
-          <div className="holographic-text text-6xl md:text-8xl lg:text-9xl font-bold tracking-wider">
-            <div className="holographic-blur">RONNIE TALABUCON JR.</div>
-            <div className="holographic-main">RONNIE TALABUCON JR.</div>
-          </div>
+    <section style={{
+      height: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'relative',
+      margin: 0,
+      padding: 0,
+      marginTop: 0,
+      width: '100%'
+    }}>
+      {/* Background overlay for better text readability - made more transparent */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundColor: 'hsl(var(--background) / 0.3)',
+        zIndex: 10
+      }} />
+      
+      {/* Main hero content */}
+      <div style={{
+        textAlign: 'center',
+        zIndex: 20,
+        position: 'relative'
+      }}>
+        {/* Main name with cleaner holographic effect */}
+        <h1 
+          style={{
+            fontSize: 'clamp(2.5rem, 8vw, 6rem)',
+            fontWeight: 900,
+            marginBottom: '1rem',
+            letterSpacing: '0.1em',
+            lineHeight: 0.9,
+            textTransform: 'uppercase',
+            color: 'hsl(var(--primary))',
+            textShadow: `
+              0 0 20px hsl(var(--primary) / 0.6),
+              0 0 40px hsl(var(--primary) / 0.4),
+              0 0 60px hsl(var(--primary) / 0.2)
+            `,
+            fontFamily: 'Share Tech Mono, Courier New, monospace'
+          }}
+        >
+          RONNIE TALABUCON JR.
+        </h1>
+
+        {/* Scan line under big name */}
+        <div className="scan-line" style={{ marginBottom: '1rem' }}>
+          <div style={{
+            height: '1px',
+            background: 'linear-gradient(to right, transparent, hsl(var(--primary)), transparent)',
+            width: '60%',
+            margin: '0 auto'
+          }} />
         </div>
-        
-        <div className="text-primary text-xl md:text-2xl font-mono mb-4 animate-pulse">
-          {'>'} KRINHJ_
+
+        {/* Terminal-style username */}
+        <div style={{
+          fontSize: 'clamp(1.25rem, 4vw, 2rem)',
+          fontFamily: 'monospace',
+          color: 'hsl(var(--primary))',
+          marginBottom: '2rem'
+        }}>
+          <span style={{ color: 'hsl(var(--muted-foreground))' }}>{'>'}</span>{' '}
+          <span style={{ color: 'hsl(var(--primary-glow))' }}>{typedText}</span>
+          {showCursor && (
+            <span
+              style={{
+                color: 'hsl(var(--primary))',
+                marginLeft: '4px',
+                animation: 'cursor-blink 1s infinite',
+                fontSize: 'inherit',
+                fontWeight: 'inherit'
+              }}
+            >
+              |
+            </span>
+          )}
         </div>
-        
-        <div className="text-white/90 text-lg md:text-xl mb-4 uppercase tracking-wide">
-          CS Graduate • Full-Stack Developer • Database Architect
+
+        {/* Subtitle */}
+        <div style={{ marginBottom: '2rem' }}>
+          <p style={{
+            fontSize: 'clamp(1.125rem, 2.5vw, 1.5rem)',
+            color: 'hsl(var(--muted-foreground))',
+            fontWeight: 300,
+            letterSpacing: '0.05em'
+          }}>
+            CS Graduate • Full-Stack Developer • Database Architect
+          </p>
         </div>
-        
-        <div className="text-primary text-base md:text-lg mb-8 opacity-80">
+
+        {/* Location */}
+        <div style={{
+          color: 'hsl(var(--muted-foreground))',
+          fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
+          marginBottom: '3rem',
+          opacity: 0.8
+        }}>
           📍 Roxas City/Iloilo City, Philippines
         </div>
-        
-        <div className="text-primary/80 text-lg md:text-xl mb-4 italic font-bold">
-          "Mieux que jamais"
-        </div>
-        
-        <div className="text-white/60 text-sm mb-8">
-          Better than ever
-        </div>
-        
-        <div className="text-white/80 text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
-          Building impactful software with a mission to leave every project 
-          <span className="text-primary"> better than I found it</span>
-        </div>
-        
-        <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
-          <button className="neon-button px-6 py-3">
+
+        {/* All buttons in one line */}
+        <div style={{
+          display: 'flex',
+          flexDirection: window.innerWidth < 768 ? 'column' : 'row',
+          gap: '1rem',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: '2rem',
+          flexWrap: 'wrap'
+        }}>
+          <button 
+            className="neon-button"
+            onClick={() => {
+              const projectsSection = document.getElementById('projects-section');
+              if (projectsSection) {
+                projectsSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            style={{
+              borderRadius: '8px',
+              padding: '0.75rem 1.5rem',
+              fontSize: '0.875rem',
+              fontWeight: 600
+            }}
+          >
             VIEW PROJECTS
           </button>
-          <button className="neon-button px-6 py-3">
+          <a 
+            href="/Talabucon_Resume.pdf"
+            download="Talabucon_Resume.pdf"
+            className="neon-button"
+            style={{
+              borderRadius: '8px',
+              padding: '0.75rem 1.5rem',
+              fontSize: '0.875rem',
+              fontWeight: 600,
+              backgroundColor: 'hsl(var(--primary) / 0.1)',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
             DOWNLOAD CV
-          </button>
-        </div>
-        
-        {/* Stats from your screenshot */}
-        <div className="flex flex-col sm:flex-row justify-center gap-4 text-sm mb-8">
-          <div className="px-4 py-2 border border-primary/30 bg-primary/5">
-            <span className="text-primary">389</span> Day Duolingo Streak
-          </div>
-          <div className="px-4 py-2 border border-primary/30 bg-primary/5">
-            <span className="text-primary">DBM</span> Intern 2025
-          </div>
-          <div className="px-4 py-2 border border-primary/30 bg-primary/5">
-            <span className="text-primary">4</span> Live Projects
-          </div>
-        </div>
-        
-        {/* GitHub and LinkedIn buttons */}
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
+          </a>
           <a 
             href="https://github.com/Krinhj" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="neon-button px-6 py-3"
+            className="neon-button"
+            style={{
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              padding: '0.75rem 1.5rem',
+              fontSize: '0.875rem',
+              textDecoration: 'none'
+            }}
           >
-            💻 GITHUB
+            <span style={{ fontSize: '1rem' }}>💻</span> GITHUB
           </a>
           <a 
             href="https://www.linkedin.com/in/ronnie-talabucon-jr-30528b31b" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="neon-button px-6 py-3"
+            className="neon-button"
+            style={{
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              padding: '0.75rem 1.5rem',
+              fontSize: '0.875rem',
+              textDecoration: 'none'
+            }}
           >
-            💼 LINKEDIN
+            <span style={{ fontSize: '1rem' }}>💼</span> LINKEDIN
           </a>
         </div>
+      </div>
+
+      {/* Floating geometric shapes */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '25%',
+          left: '25%',
+          width: '5rem',
+          height: '5rem',
+          border: '1px solid hsl(var(--primary) / 0.3)',
+          transform: 'rotate(45deg)',
+          animation: 'float-particle 15s linear infinite reverse'
+        }} />
+        <div style={{
+          position: 'absolute',
+          top: '75%',
+          right: '25%',
+          width: '4rem',
+          height: '4rem',
+          border: '1px solid hsl(var(--primary-glow) / 0.4)',
+          animation: 'float-particle 20s linear infinite'
+        }} />
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          right: '16.666667%',
+          width: '1.5rem',
+          height: '1.5rem',
+          backgroundColor: 'hsl(var(--primary) / 0.5)',
+          borderRadius: '50%',
+          animation: 'energy-pulse 3s ease-in-out infinite'
+        }} />
       </div>
     </section>
   );

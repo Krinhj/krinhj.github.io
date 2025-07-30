@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
 
 /* SYNTHWAVE CYBERPUNK RED DESIGN SYSTEM 
    Pure black with electric RED neon - completely unique in dev portfolio space
@@ -88,17 +91,17 @@
 @layer components {
   /* Cyberpunk Grid Background */
   .cyberpunk-grid {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-image: var(--gradient-grid);
     background-size: 40px 40px;
     background-position: 0 0, 0 0;
-    opacity: 0.1;
+    opacity: 0.8;
     pointer-events: none;
-    z-index: -1;
+    z-index: 1;
     animation: grid-pulse 4s ease-in-out infinite;
   }
 
@@ -292,10 +295,11 @@
     animation: cursor-blink 1s infinite;
   }
 
-  /* Glitch Effect */
+  /* Glitch Effect - Scanning rectangles perfectly masked to text */
   .glitch {
     position: relative;
     color: hsl(var(--primary));
+    display: inline-block;
   }
 
   .glitch::before,
@@ -311,11 +315,15 @@
   .glitch::before {
     animation: glitch-1 2s linear infinite reverse;
     color: hsl(var(--primary-glow));
+    transform: translate(-1px, 0);
+    opacity: 0.5;
   }
 
   .glitch::after {
     animation: glitch-2 2s linear infinite;
     color: hsl(var(--primary-dim));
+    transform: translate(1px, 0);
+    opacity: 0.5;
   }
 
   /* Floating Particles */
@@ -358,21 +366,57 @@
   }
 
   @keyframes glitch-1 {
-    0% { clip-path: inset(40% 0 61% 0); }
-    20% { clip-path: inset(92% 0 1% 0); }
-    40% { clip-path: inset(43% 0 1% 0); }
-    60% { clip-path: inset(25% 0 58% 0); }
-    80% { clip-path: inset(54% 0 7% 0); }
-    100% { clip-path: inset(58% 0 43% 0); }
+    0% { 
+      clip-path: inset(40% 0 61% 0);
+      transform: translate(-2px, 0);
+    }
+    20% { 
+      clip-path: inset(92% 0 1% 0);
+      transform: translate(-2px, 0);
+    }
+    40% { 
+      clip-path: inset(43% 0 1% 0);
+      transform: translate(-2px, 0);
+    }
+    60% { 
+      clip-path: inset(25% 0 58% 0);
+      transform: translate(-2px, 0);
+    }
+    80% { 
+      clip-path: inset(54% 0 7% 0);
+      transform: translate(-2px, 0);
+    }
+    100% { 
+      clip-path: inset(58% 0 43% 0);
+      transform: translate(-2px, 0);
+    }
   }
 
   @keyframes glitch-2 {
-    0% { clip-path: inset(25% 0 58% 0); }
-    20% { clip-path: inset(54% 0 7% 0); }
-    40% { clip-path: inset(58% 0 43% 0); }
-    60% { clip-path: inset(40% 0 61% 0); }
-    80% { clip-path: inset(92% 0 1% 0); }
-    100% { clip-path: inset(43% 0 1% 0); }
+    0% { 
+      clip-path: inset(25% 0 58% 0);
+      transform: translate(2px, 0);
+    }
+    20% { 
+      clip-path: inset(54% 0 7% 0);
+      transform: translate(2px, 0);
+    }
+    40% { 
+      clip-path: inset(58% 0 43% 0);
+      transform: translate(2px, 0);
+    }
+    60% { 
+      clip-path: inset(40% 0 61% 0);
+      transform: translate(2px, 0);
+    }
+    80% { 
+      clip-path: inset(92% 0 1% 0);
+      transform: translate(2px, 0);
+    }
+    100% { 
+      clip-path: inset(43% 0 1% 0);
+      transform: translate(2px, 0);
+    }
   }
 
   @keyframes float-particle {
@@ -407,16 +451,58 @@
       font-size: clamp(1.5rem, 8vw, 4rem);
     }
   }
+
+  @keyframes scan-line-vertical {
+    0% { 
+      left: -100%; 
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.15;
+    }
+    90% {
+      opacity: 0.15;
+    }
+    100% { 
+      left: 100%; 
+      opacity: 0;
+    }
+  }
 }
 
 @layer base {
   * {
     @apply border-border;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
 
-  body {
-    @apply bg-background text-foreground overflow-x-hidden;
+  html, body {
+    @apply bg-background text-foreground;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100%;
     font-family: 'Share Tech Mono', 'Courier New', monospace;
+    overflow-x: hidden;
+  }
+
+  #root {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* Ensure the first child of root has no margin */
+  #root > * {
+    margin-top: 0 !important;
+  }
+
+  /* Reset all headings and common elements */
+  h1, h2, h3, h4, h5, h6, p, div, section, main {
+    margin: 0;
+    padding: 0;
   }
 
   /* Typography system */

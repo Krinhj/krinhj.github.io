@@ -2,34 +2,40 @@ import { useState, useEffect } from 'react';
 
 interface BootSequenceProps {
   onComplete: () => void;
+  inTerminal?: boolean; // New prop to control if it's in terminal or full screen
 }
 
-export const BootSequence = ({ onComplete }: BootSequenceProps) => {
+export const BootSequence = ({ onComplete, inTerminal = false }: BootSequenceProps) => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [progress, setProgress] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
 
   const bootSteps = [
-    "SYSTEM INITIALIZING...",
-    "Loading cyberpunk_portfolio.exe...",
-    "Establishing neon matrix...",
-    "Calibrating holographic displays...",
-    "READY TO SHOCK AND AWE"
+    { text: 'INITIALIZING SYNTHWAVE PORTFOLIO SYSTEM...', delay: 500 },
+    { text: 'Loading neural network modules...', delay: 300 },
+    { text: 'Establishing quantum entanglement...', delay: 400 },
+    { text: 'Calibrating holographic projectors...', delay: 350 },
+    { text: 'Activating cyberpunk interface...', delay: 300 },
+    { text: 'Synchronizing with the matrix...', delay: 400 },
+    { text: 'Compiling reality fragments...', delay: 350 },
+    { text: 'Deploying neon lighting systems...', delay: 300 }
   ];
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (currentStep < bootSteps.length - 1) {
+      if (currentStep < bootSteps.length) {
         setCurrentStep(prev => prev + 1);
+        setProgress(Math.floor(((currentStep + 1) / bootSteps.length) * 100));
       } else {
-        // Complete IMMEDIATELY after final step
+        // Final completion
         setTimeout(() => {
           onComplete();
-        }, 300);
+        }, 500);
       }
-    }, 400); // MUCH faster - 400ms per step = 2.3 seconds total
+    }, bootSteps[currentStep]?.delay || 400);
 
     return () => clearTimeout(timer);
-  }, [currentStep, onComplete, bootSteps.length]);
+  }, [currentStep, onComplete, bootSteps]);
 
   useEffect(() => {
     const cursorInterval = setInterval(() => {
@@ -39,34 +45,139 @@ export const BootSequence = ({ onComplete }: BootSequenceProps) => {
     return () => clearInterval(cursorInterval);
   }, []);
 
+  // Terminal version - renders within terminal content area
+  if (inTerminal) {
+    const barLength = 40;
+    const filledLength = Math.floor((progress / 100) * barLength);
+    const progressBar = '█'.repeat(filledLength) + '░'.repeat(barLength - filledLength);
+
+    return (
+      <div style={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '2rem 1rem',
+        fontFamily: 'monospace'
+      }}>
+        {/* Header */}
+        <div style={{
+          color: 'hsl(var(--primary))',
+          fontSize: '1.25rem',
+          fontWeight: 'bold',
+          marginBottom: '2rem',
+          textAlign: 'center'
+        }}>
+          ╔══════════════════════════════════════════════════╗
+          <br />
+          ║              SYNTHWAVE BOOT SEQUENCE             ║
+          <br />
+          ╚══════════════════════════════════════════════════╝
+        </div>
+
+        {/* Current step */}
+        {currentStep < bootSteps.length && (
+          <div style={{
+            color: '#4ADE80',
+            fontSize: '1rem',
+            marginBottom: '1.5rem',
+            textAlign: 'center'
+          }}>
+            {bootSteps[currentStep].text}
+            <span style={{
+              color: '#4ADE80',
+              marginLeft: '8px',
+              opacity: showCursor ? 1 : 0,
+              transition: 'opacity 0.1s ease'
+            }}>
+              |
+            </span>
+          </div>
+        )}
+
+        {/* Progress bar */}
+        <div style={{
+          color: 'hsl(var(--primary))',
+          fontSize: '0.875rem',
+          marginBottom: '1rem',
+          textAlign: 'center'
+        }}>
+          [{progressBar}] {progress}%
+        </div>
+
+        {/* Status text */}
+        <div style={{
+          color: 'hsl(var(--primary) / 0.7)',
+          fontSize: '0.875rem',
+          textAlign: 'center'
+        }}>
+          {currentStep >= bootSteps.length ? (
+            <>
+              ✓ All systems operational
+              <br />
+              ✓ Neural pathways established
+              <br />
+              ✓ Holographic interface ready
+              <br />
+              ✓ Matrix connection stable
+              <br />
+              <br />
+              <span style={{ color: 'hsl(var(--primary))' }}>
+                LAUNCHING PORTFOLIO IN 3... 2... 1...
+              </span>
+            </>
+          ) : (
+            'Please wait while the system initializes...'
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Full screen version - original functionality for main portfolio
   return (
-    <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
-      <div className="text-center w-full max-w-4xl mx-auto px-8">
-        {/* Main boot sequence text - PROPERLY CENTERED */}
-        <div className="mb-12">
+    <div style={{
+      position: 'fixed',
+      inset: 0,
+      backgroundColor: '#000000',
+      zIndex: 50,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <div style={{
+        textAlign: 'center',
+        width: '100%',
+        maxWidth: '64rem',
+        margin: '0 auto',
+        padding: '2rem'
+      }}>
+        {/* Main boot sequence text */}
+        <div style={{ marginBottom: '3rem' }}>
           {bootSteps.slice(0, currentStep + 1).map((step, index) => (
             <div 
               key={index} 
-              className={`mb-4 text-center font-mono transition-all duration-300 ${
-                index === currentStep 
-                  ? 'text-red-bright text-2xl md:text-3xl' 
-                  : 'text-red-electric text-xl md:text-2xl'
-              }`}
               style={{
+                marginBottom: '1rem',
+                textAlign: 'center',
+                fontFamily: 'monospace',
+                transition: 'all 0.3s ease',
+                fontSize: index === currentStep ? 'clamp(1.5rem, 4vw, 2rem)' : 'clamp(1.25rem, 3vw, 1.75rem)',
+                color: index === currentStep ? 'hsl(var(--primary-glow))' : 'hsl(var(--primary))',
                 textShadow: index === currentStep 
-                  ? '0 0 20px var(--red-bright)' 
-                  : '0 0 10px var(--red-electric)'
+                  ? '0 0 20px hsl(var(--primary-glow))' 
+                  : '0 0 10px hsl(var(--primary))'
               }}
             >
-              <span className="text-red-primary">{'>'}</span> {step}
+              <span style={{ color: 'hsl(var(--primary))' }}>{'>'}</span> {step.text}
               {index === currentStep && (
-                <span 
-                  className={`ml-2 text-green-terminal ${showCursor ? 'opacity-100' : 'opacity-0'}`}
-                  style={{ 
-                    transition: 'opacity 0.1s ease',
-                    textShadow: '0 0 10px var(--green-terminal)'
-                  }}
-                >
+                <span style={{
+                  marginLeft: '8px',
+                  color: '#4ADE80',
+                  opacity: showCursor ? 1 : 0,
+                  transition: 'opacity 0.1s ease',
+                  textShadow: '0 0 10px #4ADE80'
+                }}>
                   |
                 </span>
               )}
@@ -74,35 +185,56 @@ export const BootSequence = ({ onComplete }: BootSequenceProps) => {
           ))}
         </div>
         
-        {/* Progress bar - CENTERED */}
-        <div className="w-full max-w-lg mx-auto mb-6">
-          <div className="w-full h-2 bg-gray-900 rounded-full border border-red-electric">
-            <div 
-              className="h-full bg-gradient-to-r from-red-electric to-red-bright transition-all duration-500 ease-out rounded-full"
-              style={{ 
-                width: `${((currentStep + 1) / bootSteps.length) * 100}%`,
-                boxShadow: '0 0 10px var(--red-electric)'
-              }}
-            />
+        {/* Progress bar */}
+        <div style={{
+          width: '100%',
+          maxWidth: '32rem',
+          margin: '0 auto 1.5rem auto'
+        }}>
+          <div style={{
+            width: '100%',
+            height: '8px',
+            backgroundColor: '#1F2937',
+            borderRadius: '9999px',
+            border: '1px solid hsl(var(--primary))',
+            overflow: 'hidden'
+          }}>
+            <div style={{
+              height: '100%',
+              background: 'linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary-glow)))',
+              width: `${progress}%`,
+              transition: 'width 0.5s ease-out',
+              borderRadius: '9999px',
+              boxShadow: '0 0 10px hsl(var(--primary))'
+            }} />
           </div>
           
-          <div className="text-center mt-4">
-            <span 
-              className="text-red-electric text-lg font-mono font-bold"
-              style={{ textShadow: '0 0 10px var(--red-electric)' }}
-            >
-              {Math.round(((currentStep + 1) / bootSteps.length) * 100)}%
+          <div style={{
+            textAlign: 'center',
+            marginTop: '1rem'
+          }}>
+            <span style={{
+              color: 'hsl(var(--primary))',
+              fontSize: '1.125rem',
+              fontFamily: 'monospace',
+              fontWeight: 'bold',
+              textShadow: '0 0 10px hsl(var(--primary))'
+            }}>
+              {progress}%
             </span>
           </div>
         </div>
 
         {/* Final message */}
-        {currentStep === bootSteps.length - 1 && (
-          <div 
-            className="text-red-bright text-xl font-bold animate-pulse"
-            style={{ textShadow: '0 0 20px var(--red-bright)' }}
-          >
-            Launching portfolio...
+        {currentStep >= bootSteps.length && (
+          <div style={{
+            color: 'hsl(var(--primary-glow))',
+            fontSize: '1.25rem',
+            fontWeight: 'bold',
+            animation: 'energy-pulse 2s ease-in-out infinite',
+            textShadow: '0 0 20px hsl(var(--primary-glow))'
+          }}>
+            PORTFOLIO SYSTEM ACTIVATED - Launching...
           </div>
         )}
       </div>

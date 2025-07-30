@@ -1,7 +1,5 @@
 import React from 'react';
 import { Mail, Linkedin, Github, MapPin, ExternalLink } from 'lucide-react';
-import { SectionTitle, QuoteText } from '../UI/HolographicText';
-import { CtaButton, NeonButton } from '../UI/NeonButton';
 
 export const ContactPortal = () => {
   const contactMethods = [
@@ -25,26 +23,51 @@ export const ContactPortal = () => {
       value: "@Krinhj",
       link: "https://github.com/Krinhj",
       color: "primary"
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Roxas City / Iloilo City, Philippines",
-      link: "#",
-      color: "primary-glow"
     }
   ];
 
   return (
-    <section className="py-20 px-4 relative">
-      <div className="max-w-4xl mx-auto">
-        {/* Section header with holo-text breathing effect */}
-        <SectionTitle subtitle="Establish secure connection to the matrix">
-          CONTACT PORTAL
-        </SectionTitle>
+    <section style={{
+      padding: '5rem 1rem',
+      position: 'relative'
+    }}>
+      <div style={{
+        maxWidth: '64rem',
+        margin: '0 auto'
+      }}>
+        {/* Section header */}
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '4rem'
+        }}>
+          <h2 style={{
+            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+            fontWeight: 900,
+            color: 'hsl(var(--primary))',
+            textTransform: 'uppercase',
+            letterSpacing: '0.2em',
+            marginBottom: '1rem',
+            textShadow: '0 0 20px hsl(var(--primary) / 0.5)'
+          }}>
+            CONTACT PORTAL
+          </h2>
+          <p style={{
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+            color: 'hsl(var(--muted-foreground))',
+            maxWidth: '48rem',
+            margin: '0 auto'
+          }}>
+            Establish secure connection to the matrix
+          </p>
+        </div>
 
         {/* Contact methods grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '1.5rem',
+          marginBottom: '4rem'
+        }}>
           {contactMethods.map((method, index) => {
             const IconComponent = method.icon;
             return (
@@ -53,32 +76,57 @@ export const ContactPortal = () => {
                 href={method.link}
                 target={method.link.startsWith('http') ? '_blank' : '_self'}
                 rel={method.link.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="energy-card rounded-xl p-6 group transition-all duration-300 hover:scale-105"
-                style={{ 
-                  animationDelay: `${index * 0.1}s`,
-                  animation: 'fade-in 0.8s ease-out forwards'
+                className="energy-card"
+                style={{
+                  borderRadius: '12px',
+                  padding: '1.5rem',
+                  display: 'block',
+                  textDecoration: 'none',
+                  transition: 'all 0.3s ease',
+                  animationDelay: `${index * 0.1}s`
                 }}
               >
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-red-electric bg-opacity-20 rounded-lg group-hover:animate-pulse">
-                    <IconComponent className="w-6 h-6 text-red-electric" />
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1rem'
+                }}>
+                  <div style={{
+                    padding: '0.75rem',
+                    backgroundColor: 'hsl(var(--primary) / 0.2)',
+                    borderRadius: '8px',
+                    flexShrink: 0
+                  }}>
+                    <IconComponent style={{
+                      width: '24px',
+                      height: '24px',
+                      color: 'hsl(var(--primary))'
+                    }} />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-red-electric mb-1">
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{
+                      fontSize: '1.125rem',
+                      fontWeight: 'bold',
+                      color: 'hsl(var(--primary))',
+                      marginBottom: '0.25rem'
+                    }}>
                       {method.label}
                     </h3>
-                    <p className="text-white text-opacity-80 text-sm">
+                    <p style={{
+                      color: 'hsl(var(--foreground) / 0.8)',
+                      fontSize: '0.875rem'
+                    }}>
                       {method.value}
                     </p>
                   </div>
                   {method.link.startsWith('http') && (
-                    <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-red-electric transition-colors" />
+                    <ExternalLink style={{
+                      width: '16px',
+                      height: '16px',
+                      color: 'hsl(var(--muted-foreground))',
+                      flexShrink: 0
+                    }} />
                   )}
-                </div>
-
-                {/* Scan line effect on hover */}
-                <div className="scan-line mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="h-px bg-gradient-to-r from-transparent via-red-electric to-transparent" />
                 </div>
               </a>
             );
@@ -86,49 +134,90 @@ export const ContactPortal = () => {
         </div>
 
         {/* Call to action */}
-        <div className="text-center">
-          <div className="energy-card rounded-xl p-8 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-red-electric mb-4">
+        <div style={{ textAlign: 'center' }}>
+          <div 
+            className="energy-card"
+            style={{
+              borderRadius: '12px',
+              padding: '2rem',
+              maxWidth: '48rem',
+              margin: '0 auto'
+            }}
+          >
+            <h3 style={{
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              color: 'hsl(var(--primary))',
+              marginBottom: '1rem'
+            }}>
               Ready to Build Something Amazing?
             </h3>
-            <p className="text-white text-opacity-80 mb-6 leading-relaxed">
+            <p style={{
+              color: 'hsl(var(--foreground) / 0.8)',
+              marginBottom: '1.5rem',
+              lineHeight: 1.6,
+              fontSize: '1rem'
+            }}>
               Let's collaborate on your next project. Whether it's building cutting-edge web applications, 
               architecting robust databases, or exploring AI-powered solutions, I'm ready to make it happen.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <CtaButton
+            <div style={{
+              display: 'flex',
+              flexDirection: window.innerWidth < 640 ? 'column' : 'row',
+              gap: '1rem',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <a
                 href="mailto:ron.talabuconjr.dev@gmail.com"
-                icon={<Mail size={16} />}
+                className="neon-button"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.75rem 1.5rem',
+                  fontSize: '0.875rem',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}
               >
+                <Mail size={16} />
                 SEND MESSAGE
-              </CtaButton>
-              <NeonButton
+              </a>
+              <a
                 href="#"
-                variant="secondary"
-                size="lg"
-                className="font-bold tracking-wide"
+                className="neon-button"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.75rem 1.5rem',
+                  fontSize: '0.875rem',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  backgroundColor: 'transparent'
+                }}
               >
                 <ExternalLink size={16} />
                 DOWNLOAD RESUME
-              </NeonButton>
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Footer quote with glitch effect */}
-        <div className="text-center mt-16">
-          <QuoteText className="mb-2">
-            "Mieux que jamais"
-          </QuoteText>
-          <p className="text-sm text-gray-400 mt-2">
-            Leaving every project better than I found it
-          </p>
-        </div>
-
         {/* Bottom scan line */}
-        <div className="mt-16 scan-line">
-          <div className="h-px bg-gradient-to-r from-transparent via-red-electric to-transparent" />
+        <div className="scan-line" style={{ marginTop: '4rem' }}>
+          <div style={{
+            height: '1px',
+            background: 'linear-gradient(to right, transparent, hsl(var(--primary)), transparent)'
+          }} />
         </div>
       </div>
     </section>

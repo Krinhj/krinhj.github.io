@@ -1,101 +1,130 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const SynthwaveBackground = () => {
+interface SynthwaveBackgroundProps {
+  children?: React.ReactNode;
+  className?: string;
+  disablePageScroll?: boolean; // New prop to control page scrolling
+}
+
+const SynthwaveBackground: React.FC<SynthwaveBackgroundProps> = ({ 
+  children, 
+  className = '', 
+  disablePageScroll = false 
+}) => {
   const gridRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+  // Only prevent page scrolling when explicitly requested (for terminal page)
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY
-      });
-    };
+    if (disablePageScroll) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      
+      return () => {
+        document.body.style.overflow = 'auto';
+        document.documentElement.style.overflow = 'auto';
+      };
+    } else {
+      // Ensure scrolling is enabled for portfolio page
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    }
+  }, [disablePageScroll]);
 
-    // Add mouse move listener to window for global tracking
-    window.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
 
   useEffect(() => {
     const grid = gridRef.current;
     if (!grid) return;
 
-    // Create dynamic moving scan lines occasionally
+    // Create additional moving grid lines
     const createMovingLine = () => {
       const line = document.createElement('div');
-      line.className = 'absolute bg-red-electric h-px w-full opacity-20 pointer-events-none';
+      line.className = 'absolute h-px w-full opacity-20';
       line.style.top = Math.random() * 100 + '%';
+      line.style.background = 'hsl(var(--primary))';
       line.style.animation = `scan-line ${3 + Math.random() * 2}s linear infinite`;
-      line.style.background = 'linear-gradient(90deg, transparent, var(--red-electric), transparent)';
       grid.appendChild(line);
-      
-      // Clean up after animation
-      setTimeout(() => {
-        if (line.parentNode) {
-          line.remove();
-        }
-      }, 5000);
+
+      setTimeout(() => line.remove(), 5000);
     };
 
-    // Create a moving line every 3 seconds
-    const interval = setInterval(createMovingLine, 3000);
+    // Create moving lines at Lovable's frequency
+    const interval = setInterval(createMovingLine, 2000);
     
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return (
-    <>
-      {/* Main Cyberpunk Grid with Cursor Reactivity */}
+    <div className={`${disablePageScroll ? 'h-screen overflow-hidden' : 'min-h-screen'} ${className}`} style={{
+      margin: 0,
+      padding: 0,
+      width: '100%',
+      backgroundColor: 'hsl(var(--background))',
+      position: 'relative'
+    }}>
+      {/* Static cyberpunk grid */}
+      <div className="cyberpunk-grid" />
+      
+      {/* Moving scan lines and enhanced grid */}
       <div 
-        className="cyberpunk-grid"
+        ref={gridRef}
+        className="absolute inset-0 pointer-events-none z-0"
         style={{
-          // Create a radial gradient that follows the mouse cursor
           background: `
-            radial-gradient(
-              300px circle at ${mousePosition.x}px ${mousePosition.y}px,
-              rgba(239, 68, 68, 0.15) 0%,
-              rgba(239, 68, 68, 0.05) 30%,
-              transparent 50%
-            ),
-            linear-gradient(0deg, transparent 24%, rgba(220, 38, 38, 0.05) 25%, rgba(220, 38, 38, 0.05) 26%, transparent 27%, transparent 74%, rgba(220, 38, 38, 0.05) 75%, rgba(220, 38, 38, 0.05) 76%, transparent 77%, transparent),
-            linear-gradient(90deg, transparent 24%, rgba(220, 38, 38, 0.05) 25%, rgba(220, 38, 38, 0.05) 26%, transparent 27%, transparent 74%, rgba(220, 38, 38, 0.05) 75%, rgba(220, 38, 38, 0.05) 76%, transparent 77%, transparent)
+            linear-gradient(0deg, transparent 24%, rgba(220, 38, 38, 0.12) 25%, rgba(220, 38, 38, 0.12) 26%, transparent 27%, transparent 74%, rgba(220, 38, 38, 0.12) 75%, rgba(220, 38, 38, 0.12) 76%, transparent 77%, transparent),
+            linear-gradient(90deg, transparent 24%, rgba(220, 38, 38, 0.12) 25%, rgba(220, 38, 38, 0.12) 26%, transparent 27%, transparent 74%, rgba(220, 38, 38, 0.12) 75%, rgba(220, 38, 38, 0.12) 76%, transparent 77%, transparent)
           `,
-          backgroundSize: '100% 100%, 50px 50px, 50px 50px',
-          backgroundPosition: '0 0, 0 0, 0 0',
+          backgroundSize: '50px 50px',
+          backgroundPosition: '0 0, 0 0',
+          perspective: '1000px',
+          transform: 'rotateX(60deg) rotateY(0deg)',
+          transformOrigin: 'center bottom',
+          mixBlendMode: 'screen'
         }}
       />
       
-      {/* Dynamic Moving Scan Lines Container */}
-      <div 
-        ref={gridRef}
-        className="fixed inset-0 pointer-events-none z-0"
-        style={{
-          mixBlendMode: 'screen' // Creates nice blending effect
-        }}
-      />
+      
 
-      {/* Subtle Floating Particles */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        {[...Array(8)].map((_, i) => (
+      {/* Enhanced Floating Particles */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {[...Array(12)].map((_, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-red-electric rounded-full opacity-20"
             style={{
-              left: `${15 + (i * 12)}%`,
-              top: `${20 + (i % 3) * 25}%`,
+              left: `${10 + (i * 8)}%`,
+              top: `${15 + (i % 4) * 20}%`,
               animation: `float-particle ${4 + (i * 0.5)}s ease-in-out infinite`,
-              animationDelay: `${i * 0.3}s`,
+              animationDelay: `${i * 0.4}s`,
               boxShadow: '0 0 4px var(--red-electric)',
+            }}
+          />
+        ))}
+        {/* Additional smaller particles */}
+        {[...Array(8)].map((_, i) => (
+          <div
+            key={`small-${i}`}
+            className="absolute w-0.5 h-0.5 bg-red-bright rounded-full opacity-30"
+            style={{
+              left: `${20 + (i * 10)}%`,
+              top: `${25 + (i % 3) * 30}%`,
+              animation: `float-particle ${6 + (i * 0.3)}s ease-in-out infinite reverse`,
+              animationDelay: `${i * 0.6}s`,
+              boxShadow: '0 0 2px var(--red-bright)',
             }}
           />
         ))}
       </div>
 
-
-    </>
+      {/* Content */}
+      {children && (
+        <div className="relative z-10">
+          {children}
+        </div>
+      )}
+    </div>
   );
 };
+
+export default SynthwaveBackground;
