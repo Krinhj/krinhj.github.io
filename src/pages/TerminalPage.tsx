@@ -17,12 +17,17 @@ const TerminalPage: React.FC = () => {
   return (
     <SynthwaveBackground disablePageScroll={true}>
       <div style={{
-        height: '100vh',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '1rem',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        margin: 0
       }}>
         <Terminal />
       </div>

@@ -3,30 +3,35 @@
   <defs>
     <style>
       .cls-1 {
-        fill: #ed1c24;
+        fill: #231f20;
       }
 
-      .cls-1, .cls-2 {
+      .cls-1, .cls-2, .cls-3 {
         stroke-width: 0px;
       }
 
-      .cls-3 {
-        fill: #231f20;
-        stroke: #58595b;
-        stroke-miterlimit: 10;
-        stroke-width: 4px;
+      .cls-2 {
+        fill: #ed1c24;
       }
 
-      .cls-2 {
-        fill: #d1d3d4;
+      .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-4 {
+        fill: #6d6e71;
+        stroke: #d1d3d4;
+        stroke-miterlimit: 10;
+        stroke-width: 4px;
       }
     </style>
   </defs>
   <g id="Layer_1-2" data-name="Layer 1">
     <g>
-      <circle class="cls-3" cx="52" cy="52" r="50"/>
+      <circle class="cls-4" cx="52" cy="52" r="50"/>
       <circle class="cls-1" cx="52" cy="52" r="39.27"/>
-      <ellipse class="cls-2" cx="52" cy="27.87" rx="14.97" ry="9.44"/>
+      <circle class="cls-2" cx="52" cy="52" r="16.93"/>
     </g>
+    <circle class="cls-3" cx="52" cy="52" r="6.1"/>
   </g>
 </svg>
