@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCommandHandler } from './CommandHandler';
 import { BootSequence } from '../Effects/BootSequence';
+import { MatrixTransition } from '../Effects/MatrixTransition';
+import Index from '../../pages/Index';
 
 interface TerminalProps {
   className?: string;
@@ -17,8 +19,12 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
   const [currentInput, setCurrentInput] = useState('');
   const [isHacking, setIsHacking] = useState(false);
   const [showBootSequence, setShowBootSequence] = useState(false);
+  const [showMatrixTransition, setShowMatrixTransition] = useState(false);
+  const [terminalDark, setTerminalDark] = useState(false);
+  const [terminalBounds, setTerminalBounds] = useState<DOMRect | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalContentRef = useRef<HTMLDivElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   // Get command handler with boot sequence setter
@@ -28,9 +34,31 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
     setShowBootSequence 
   });
 
-  // Handle boot sequence completion
+  // Handle boot sequence completion - now triggers terminal dark then matrix transition
   const handleBootComplete = () => {
     setShowBootSequence(false);
+    
+    // Get terminal bounds for positioning the circle
+    if (terminalContentRef.current) {
+      const bounds = terminalContentRef.current.getBoundingClientRect();
+      setTerminalBounds(bounds);
+    }
+    
+    // Make terminal go dark first
+    setTimeout(() => {
+      setTerminalDark(true);
+    }, 300);
+    
+    // Then start matrix transition
+    setTimeout(() => {
+      setShowMatrixTransition(true);
+      // Keep terminal dark but don't hide it completely during transition
+    }, 800);
+  };
+
+  // Handle matrix transition completion
+  const handleMatrixTransitionComplete = () => {
+    setShowMatrixTransition(false);
     navigate('/index');
   };
 
@@ -140,6 +168,20 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
           }}
           className="mono-font"
         >
+          {/* Dark overlay when terminal goes dark */}
+          {terminalDark && !showMatrixTransition && (
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'hsl(var(--background) / 0.95)',
+              zIndex: 20,
+              transition: 'opacity 0.5s ease-out',
+              opacity: 1
+            }} />
+          )}
           {/* Boot Sequence Overlay */}
           {showBootSequence && (
             <div style={{
@@ -256,6 +298,14 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
           Press TAB for autocomplete • CTRL+C to interrupt • Type "pf boot" to launch portfolio
         </div>
       </div>
+
+      {/* Matrix Transition Overlay */}
+      <MatrixTransition 
+        isActive={showMatrixTransition}
+        onTransitionComplete={handleMatrixTransitionComplete}
+        portfolioContent={<Index />}
+        terminalBounds={terminalBounds}
+      />
     </div>
   );
 };

@@ -126,9 +126,10 @@ const Index: React.FC = () => {
   };
 
   return (
-    <SynthwaveBackground disablePageScroll={false} audioData={audioData} frequencyData={frequencyData}>
-      {/* Hidden audio element */}
-      <audio 
+    <div style={{ position: 'relative', zIndex: 1 }}>
+      <SynthwaveBackground disablePageScroll={false} audioData={audioData} frequencyData={frequencyData}>
+        {/* Hidden audio element */}
+        <audio 
         ref={audioRef}
         preload="auto"
         style={{ display: 'none' }}
@@ -285,6 +286,7 @@ const Index: React.FC = () => {
         }} />
       </div>
     </SynthwaveBackground>
+    </div>
   );
 };
 

@@ -441,6 +441,58 @@
     50% { opacity: 1; }
   }
 
+  /* Matrix Transition Animations */
+  @keyframes matrix-blink {
+    0%, 100% { 
+      opacity: 1; 
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% { 
+      opacity: 0.3; 
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+  }
+
+  @keyframes matrix-expand-from-terminal {
+    0% {
+      width: 12px;
+      border-radius: 50%;
+      box-shadow: 0 0 20px hsl(var(--primary)), 0 0 40px hsl(var(--primary) / 0.5);
+    }
+    100% {
+      width: 100vw;
+      border-radius: 0;
+      box-shadow: 0 0 15px hsl(var(--primary)), 0 0 30px hsl(var(--primary) / 0.7);
+    }
+  }
+
+  @keyframes matrix-expand-reveal {
+    0% {
+      clip-path: polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%);
+    }
+    100% {
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+  }
+
+  @keyframes matrix-line-move-up {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50vh);
+    }
+  }
+
+  @keyframes matrix-line-move-down {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(50vh);
+    }
+  }
+
   /* Center last project card if odd number */
   .projects-grid .energy-card:last-child:nth-child(odd) {
     grid-column: 1 / -1;

@@ -1,6 +1,7 @@
 import React from 'react';
 import SynthwaveBackground from '../components/Effects/SynthwaveBackground';
 import Terminal from '../components/CLI/Terminal';
+import Index from './Index';
 
 const TerminalPage: React.FC = () => {
   // Force disable scrolling on mount
