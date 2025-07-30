@@ -207,7 +207,7 @@ export const useCommandHandler = ({ setTerminalHistory, setIsHacking, setShowBoo
       return [];
     },
     exit: () => {
-      navigate('/');
+      navigate('/index');
       return [
         '',
         '> Exiting terminal mode...',

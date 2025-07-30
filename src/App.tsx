@@ -11,8 +11,9 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Index />} />
+        <Route path="/" element={<TerminalPage />} />
         <Route path="/terminal" element={<TerminalPage />} />
+        <Route path="/index" element={<Index />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

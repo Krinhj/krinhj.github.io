@@ -31,7 +31,7 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
   // Handle boot sequence completion
   const handleBootComplete = () => {
     setShowBootSequence(false);
-    navigate('/');
+    navigate('/index');
   };
 
   // Auto-scroll to bottom when terminal history changes
