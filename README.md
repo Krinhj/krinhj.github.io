@@ -1,8 +1,8 @@
-# 🌆 KRINHJ Portfolio - Cyberpunk Edition
+# 🌆 KRINHJ Portfolio
 
 > A synthwave-inspired, interactive portfolio website showcasing full-stack development prowess with a retro-futuristic aesthetic.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-red?style=for-the-badge&logo=github-pages)](https://krinhj.github.io)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-red?style=for-the-badge&logo=vercel)](https://krinhj.vercel.app)
 [![Built with React](https://img.shields.io/badge/Built%20with-React-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -11,7 +11,7 @@
 
 An immersive cyberpunk-themed portfolio featuring dual interfaces: a command-line terminal experience and a visual portfolio showcase. Built with modern web technologies and optimized for all devices, this project demonstrates advanced React patterns, responsive design, and creative UI/UX implementation.
 
-**🔗 Live Site:** [krinhj.github.io](https://krinhj.github.io)
+**🔗 Live Site:** [krinhj.vercel.app](https://krinhj.vercel.app)
 
 ## ✨ Features
 
@@ -227,7 +227,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Connect
 
-- **Portfolio**: [krinhj.github.io](https://krinhj.github.io)
+- **Portfolio**: [krinhj.vercel.app](https://krinhj.vercel.app)
 - **GitHub**: [@Krinhj](https://github.com/Krinhj)
 - **LinkedIn**: [ronnie-talabucon-jr](https://www.linkedin.com/in/ronnie-talabucon-jr-30528b31b)
 - **Email**: ron.talabuconjr.dev@gmail.com
