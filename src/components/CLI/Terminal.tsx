@@ -73,7 +73,7 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
       className={className}
       style={{ 
         width: '100%', 
-        maxWidth: '64rem',
+        maxWidth: 'min(64rem, 95vw)',
         margin: '0 auto' // Center the terminal
       }}>
       <div style={{
@@ -130,11 +130,11 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
         <div 
           ref={terminalContentRef}
           style={{
-            height: '500px', // Fixed height to prevent page scrolling
+            height: 'min(500px, 60vh)', // Responsive height for mobile
             overflowY: 'auto',
             overflowX: 'hidden',
             padding: '1rem',
-            fontSize: '0.875rem',
+            fontSize: 'clamp(0.75rem, 2vw, 0.875rem)', // Responsive font size
             scrollBehavior: 'smooth',
             position: 'relative'
           }}

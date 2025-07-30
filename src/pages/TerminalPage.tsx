@@ -21,7 +21,8 @@ const TerminalPage: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '2rem'
+        padding: '1rem',
+        boxSizing: 'border-box'
       }}>
         <Terminal />
       </div>

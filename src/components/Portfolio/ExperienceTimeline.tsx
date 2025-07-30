@@ -1,7 +1,17 @@
 import React from 'react';
 import { Calendar, MapPin, Code, GraduationCap } from 'lucide-react';
 
+// Import projects data to calculate dynamic count
+const projectStatuses = [
+  "LIVE", "COMPLETED", "LIVE", "LIVE", "LIVE", "PRODUCTION", "ON HOLD"
+];
+
 export const ExperienceTimeline = () => {
+  // Calculate deployed projects dynamically
+  const deployedProjects = projectStatuses.filter(status => 
+    status === 'LIVE' || status === 'PRODUCTION' || status === 'COMPLETED'
+  ).length;
+
   const experiences = [
     {
       id: 1,
@@ -84,18 +94,21 @@ export const ExperienceTimeline = () => {
           position: 'relative',
           maxWidth: '48rem',
           margin: '0 auto'
-        }}>
-          {/* Central timeline line */}
-          <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: 0,
-            bottom: 0,
-            width: '2px',
-            background: 'linear-gradient(to bottom, hsl(var(--primary)), hsl(var(--primary-glow)), hsl(var(--primary)))',
-            transform: 'translateX(-50%)',
-            zIndex: 1
-          }} />
+        }} className="timeline-container">
+          {/* Central timeline line - responsive positioning */}
+          <div 
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: 0,
+              bottom: 0,
+              width: '2px',
+              background: 'linear-gradient(to bottom, hsl(var(--primary)), hsl(var(--primary-glow)), hsl(var(--primary)))',
+              transform: 'translateX(-50%)',
+              zIndex: 1
+            }}
+            className="timeline-line"
+          />
 
           {experiences.map((exp, index) => {
             const IconComponent = exp.icon;
@@ -113,26 +126,29 @@ export const ExperienceTimeline = () => {
                 }}
               >
                 {/* Timeline node with neon glow */}
-                <div style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: '16px',
-                  height: '16px',
-                  backgroundColor: 'hsl(var(--primary))',
-                  borderRadius: '50%',
-                  border: '4px solid hsl(var(--background))',
-                  boxShadow: '0 0 20px hsl(var(--primary) / 0.5), 0 0 40px hsl(var(--primary) / 0.3)',
-                  zIndex: 10
-                }} />
+                <div 
+                  className="timeline-node"
+                  style={{
+                    position: 'absolute',
+                    left: '50%',
+                    top: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '16px',
+                    height: '16px',
+                    backgroundColor: 'hsl(var(--primary))',
+                    borderRadius: '50%',
+                    border: '4px solid hsl(var(--background))',
+                    boxShadow: '0 0 20px hsl(var(--primary) / 0.5), 0 0 40px hsl(var(--primary) / 0.3)',
+                    zIndex: 10
+                  }} 
+                />
 
                 {/* Content card */}
                 <div 
-                  className="energy-card"
+                  className="energy-card timeline-card"
                   style={{
                     borderRadius: '12px',
-                    padding: '2rem',
+                    padding: 'clamp(1rem, 4vw, 2rem)',
                     width: '45%',
                     marginLeft: isLeft ? 0 : '55%',
                     marginRight: isLeft ? '55%' : 0,
@@ -144,60 +160,72 @@ export const ExperienceTimeline = () => {
                     display: 'flex',
                     alignItems: 'flex-start',
                     gap: '1rem',
-                    marginBottom: '1rem'
+                    marginBottom: '1.5rem'
                   }}>
                     <div style={{
-                      padding: '0.5rem',
-                      backgroundColor: 'hsl(var(--primary) / 0.2)',
-                      borderRadius: '8px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '0.5rem',
                       flexShrink: 0
                     }}>
-                      <IconComponent style={{
-                        width: '24px',
-                        height: '24px',
-                        color: 'hsl(var(--primary))'
-                      }} />
+                      <div style={{
+                        padding: '0.5rem',
+                        backgroundColor: 'hsl(var(--primary) / 0.2)',
+                        borderRadius: '8px'
+                      }}>
+                        <IconComponent style={{
+                          width: '24px',
+                          height: '24px',
+                          color: 'hsl(var(--primary))'
+                        }} />
+                      </div>
+                      <span style={{
+                        padding: '0.25rem 0.5rem',
+                        borderRadius: '9999px',
+                        fontSize: '0.7rem',
+                        fontWeight: 'bold',
+                        backgroundColor: exp.type === 'INTERNSHIP' 
+                          ? 'hsl(var(--primary) / 0.2)' 
+                          : 'hsl(var(--primary) / 0.2)',
+                        color: 'hsl(var(--primary))',
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap'
+                      }}>
+                        {exp.type}
+                      </span>
                     </div>
-                    <div style={{ flex: 1 }}>
+                    <div style={{ flex: 1, paddingTop: '0.25rem' }}>
                       <h3 style={{
-                        fontSize: '1.25rem',
+                        fontSize: 'clamp(1.1rem, 3vw, 1.25rem)',
                         fontWeight: 'bold',
                         color: 'hsl(var(--primary))',
-                        marginBottom: '0.25rem'
+                        marginBottom: '0.5rem',
+                        lineHeight: 1.2
                       }}>
                         {exp.title}
                       </h3>
                       <p style={{
                         color: 'hsl(var(--foreground))',
                         fontWeight: 600,
-                        marginBottom: '0.5rem'
+                        fontSize: 'clamp(0.85rem, 2.5vw, 1rem)',
+                        lineHeight: 1.3
                       }}>
                         {exp.company}
                       </p>
                     </div>
-                    <span style={{
-                      padding: '0.25rem 0.75rem',
-                      borderRadius: '9999px',
-                      fontSize: '0.75rem',
-                      fontWeight: 'bold',
-                      backgroundColor: exp.type === 'INTERNSHIP' 
-                        ? 'hsl(var(--primary) / 0.2)' 
-                        : 'hsl(var(--primary) / 0.2)',
-                      color: 'hsl(var(--primary))'
-                    }}>
-                      {exp.type}
-                    </span>
                   </div>
 
                   {/* Details */}
                   <div style={{
                     display: 'flex',
-                    alignItems: 'center',
-                    gap: '1rem',
-                    marginBottom: '1rem',
-                    fontSize: '0.875rem',
+                    alignItems: 'flex-start',
+                    flexDirection: 'column',
+                    gap: '0.5rem',
+                    marginBottom: '1.5rem',
+                    fontSize: 'clamp(0.75rem, 2vw, 0.875rem)',
                     color: 'hsl(var(--muted-foreground))'
-                  }}>
+                  }} className="timeline-details">
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -272,7 +300,7 @@ export const ExperienceTimeline = () => {
               color: 'hsl(var(--primary))',
               marginBottom: '0.5rem'
             }}>
-              4+
+              {deployedProjects}+
             </div>
             <div style={{
               fontSize: '0.875rem',

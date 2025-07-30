@@ -441,6 +441,13 @@
     50% { opacity: 1; }
   }
 
+  /* Center last project card if odd number */
+  .projects-grid .energy-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    max-width: min(600px, 100%);
+    margin: 0 auto;
+  }
+
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .cyberpunk-grid {
@@ -449,6 +456,44 @@
     
     .holo-text {
       font-size: clamp(1.5rem, 8vw, 4rem);
+    }
+
+    /* Mobile Timeline Fixes */
+    .timeline-container {
+      padding: 0 1rem;
+    }
+
+    .timeline-line {
+      left: 2rem !important;
+      transform: none !important;
+    }
+
+    .timeline-card {
+      width: calc(100% - 4rem) !important;
+      margin-left: 4rem !important;
+      margin-right: 0 !important;
+      padding: 1.5rem !important;
+    }
+
+    .timeline-details {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 0.5rem !important;
+    }
+
+    .timeline-details > div {
+      flex-wrap: wrap;
+    }
+
+    .timeline-node {
+      left: 2rem !important;
+      transform: translateX(-50%) translateY(-50%) !important;
+    }
+
+    /* Mobile Technical Arsenal Fixes */
+    .skills-grid {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
+      gap: 0.5rem !important;
     }
   }
 

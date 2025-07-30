@@ -73,8 +73,8 @@ export const ProjectMatrix = () => {
       id: 7,
       name: "MediTriage AI",
       subtitle: "Healthcare Chatbot System",
-      description: "Intelligent medical triage chatbot using advanced NLP. Assists patients with symptom assessment and healthcare navigation.",
-      tech: ["Python", "Pandas", "Hugging Face", "ML"],
+      description: "Intelligent medical triage chatbot using advanced NLP and DDXPlus Dataset. Assists patients with symptom assessment and healthcare navigation.",
+      tech: ["Python", "Pandas", "Hugging Face", "DDXPlus Dataset", "ML"],
       status: "ON HOLD",
       link: "#",
       github: "https://github.com/Krinhj",
@@ -122,12 +122,15 @@ export const ProjectMatrix = () => {
         </div>
 
         {/* Projects grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
-          gap: '2rem',
-          marginBottom: '4rem'
-        }}>
+        <div 
+          className="projects-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(500px, 100%), 1fr))',
+            gap: '2rem',
+            marginBottom: '4rem'
+          }}
+        >
           {projects.map((project, index) => (
             <div 
               key={project.id}

@@ -36,7 +36,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }, []);
 
   return (
-    <section style={{
+    <section id='hero-section' style={{
       height: '100vh',
       display: 'flex',
       alignItems: 'center',
@@ -59,7 +59,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div style={{
         textAlign: 'center',
         zIndex: 20,
-        position: 'relative'
+        position: 'relative',
+        padding: '0 1rem',
+        maxWidth: '100%'
       }}>
         {/* Main name with cleaner holographic effect */}
         <h1 
@@ -88,9 +90,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             frequencyData.length > 0 ? (
               // Audio Waveform Line
               <svg 
-                width="400" 
+                width="min(400px, 80vw)" 
                 height="40" 
                 style={{ overflow: 'visible' }}
+                viewBox="0 0 400 40"
+                preserveAspectRatio="xMidYMid meet"
               >
                 <defs>
                   <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -128,9 +132,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             ) : (
               // Audio enabled but no data - show gentle wave
               <svg 
-                width="400" 
+                width="min(400px, 80vw)" 
                 height="40" 
                 style={{ overflow: 'visible' }}
+                viewBox="0 0 400 40"
+                preserveAspectRatio="xMidYMid meet"
               >
                 <defs>
                   <linearGradient id="staticGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -211,7 +217,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* All buttons in one line */}
         <div style={{
           display: 'flex',
-          flexDirection: window.innerWidth < 768 ? 'column' : 'row',
+          flexDirection: 'row',
           gap: '1rem',
           justifyContent: 'center',
           alignItems: 'center',

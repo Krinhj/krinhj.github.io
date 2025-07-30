@@ -164,10 +164,11 @@ export const ContactPortal = () => {
             
             <div style={{
               display: 'flex',
-              flexDirection: window.innerWidth < 640 ? 'column' : 'row',
+              flexDirection: 'row',
               gap: '1rem',
               justifyContent: 'center',
-              alignItems: 'center'
+              alignItems: 'center',
+              flexWrap: 'wrap'
             }}>
               <a
                 href="mailto:ron.talabuconjr.dev@gmail.com"
@@ -218,6 +219,30 @@ export const ContactPortal = () => {
             height: '1px',
             background: 'linear-gradient(to right, transparent, hsl(var(--primary)), transparent)'
           }} />
+        </div>
+        <div style={{
+          marginTop: '2rem',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+          }}>
+          <button 
+            className="neon-button"
+            onClick={() => {
+              const projectsSection = document.getElementById('hero-section');
+              if (projectsSection) {
+                projectsSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            style={{
+              borderRadius: '8px',
+              padding: '0.75rem 5rem',
+              fontSize: '0.875rem',
+              fontWeight: 600
+            }}
+          >
+            BACK TO TOP
+          </button>
         </div>
       </div>
     </section>

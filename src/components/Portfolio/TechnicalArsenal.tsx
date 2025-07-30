@@ -67,7 +67,7 @@ export const TechnicalArsenal = () => {
         {/* Skills grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(500px, 100%), 1fr))',
           gap: '2rem',
           marginBottom: '4rem'
         }}>
@@ -113,29 +113,34 @@ export const TechnicalArsenal = () => {
                   </h3>
                 </div>
 
-                {/* Skills list - 2 column grid */}
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: '0.75rem',
-                  marginBottom: '1.5rem'
-                }}>
+                {/* Skills list - responsive grid */}
+                <div 
+                  className="skills-grid"
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                    gap: '0.75rem',
+                    marginBottom: '1.5rem'
+                  }}
+                >
                   {category.skills.map((skill, skillIndex) => (
                     <div
                       key={skillIndex}
                       style={{
-                        padding: '0.75rem 1rem',
+                        padding: 'clamp(0.5rem, 2vw, 0.75rem) clamp(0.75rem, 3vw, 1rem)',
                         backgroundColor: 'transparent',
                         border: '2px solid hsl(var(--primary))',
                         borderRadius: '8px',
                         textAlign: 'center',
-                        fontSize: '0.875rem',
+                        fontSize: 'clamp(0.75rem, 2.2vw, 0.875rem)',
                         color: 'hsl(var(--primary))',
                         fontFamily: 'monospace',
                         fontWeight: 600,
                         textTransform: 'uppercase',
                         letterSpacing: '0.05em',
-                        transition: 'all 0.3s ease'
+                        transition: 'all 0.3s ease',
+                        minWidth: 0,
+                        wordBreak: 'break-word'
                       }}
                       className="hover:bg-primary hover:bg-opacity-10"
                     >
