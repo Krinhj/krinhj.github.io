@@ -60,40 +60,15 @@ export const MatrixTransition: React.FC<MatrixTransitionProps> = ({
       pointerEvents: 'none'
     }}>
       
-      {/* Pre-loaded Portfolio Content (always loaded behind) */}
-      {portfolioContent && (
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 1
-        }}>
-          {portfolioContent}
-        </div>
-      )}
-
-      {/* Full screen mask that covers everything initially */}
-      {phase !== 'complete' && (
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'hsl(var(--background))',
-          zIndex: 5
-        }} />
-      )}
+      {/* No masks - terminal stays visible, portfolio appears during reveal */}
       
-      {/* Blinking Red Circle */}
+      {/* Blinking Red Circle - centered on screen */}
       {(phase === 'blinking' || phase === 'expanding') && (
         <div
           style={{
             position: 'absolute',
-            top: terminalBounds ? terminalBounds.top + terminalBounds.height / 2 : '50%',
-            left: terminalBounds ? terminalBounds.left + terminalBounds.width / 2 : '50%',
+            top: '50%',
+            left: '50%',
             transform: 'translate(-50%, -50%)',
             width: phase === 'expanding' ? '100vw' : '12px',
             height: phase === 'expanding' ? '3px' : '12px',
@@ -108,25 +83,27 @@ export const MatrixTransition: React.FC<MatrixTransitionProps> = ({
       )}
 
 
-      {/* Expanding Reveal Window Effect */}
+      {/* Portfolio with expanding clip-path reveal - appears OVER terminal */}
+      {(phase === 'revealing' || phase === 'complete') && portfolioContent && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            clipPath: phase === 'complete' ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' : 'polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%)',
+            animation: phase === 'revealing' ? 'matrix-expand-reveal 1.5s ease-out forwards' : 'none',
+            zIndex: 20
+          }}
+        >
+          {portfolioContent}
+        </div>
+      )}
+
+      {/* Splitting Lines */}
       {phase === 'revealing' && (
         <>
-          {/* Portfolio content with expanding clip-path reveal */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              clipPath: 'polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%)',
-              animation: 'matrix-expand-reveal 1.5s ease-out forwards',
-              zIndex: 8
-            }}
-          >
-            {portfolioContent}
-          </div>
-          
           {/* Top splitting line */}
           <div
             style={{
@@ -138,7 +115,7 @@ export const MatrixTransition: React.FC<MatrixTransitionProps> = ({
               backgroundColor: 'hsl(var(--primary))',
               boxShadow: '0 0 15px hsl(var(--primary)), 0 0 30px hsl(var(--primary) / 0.7)',
               animation: 'matrix-line-move-up 1.5s ease-out forwards',
-              zIndex: 15,
+              zIndex: 25,
               transformOrigin: 'center'
             }}
           />
@@ -154,7 +131,7 @@ export const MatrixTransition: React.FC<MatrixTransitionProps> = ({
               backgroundColor: 'hsl(var(--primary))',
               boxShadow: '0 0 15px hsl(var(--primary)), 0 0 30px hsl(var(--primary) / 0.7)',
               animation: 'matrix-line-move-down 1.5s ease-out forwards',
-              zIndex: 15,
+              zIndex: 25,
               transformOrigin: 'center'
             }}
           />

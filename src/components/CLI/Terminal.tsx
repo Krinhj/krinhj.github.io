@@ -56,10 +56,11 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
     }, 800);
   };
 
-  // Handle matrix transition completion
+  // Handle matrix transition completion - navigate without hiding transition
   const handleMatrixTransitionComplete = () => {
-    setShowMatrixTransition(false);
+    // Navigate immediately but keep matrix transition visible to prevent flash
     navigate('/index');
+    // Don't set showMatrixTransition to false - let the navigation handle the cleanup
   };
 
   // Auto-scroll to bottom when terminal history changes
@@ -168,8 +169,8 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
           }}
           className="mono-font"
         >
-          {/* Dark overlay when terminal goes dark */}
-          {terminalDark && !showMatrixTransition && (
+          {/* Dark overlay when terminal goes dark - keep visible during matrix transition */}
+          {terminalDark && (
             <div style={{
               position: 'absolute',
               top: 0,
