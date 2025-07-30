@@ -6,9 +6,9 @@ export const ProjectMatrix = () => {
     {
       id: 1,
       name: "GetMeHired",
-      subtitle: "AI Job Tracking Platform",
-      description: "Revolutionary job application tracker powered by OpenAI API. Smart categorization, automated follow-ups, and AI-driven insights for job seekers.",
-      tech: ["React", "Node.js", "OpenAI API", "Vercel"],
+      subtitle: "AI-Powered Job Application Tracking Platform",
+      description: "Job application tracker powered by OpenAI API. Smart categorization, Resume Builder, Cover Letter Writer, and AI-driven insights for job seekers.",
+      tech: ["React", "Node.js", "OpenAI API", "Vercel", "Supabase"],
       status: "LIVE",
       link: "https://get-me-hired.vercel.app",
       github: "https://github.com/Krinhj",
@@ -16,28 +16,6 @@ export const ProjectMatrix = () => {
     },
     {
       id: 2,
-      name: "DBM Government System",
-      subtitle: "National Database Architecture",
-      description: "Enterprise-grade database system for Department of Budget & Management. Handling national tax allocation data with Java MVC framework.",
-      tech: ["Java", "SQL Server", "REST API", "MVC"],
-      status: "PRODUCTION",
-      link: "#",
-      github: "https://github.com/Krinhj",
-      color: "primary-glow"
-    },
-    {
-      id: 3,
-      name: "MediTriage AI",
-      subtitle: "Healthcare Chatbot System",
-      description: "Intelligent medical triage chatbot using advanced NLP. Assists patients with symptom assessment and healthcare navigation.",
-      tech: ["Python", "Pandas", "Hugging Face", "ML"],
-      status: "ON HOLD",
-      link: "#",
-      github: "https://github.com/Krinhj",
-      color: "primary-dim"
-    },
-    {
-      id: 4,
       name: "3D Disaster Simulation Game",
       subtitle: "Unity Thesis Project",
       description: "Comprehensive 3D disaster simulation game built in Unity with C#. Features real-time scoring algorithms, Firebase-powered leaderboards, and persistent run history system for educational disaster preparedness training.",
@@ -48,7 +26,40 @@ export const ProjectMatrix = () => {
       color: "primary-glow"
     },
     {
+      id: 3,
+      name: "DBM National Tax Allocation Webpage",
+      subtitle: "National Database Architecture",
+      description: "Enterprise-grade database system for the Department of Budget & Management. Handling National Tax Allocation data with Java MVC framework.",
+      tech: ["Java", "SQL Server", "REST API", "MVC"],
+      status: "LIVE",
+      link: "https://reports.dbm.gov.ph/ira2",
+      github: "https://github.com/Krinhj",
+      color: "primary-glow"
+    },
+    {
+      id: 4,
+      name: "DBM National Wealth Webpage",
+      subtitle: "National Database Architecture",
+      description: "Enterprise-grade database system for the Department of Budget & Management. Handling National Wealth data with Java MVC framework.",
+      tech: ["Java", "SQL Server", "REST API", "MVC"],
+      status: "LIVE",
+      link: "https://reports.dbm.gov.ph/national_wealth/dashboard",
+      github: "https://github.com/Krinhj",
+      color: "primary-glow"
+    },
+    {
       id: 5,
+      name: "TDEE Calculator API",
+      subtitle: "Production REST API",
+      description: "High-performance REST API deployed on RapidAPI marketplace. Calculates Total Daily Energy Expenditure with precision algorithms.",
+      tech: ["Node.js", "Express", "Railway", "RapidAPI"],
+      status: "LIVE",
+      link: "#",
+      github: "https://github.com/Krinhj",
+      color: "primary-dim"
+    },
+    {
+      id: 6,
       name: "Baptism Records Manager",
       subtitle: "Parish Management Desktop App",
       description: "Comprehensive parish management system built with Tauri V2. Features full CRUD operations, permissions-based access control, automated backup/restore system, and detailed audit logging for all administrative actions.",
@@ -59,12 +70,12 @@ export const ProjectMatrix = () => {
       color: "primary"
     },
     {
-      id: 6,
-      name: "TDEE Calculator API",
-      subtitle: "Production REST API",
-      description: "High-performance REST API deployed on RapidAPI marketplace. Calculates Total Daily Energy Expenditure with precision algorithms.",
-      tech: ["Node.js", "Express", "Railway", "RapidAPI"],
-      status: "LIVE",
+      id: 7,
+      name: "MediTriage AI",
+      subtitle: "Healthcare Chatbot System",
+      description: "Intelligent medical triage chatbot using advanced NLP. Assists patients with symptom assessment and healthcare navigation.",
+      tech: ["Python", "Pandas", "Hugging Face", "ML"],
+      status: "ON HOLD",
       link: "#",
       github: "https://github.com/Krinhj",
       color: "primary-dim"

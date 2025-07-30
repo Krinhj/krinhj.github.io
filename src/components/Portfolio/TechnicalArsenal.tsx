@@ -60,7 +60,7 @@ export const TechnicalArsenal = () => {
             maxWidth: '48rem',
             margin: '0 auto'
           }}>
-            Weapons of choice for digital warfare
+            Tech Stack and Tools
           </p>
         </div>
 

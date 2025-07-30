@@ -57,7 +57,7 @@ export const ContactPortal = () => {
             maxWidth: '48rem',
             margin: '0 auto'
           }}>
-            Establish secure connection to the matrix
+            Establish secure connection
           </p>
         </div>
 
@@ -189,7 +189,7 @@ export const ContactPortal = () => {
                 SEND MESSAGE
               </a>
               <a
-                href="#"
+                href="/Talabucon_Resume.pdf"
                 className="neon-button"
                 style={{
                   display: 'flex',

@@ -6,8 +6,8 @@ export const ExperienceTimeline = () => {
     {
       id: 1,
       title: "Backend Developer Intern",
-      company: "Department of Budget and Management",
-      location: "Philippines Government",
+      company: "Department of Budget and Management - Central Office",
+      location: "San Miguel, Manila, Philippines",
       period: "Feb 2025 - May 2025",
       type: "INTERNSHIP",
       achievements: [
@@ -22,9 +22,9 @@ export const ExperienceTimeline = () => {
     {
       id: 2,
       title: "Computer Science Graduate",
-      company: "University Achievement",
-      location: "Academic Excellence",
-      period: "2025",
+      company: "Central Philippine University",
+      location: "Iloilo City, Iloilo, Philippines",
+      period: "2021-2025",
       type: "EDUCATION",
       achievements: [
         "Full-stack development specialization",
@@ -56,7 +56,7 @@ export const ExperienceTimeline = () => {
         }}>
           <h2 
             className="glitch"
-            data-text="EXPERIENCE MATRIX"
+            data-text="EXPERIENCE TIMELINE"
             style={{
               fontSize: 'clamp(2rem, 5vw, 3.5rem)',
               fontWeight: 900,
@@ -67,7 +67,7 @@ export const ExperienceTimeline = () => {
               textShadow: '0 0 20px hsl(var(--primary) / 0.5)'
             }}
           >
-            EXPERIENCE MATRIX
+            EXPERIENCE TIMELINE
           </h2>
           <p style={{
             fontSize: 'clamp(1rem, 2vw, 1.25rem)',
@@ -75,7 +75,7 @@ export const ExperienceTimeline = () => {
             maxWidth: '48rem',
             margin: '0 auto'
           }}>
-            Professional journey through the digital realm
+            Professional and Academic Journey
           </p>
         </div>
 
