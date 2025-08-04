@@ -71,11 +71,33 @@ export const ProjectMatrix = () => {
     },
     {
       id: 7,
+      name: "GAIA AI",
+      subtitle: "Personal AI Assistant and Momentum Application Orchestrator",
+      description: "Llama3.1 based custom LLM trained as an AI Assistant with Access to the different sub-functions of the Momentum Application. Provides personalized assistance and orchestrates tasks.",
+      tech: ["Ollama", "Llama3.1", "LangChain"],
+      status: "IN PROGRESS",
+      link: "#",
+      github: "https://github.com/Krinhj",
+      color: "primary-dim"
+    },
+    {
+      id: 8,
       name: "MediTriage AI",
       subtitle: "Healthcare Chatbot System",
       description: "Intelligent medical triage chatbot using advanced NLP and DDXPlus Dataset. Assists patients with symptom assessment and healthcare navigation.",
       tech: ["Python", "Pandas", "Hugging Face", "DDXPlus Dataset", "ML"],
       status: "ON HOLD",
+      link: "#",
+      github: "https://github.com/Krinhj",
+      color: "primary-dim"
+    },
+    {
+      id: 9,
+      name: "Momentum",
+      subtitle: "Personal Productivity and Task Management App",
+      description: "Comprehensive Self-Improvement and Productivity Application. Features task management, habit tracking, fitness functionality, nutritional management, and financial management orchestrated by the GAIA AI.",
+      tech: ["React", "Node.js", "Typescript", "Tauri V2"],
+      status: "IN PROGRESS",
       link: "#",
       github: "https://github.com/Krinhj",
       color: "primary-dim"

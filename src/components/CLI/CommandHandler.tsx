@@ -70,7 +70,7 @@ export const useCommandHandler = ({ setTerminalHistory, setIsHacking, setShowBoo
       '  Healthcare chatbot',
       '  Tech: Python, Pandas, Hugging Face',
       '',
-      '→ TDEE Calculator API [PRODUCTION]',
+      '→ TDEE Calculator API [LIVE]',
       '  RapidAPI marketplace',
       '  Tech: Node.js, Express, Railway',
     ],
