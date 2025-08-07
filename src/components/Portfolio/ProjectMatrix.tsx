@@ -74,7 +74,7 @@ export const ProjectMatrix = () => {
       name: "GAIA AI",
       subtitle: "Personal AI Assistant and Momentum Application Orchestrator",
       description: "Llama3.1 based custom LLM trained as an AI Assistant with Access to the different sub-functions of the Momentum Application. Provides personalized assistance and orchestrates tasks.",
-      tech: ["Ollama", "Llama3.1", "LangChain"],
+      tech: ["Ollama", "Llama3.1", "QDrant"],
       status: "IN PROGRESS",
       link: "#",
       github: "https://github.com/Krinhj",
