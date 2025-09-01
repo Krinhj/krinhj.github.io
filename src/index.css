@@ -639,4 +639,95 @@
     background: hsl(var(--primary) / 0.3);
     color: hsl(var(--foreground));
   }
+
+  /* Modal Animations */
+  @keyframes modalFadeIn {
+    from { 
+      opacity: 0; 
+    }
+    to { 
+      opacity: 1; 
+    }
+  }
+  
+  @keyframes modalSlideIn {
+    from { 
+      opacity: 0;
+      transform: scale(0.9) translateY(-20px);
+    }
+    to { 
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  /* Modal responsive styles */
+  @media (max-width: 768px) {
+    .modal-content {
+      width: 95vw !important;
+      height: 95vh !important;
+      max-height: 95vh !important;
+      margin: 0 !important;
+    }
+    
+    .modal-header {
+      padding: 1rem !important;
+      min-height: auto !important;
+    }
+    
+    .modal-header h2 {
+      font-size: 1.5rem !important;
+      line-height: 1.2 !important;
+      margin-bottom: 0.25rem !important;
+    }
+    
+    .modal-header p {
+      font-size: 0.875rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+    
+    .modal-content-area {
+      padding: 1rem !important;
+      max-height: calc(95vh - 120px) !important;
+    }
+    
+    .modal-footer {
+      padding: 1rem !important;
+      gap: 0.5rem !important;
+    }
+    
+    .modal-footer a,
+    .modal-footer button {
+      padding: 0.75rem 1rem !important;
+      font-size: 0.75rem !important;
+    }
+
+    /* Make screenshots single column on mobile */
+    .modal-content-area .screenshots-grid {
+      grid-template-columns: 1fr !important;
+      gap: 1rem !important;
+    }
+  }
+
+  /* Tablet responsive styles */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .modal-content-area .screenshots-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 1.5rem !important;
+    }
+  }
+
+  /* Desktop responsive styles for screenshots */
+  @media (min-width: 1025px) {
+    .modal-content-area .screenshots-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 2rem !important;
+    }
+  }
+
+  /* Modal overlay blur effect */
+  .modal-overlay {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
 }

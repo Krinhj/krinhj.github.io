@@ -71,14 +71,17 @@ The portfolio includes an interactive audio system with:
 
 ## 📊 Projects Showcase
 
-### Featured Projects (7 Total)
+### Featured Projects (10 Total)
 1. **GetMeHired** - AI-powered job tracking platform (LIVE)
-2. **3D Disaster Simulation** - Unity thesis project (COMPLETED)
-3. **DBM National Tax Allocation** - Government database system (LIVE)
-4. **DBM National Wealth** - National database architecture (LIVE)
-5. **TDEE Calculator API** - Production REST API (LIVE)
-6. **Baptism Records Manager** - Tauri desktop application (PRODUCTION)
-7. **MediTriage AI** - Healthcare chatbot with DDXPlus Dataset (ON HOLD)
+2. **CPU Exam Schedule Finder** - Full-stack search application for CPU students (LIVE)
+3. **3D Disaster Simulation** - Unity thesis project (COMPLETED)
+4. **DBM National Tax Allocation** - Government database system (LIVE)
+5. **DBM National Wealth** - National database architecture (LIVE)
+6. **TDEE Calculator API** - Production REST API (LIVE)
+7. **Baptism Records Manager** - Tauri desktop application (PRODUCTION)
+8. **GAIA AI** - Personal AI Assistant with Llama3.1 (IN PROGRESS)
+9. **MediTriage AI** - Healthcare chatbot with DDXPlus Dataset (ON HOLD)
+10. **Momentum** - Personal productivity and task management app (IN PROGRESS)
 
 ## 🏗️ Architecture
 

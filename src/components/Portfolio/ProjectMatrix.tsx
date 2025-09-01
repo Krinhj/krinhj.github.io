@@ -1,7 +1,43 @@
-import React from 'react';
-import { ExternalLink, Github } from 'lucide-react';
+import React, { useState } from 'react';
+import { ExternalLink, Github, Info } from 'lucide-react';
+import { ProjectDetailModal } from '../UI/ProjectDetailModal';
+
+// CPU Exam Schedule Finder Screenshots
+import MainUI from '../../assets/screenshots/ExamFinder/MainUI.png';
+import ExamSchedResults from '../../assets/screenshots/ExamFinder/ExamSchedResults.png';
+import ExamSchedResults2 from '../../assets/screenshots/ExamFinder/ExamSchedResults2.png';
+import ExamSchedResults3 from '../../assets/screenshots/ExamFinder/ExamSchedResults3.png';
+import NoActiveExamPeriod from '../../assets/screenshots/ExamFinder/NoActiveExamPeriod.png';
+import LessGap2 from '../../assets/screenshots/ExamFinder/LessGap2.png';
+
+// Danger Zone Screenshots
+import DZTitleScreen from '../../assets/screenshots/DangerZone/Title Screen.jpg';
+import DZOpeningScreen from '../../assets/screenshots/DangerZone/Opening Screen.jpg';
+import DZLoginScreen from '../../assets/screenshots/DangerZone/Login Screen.jpg';
+import DZMainMenu from '../../assets/screenshots/DangerZone/Main Menu.jpg';
+import DZLevelSelection from '../../assets/screenshots/DangerZone/Level Selection Menu.jpg';
+import DZLevelPreview from '../../assets/screenshots/DangerZone/Level Preview.jpg';
+import DZGameplay from '../../assets/screenshots/DangerZone/Gameplay.jpg';
+import DZEnvironmentInteraction from '../../assets/screenshots/DangerZone/Environment Interaction.jpg';
+import DZObjectiveAlert from '../../assets/screenshots/DangerZone/New Objective Alert.jpg';
+import DZObjectiveTab from '../../assets/screenshots/DangerZone/Objective Tab.jpg';
+import DZLevelComplete from '../../assets/screenshots/DangerZone/Level Complete Screen.jpg';
+import DZLeaderboard from '../../assets/screenshots/DangerZone/Leaderboard View.jpg';
 
 export const ProjectMatrix = () => {
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (project: any) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProject(null);
+  };
+
   const projects = [
     {
       id: 1,
@@ -12,21 +48,100 @@ export const ProjectMatrix = () => {
       status: "LIVE",
       link: "https://get-me-hired.vercel.app",
       github: "https://github.com/Krinhj",
-      color: "primary"
+      color: "primary",
+      isPublicRepo: false
     },
     {
       id: 2,
-      name: "3D Disaster Simulation Game",
+      name: "CPU Exam Schedule Finder",
+      subtitle: "Full-Stack Search Application",
+      description: "Modern web application solving real-world problem at Central Philippine University. Students can search exam schedules by subject instead of manually scanning PDF images, featuring smart error handling and mobile-responsive design.",
+      detailedDescription: "A comprehensive full-stack web application built to address a significant pain point at Central Philippine University. The university publishes exam schedules as scanned PDF images, making it impossible for students to use Ctrl+F to search for their subjects. This forces students to manually scan through multiple pages of images to find their exam information. My solution digitizes this process with a modern, searchable interface that dramatically improves the student experience.",
+      tech: ["React 19", "TypeScript", "Express.js", "Supabase", "Tailwind CSS"],
+      status: "LIVE",
+      link: "https://cpuexamfinder.vercel.app",
+      github: "https://github.com/Krinhj/cpu-exam-schedule-finder",
+      color: "primary",
+      features: [
+        "Flexible search functionality - search by subject code, name, or instructor",
+        "Mobile-responsive design optimized for student use on any device",
+        "Smart error handling with contextual messages (database down vs no active exam period)",
+        "Real-time validation and instant search results",
+        "CPU-branded interface maintaining university visual identity",
+        "RESTful API with comprehensive documentation",
+        "Admin panel for data management and updates"
+      ],
+      challenges: [
+        "Designing a flexible database schema to handle varying exam schedule formats",
+        "Implementing smart search that works across multiple data fields simultaneously",
+        "Creating robust error handling that distinguishes between system errors and data availability",
+        "Optimizing mobile performance while maintaining rich functionality",
+        "Building a scalable API architecture that can handle high student traffic during exam periods"
+      ],
+      impact: "Built after my graduation from CPU (June 2025) to help my brother and fellow students, this project demonstrates practical application of modern web development skills to solve real-world problems. The application has potential for official university adoption and showcases my commitment to using technology for social good.",
+      timeline: "June 2025 - Post Graduation Project",
+      teamSize: "Solo Developer",
+      screenshots: [
+        MainUI,
+        ExamSchedResults,
+        ExamSchedResults2,
+        ExamSchedResults3,
+        NoActiveExamPeriod,
+        LessGap2
+      ],
+      isPublicRepo: true
+    },
+    {
+      id: 3,
+      name: "Danger Zone",
       subtitle: "Unity Thesis Project",
       description: "Comprehensive 3D disaster simulation game built in Unity with C#. Features real-time scoring algorithms, Firebase-powered leaderboards, and persistent run history system for educational disaster preparedness training.",
+      detailedDescription: "A comprehensive 3D disaster simulation game developed as a Senior-year thesis project, focusing on educational disaster preparedness training through immersive gameplay. Players navigate through realistic disaster scenarios, learning crucial survival skills while competing on global leaderboards. The game combines educational content with engaging mechanics to create an effective learning experience for disaster preparedness.",
       tech: ["Unity", "C#", "Firebase", "Unity Editor"],
       status: "COMPLETED",
       link: "#",
       github: "https://github.com/Krinhj",
-      color: "primary-glow"
+      color: "primary-glow",
+      isPublicRepo: false,
+      features: [
+        "Immersive 3D disaster simulation environments with realistic physics",
+        "Real-time scoring system based on decision-making and survival actions",
+        "Firebase-powered global leaderboards for competitive learning",
+        "Comprehensive user authentication and profile management system",
+        "Persistent run history tracking to monitor learning progress",
+        "Interactive tutorial system for disaster preparedness education",
+        "Multiple disaster scenarios including fire, earthquake, and flood simulations",
+        "Objective-based gameplay with dynamic alerts and guidance systems"
+      ],
+      challenges: [
+        "Leading a 4-person development team and coordinating project milestones",
+        "Designing realistic disaster physics and environmental interactions in Unity",
+        "Implementing complex scoring algorithms that accurately reflect disaster preparedness knowledge",
+        "Managing Unity Version Control for collaborative development workflow",
+        "Integrating Firebase real-time database for seamless leaderboard synchronization",
+        "Optimizing 3D performance for various hardware configurations",
+        "Balancing educational content with engaging gameplay mechanics while meeting academic requirements"
+      ],
+      impact: "This thesis project demonstrates advanced Unity development skills, team leadership, and educational game design principles. Successfully led a 4-person development team to completion as academic requirement while creating a practical tool for disaster preparedness education. The project showcases ability to manage development teams, work with complex 3D environments, real-time databases, and comprehensive game design.",
+      timeline: "Academic Thesis Project - 2024",
+      teamSize: "Team of 4 - Project Leader & Game Designer",
+      screenshots: [
+        DZTitleScreen,
+        DZOpeningScreen,
+        DZLoginScreen,
+        DZMainMenu,
+        DZLevelSelection,
+        DZLevelPreview,
+        DZGameplay,
+        DZEnvironmentInteraction,
+        DZObjectiveAlert,
+        DZObjectiveTab,
+        DZLevelComplete,
+        DZLeaderboard
+      ]
     },
     {
-      id: 3,
+      id: 4,
       name: "DBM National Tax Allocation Webpage",
       subtitle: "National Database Architecture",
       description: "Enterprise-grade database system for the Department of Budget & Management. Handling National Tax Allocation data with Java MVC framework.",
@@ -34,10 +149,11 @@ export const ProjectMatrix = () => {
       status: "LIVE",
       link: "https://reports.dbm.gov.ph/ira2",
       github: "https://github.com/Krinhj",
-      color: "primary-glow"
+      color: "primary-glow",
+      isPublicRepo: false
     },
     {
-      id: 4,
+      id: 5,
       name: "DBM National Wealth Webpage",
       subtitle: "National Database Architecture",
       description: "Enterprise-grade database system for the Department of Budget & Management. Handling National Wealth data with Java MVC framework.",
@@ -45,10 +161,11 @@ export const ProjectMatrix = () => {
       status: "LIVE",
       link: "https://reports.dbm.gov.ph/national_wealth/dashboard",
       github: "https://github.com/Krinhj",
-      color: "primary-glow"
+      color: "primary-glow",
+      isPublicRepo: false
     },
     {
-      id: 5,
+      id: 6,
       name: "TDEE Calculator API",
       subtitle: "Production REST API",
       description: "High-performance REST API deployed on RapidAPI marketplace. Calculates Total Daily Energy Expenditure with precision algorithms.",
@@ -56,10 +173,11 @@ export const ProjectMatrix = () => {
       status: "LIVE",
       link: "#",
       github: "https://github.com/Krinhj",
-      color: "primary-dim"
+      color: "primary-dim",
+      isPublicRepo: true
     },
     {
-      id: 6,
+      id: 7,
       name: "Baptism Records Manager",
       subtitle: "Parish Management Desktop App",
       description: "Comprehensive parish management system built with Tauri V2. Features full CRUD operations, permissions-based access control, automated backup/restore system, and detailed audit logging for all administrative actions.",
@@ -67,10 +185,11 @@ export const ProjectMatrix = () => {
       status: "PRODUCTION",
       link: "#",
       github: "https://github.com/Krinhj",
-      color: "primary"
+      color: "primary",
+      isPublicRepo: false
     },
     {
-      id: 7,
+      id: 8,
       name: "GAIA AI",
       subtitle: "Personal AI Assistant and Momentum Application Orchestrator",
       description: "Llama3.1 based custom LLM trained as an AI Assistant with Access to the different sub-functions of the Momentum Application. Provides personalized assistance and orchestrates tasks.",
@@ -78,10 +197,11 @@ export const ProjectMatrix = () => {
       status: "IN PROGRESS",
       link: "#",
       github: "https://github.com/Krinhj",
-      color: "primary-dim"
+      color: "primary-dim",
+      isPublicRepo: false
     },
     {
-      id: 8,
+      id: 9,
       name: "MediTriage AI",
       subtitle: "Healthcare Chatbot System",
       description: "Intelligent medical triage chatbot using advanced NLP and DDXPlus Dataset. Assists patients with symptom assessment and healthcare navigation.",
@@ -89,10 +209,11 @@ export const ProjectMatrix = () => {
       status: "ON HOLD",
       link: "#",
       github: "https://github.com/Krinhj",
-      color: "primary-dim"
+      color: "primary-dim",
+      isPublicRepo: false
     },
     {
-      id: 9,
+      id: 10,
       name: "Momentum",
       subtitle: "Personal Productivity and Task Management App",
       description: "Comprehensive Self-Improvement and Productivity Application. Features task management, habit tracking, fitness functionality, nutritional management, and financial management orchestrated by the GAIA AI.",
@@ -100,7 +221,8 @@ export const ProjectMatrix = () => {
       status: "IN PROGRESS",
       link: "#",
       github: "https://github.com/Krinhj",
-      color: "primary-dim"
+      color: "primary-dim",
+      isPublicRepo: false
     }
   ];
 
@@ -248,8 +370,28 @@ export const ProjectMatrix = () => {
               {/* Action buttons */}
               <div style={{
                 display: 'flex',
-                gap: '1rem'
+                gap: '0.75rem',
+                flexWrap: 'wrap'
               }}>
+                <button
+                  onClick={() => openModal(project)}
+                  className="neon-button"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem 1rem',
+                    fontSize: '0.875rem',
+                    borderRadius: '6px',
+                    backgroundColor: 'hsl(var(--primary) / 0.1)',
+                    border: '1px solid hsl(var(--primary) / 0.3)',
+                    color: 'hsl(var(--primary))',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Info size={16} />
+                  DETAILS
+                </button>
                 {project.status === 'LIVE' && project.link && project.link !== '#' && (
                   <a
                     href={project.link}
@@ -267,28 +409,30 @@ export const ProjectMatrix = () => {
                     }}
                   >
                     <ExternalLink size={16} />
-                    VIEW LIVE
+                    LIVE
                   </a>
                 )}
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="neon-button"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5rem 1rem',
-                    fontSize: '0.875rem',
-                    borderRadius: '6px',
-                    textDecoration: 'none',
-                    backgroundColor: 'transparent'
-                  }}
-                >
-                  <Github size={16} />
-                  CODE
-                </a>
+                {project.isPublicRepo && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="neon-button"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      padding: '0.5rem 1rem',
+                      fontSize: '0.875rem',
+                      borderRadius: '6px',
+                      textDecoration: 'none',
+                      backgroundColor: 'transparent'
+                    }}
+                  >
+                    <Github size={16} />
+                    CODE
+                  </a>
+                )}
               </div>
             </div>
           ))}
@@ -304,6 +448,13 @@ export const ProjectMatrix = () => {
           }} />
         </div>
       </div>
+
+      {/* Project Detail Modal */}
+      <ProjectDetailModal 
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      />
     </section>
   );
 };
