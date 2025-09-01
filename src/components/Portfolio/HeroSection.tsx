@@ -200,7 +200,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             fontWeight: 300,
             letterSpacing: '0.05em'
           }}>
-            CS Graduate • Full-Stack Developer • Database Architect
+            Full-Stack Developer • Database Architect • AI Enthusiast
           </p>
         </div>
 
