@@ -274,7 +274,7 @@ export const ProjectMatrix = () => {
             maxWidth: '48rem',
             margin: '0 auto'
           }}>
-            Cutting-edge applications pushing the boundaries of web technology
+            Designing software that explores smarter, better solutions.
           </p>
         </div>
 

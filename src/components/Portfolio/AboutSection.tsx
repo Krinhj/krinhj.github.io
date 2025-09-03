@@ -37,7 +37,7 @@ export const AboutSection = () => {
             maxWidth: '48rem',
             margin: '0 auto'
           }}>
-            Full-stack developer • AI enthusiast • System architect
+            Full-stack Developer • AI Enthusiast • System Architect
           </p>
         </div>
 
@@ -69,20 +69,24 @@ export const AboutSection = () => {
             marginBottom: '2rem'
           }}>
             <p style={{ marginBottom: '1.5rem' }}>
-              Recent Computer Science graduate with a passion for building innovative, AI-powered solutions. 
-              Experienced in full-stack development, system architecture, and emerging technologies like 
-              custom LLM training and vector databases.
+              I am a recent Computer Science graduate with a passion for building innovative, user-focused solutions. 
+              Experienced in full-stack development, system architecture, database management, and AI-focused technologies like 
+              LLMs, Vector Databases, and RAG techniques.
             </p>
             
             <p style={{ marginBottom: '1.5rem' }}>
-              During my internship at the Department of Budget and Management, I contributed to enterprise-scale 
+              As a Computer Science student who focused on Software Development and Databases, I have experience in building robust applications and efficient system designs. During my internship at the Department of Budget and Management, I contributed to enterprise-scale 
               government systems, working with national financial data and modernizing legacy infrastructure. 
               I thrive on solving complex technical challenges and transforming ideas into scalable, real-world applications.
+            </p>
+              
+            <p style={{ marginBottom: '1.5rem' }}>
+              To put it simply, I turn everyday problems into opportunities for innovation through relentless curiosity and persistence.
             </p>
             
             <p>
               Currently developing Momentum AI Suite - an ambitious AI-powered productivity ecosystem that showcases 
-              my expertise in modern web technologies, custom AI training, and complex system integration.
+              my expertise in modern web technologies, AI, and complex system integration.
             </p>
           </div>
 
@@ -156,7 +160,7 @@ export const AboutSection = () => {
                   color: 'hsl(var(--foreground) / 0.8)',
                   lineHeight: 1.5
                 }}>
-                  Custom LLM training, vector databases, and AI-powered application orchestration
+                  Large Language Models, vector databases, and AI-powered applications
                 </p>
               </div>
 
