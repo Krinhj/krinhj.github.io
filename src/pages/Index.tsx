@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // Import components
 import SynthwaveBackground from '../components/Effects/SynthwaveBackground';
 import { HeroSection } from '../components/Portfolio/HeroSection';
+import { AboutSection } from '../components/Portfolio/AboutSection';
 import { ProjectMatrix } from '../components/Portfolio/ProjectMatrix';
 import { ExperienceTimeline } from '../components/Portfolio/ExperienceTimeline';
 import { TechnicalArsenal } from '../components/Portfolio/TechnicalArsenal';
@@ -202,6 +203,7 @@ const Index: React.FC = () => {
         minHeight: '100vh'
       }}>
         <HeroSection audioEnabled={audioEnabled} frequencyData={frequencyData} />
+        <AboutSection />
         <ProjectMatrix />
         <ExperienceTimeline />
         <TechnicalArsenal />

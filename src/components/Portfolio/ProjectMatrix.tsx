@@ -41,6 +41,67 @@ export const ProjectMatrix = () => {
   const projects = [
     {
       id: 1,
+      name: "Momentum AI Suite",
+      subtitle: "Comprehensive AI-Powered Self-Improvement Ecosystem",
+      description: "Advanced productivity platform combining a full-featured self-improvement application with GAIA AI - a custom Llama3.1-based assistant that orchestrates all system functions. Features task management, habit tracking, fitness, nutrition, finance, and intelligent AI guidance.",
+      detailedDescription: "Momentum AI Suite represents my most ambitious project - a comprehensive ecosystem that revolutionizes personal productivity through intelligent automation. The platform consists of two integrated components: the Momentum Application (complete self-improvement suite) and GAIA AI (custom-trained virtual assistant), working in harmony to provide users with an unprecedented level of personalized productivity support.",
+      tech: ["React", "Node.js", "TypeScript", "Tauri V2", "Rust", "Ollama", "Llama3.1", "QDrant", "Vector Database"],
+      status: "IN PROGRESS",
+      link: "#",
+      github: "https://github.com/Krinhj",
+      color: "primary-glow",
+      components: [
+        {
+          name: "GAIA AI",
+          description: "Custom Llama3.1-based virtual assistant and orchestration engine",
+          features: [
+            "Semantic understanding using QDrant vector database for context-aware responses",
+            "Domain-specific training for productivity and self-improvement guidance",
+            "Intelligent task prioritization and scheduling recommendations",
+            "Natural language interface for complex productivity workflows",
+            "Real-time learning from user patterns and preferences"
+          ]
+        },
+        {
+          name: "Momentum Application",
+          description: "Comprehensive cross-platform self-improvement suite",
+          features: [
+            "Task management with AI-powered priority optimization",
+            "Habit tracking with personalized coaching insights",
+            "Fitness module with workout planning and progress analytics",
+            "Nutritional management with meal planning and dietary guidance",
+            "Financial management with AI-driven budgeting and expense optimization",
+            "Real-time synchronization across devices with offline capabilities"
+          ]
+        }
+      ],
+      features: [
+        "GAIA AI - Custom Llama3.1-based virtual assistant trained specifically for productivity guidance",
+        "Intelligent task orchestration with AI-powered priority management and scheduling",
+        "Comprehensive habit tracking with AI insights and personalized coaching recommendations",
+        "Fitness module with workout planning, progress tracking, and AI-generated fitness advice",
+        "Nutritional management with meal planning and dietary guidance powered by machine learning",
+        "Financial management tools with AI-driven budgeting insights and expense optimization",
+        "Vector database integration using QDrant for semantic search and context-aware responses",
+        "Cross-platform desktop application built with Tauri V2 for native performance",
+        "Real-time data synchronization and offline capability for seamless user experience"
+      ],
+      challenges: [
+        "Architecting a complex multi-domain system that maintains coherent data flow between productivity modules",
+        "Training and fine-tuning Llama3.1 for domain-specific productivity and self-improvement guidance",
+        "Implementing vector database architecture with QDrant for semantic understanding of user context",
+        "Building robust inter-process communication between the React frontend and Rust backend via Tauri",
+        "Designing AI orchestration logic that can intelligently coordinate between different application modules",
+        "Creating a scalable architecture that supports real-time AI inference while maintaining application performance",
+        "Developing context-aware AI responses that understand user patterns and provide meaningful insights"
+      ],
+      impact: "Momentum AI Suite represents the convergence of modern AI capabilities with practical productivity needs. By integrating a custom-trained language model directly into a comprehensive self-improvement platform, this project demonstrates advanced full-stack development skills, AI implementation expertise, and complex system architecture design. The platform showcases my ability to build cutting-edge applications that solve real-world problems through intelligent automation and personalized user experiences.",
+      timeline: "2024 - Present (Major Personal Project)",
+      teamSize: "Solo Developer & AI Architect",
+      isPublicRepo: false
+    },
+    {
+      id: 2,
       name: "GetMeHired",
       subtitle: "AI-Powered Job Application Tracking Platform",
       description: "Job application tracker powered by OpenAI API. Smart categorization, Resume Builder, Cover Letter Writer, and AI-driven insights for job seekers.",
@@ -52,7 +113,7 @@ export const ProjectMatrix = () => {
       isPublicRepo: false
     },
     {
-      id: 2,
+      id: 3,
       name: "CPU Exam Schedule Finder",
       subtitle: "Full-Stack Search Application",
       description: "Modern web application solving real-world problem at Central Philippine University. Students can search exam schedules by subject instead of manually scanning PDF images, featuring smart error handling and mobile-responsive design.",
@@ -142,30 +203,6 @@ export const ProjectMatrix = () => {
     },
     {
       id: 4,
-      name: "DBM National Tax Allocation Webpage",
-      subtitle: "National Database Architecture",
-      description: "Enterprise-grade database system for the Department of Budget & Management. Handling National Tax Allocation data with Java MVC framework.",
-      tech: ["Java", "SQL Server", "REST API", "MVC"],
-      status: "LIVE",
-      link: "https://reports.dbm.gov.ph/ira2",
-      github: "https://github.com/Krinhj",
-      color: "primary-glow",
-      isPublicRepo: false
-    },
-    {
-      id: 5,
-      name: "DBM National Wealth Webpage",
-      subtitle: "National Database Architecture",
-      description: "Enterprise-grade database system for the Department of Budget & Management. Handling National Wealth data with Java MVC framework.",
-      tech: ["Java", "SQL Server", "REST API", "MVC"],
-      status: "LIVE",
-      link: "https://reports.dbm.gov.ph/national_wealth/dashboard",
-      github: "https://github.com/Krinhj",
-      color: "primary-glow",
-      isPublicRepo: false
-    },
-    {
-      id: 6,
       name: "TDEE Calculator API",
       subtitle: "Production REST API",
       description: "High-performance REST API deployed on RapidAPI marketplace. Calculates Total Daily Energy Expenditure with precision algorithms.",
@@ -177,7 +214,7 @@ export const ProjectMatrix = () => {
       isPublicRepo: true
     },
     {
-      id: 7,
+      id: 5,
       name: "Baptism Records Manager",
       subtitle: "Parish Management Desktop App",
       description: "Comprehensive parish management system built with Tauri V2. Features full CRUD operations, permissions-based access control, automated backup/restore system, and detailed audit logging for all administrative actions.",
@@ -189,19 +226,7 @@ export const ProjectMatrix = () => {
       isPublicRepo: false
     },
     {
-      id: 8,
-      name: "GAIA AI",
-      subtitle: "Personal AI Assistant and Momentum Application Orchestrator",
-      description: "Llama3.1 based custom LLM trained as an AI Assistant with Access to the different sub-functions of the Momentum Application. Provides personalized assistance and orchestrates tasks.",
-      tech: ["Ollama", "Llama3.1", "QDrant"],
-      status: "IN PROGRESS",
-      link: "#",
-      github: "https://github.com/Krinhj",
-      color: "primary-dim",
-      isPublicRepo: false
-    },
-    {
-      id: 9,
+      id: 6,
       name: "MediTriage AI",
       subtitle: "Healthcare Chatbot System",
       description: "Intelligent medical triage chatbot using advanced NLP and DDXPlus Dataset. Assists patients with symptom assessment and healthcare navigation.",
@@ -212,18 +237,6 @@ export const ProjectMatrix = () => {
       color: "primary-dim",
       isPublicRepo: false
     },
-    {
-      id: 10,
-      name: "Momentum",
-      subtitle: "Personal Productivity and Task Management App",
-      description: "Comprehensive Self-Improvement and Productivity Application. Features task management, habit tracking, fitness functionality, nutritional management, and financial management orchestrated by the GAIA AI.",
-      tech: ["React", "Node.js", "Typescript", "Tauri V2"],
-      status: "IN PROGRESS",
-      link: "#",
-      github: "https://github.com/Krinhj",
-      color: "primary-dim",
-      isPublicRepo: false
-    }
   ];
 
   return (
@@ -275,17 +288,26 @@ export const ProjectMatrix = () => {
             marginBottom: '4rem'
           }}
         >
-          {projects.map((project, index) => (
-            <div 
-              key={project.id}
-              className="energy-card"
-              style={{
-                borderRadius: '12px',
-                padding: '2rem',
-                position: 'relative',
-                animationDelay: `${index * 0.2}s`
-              }}
-            >
+          {projects.map((project, index) => {
+            const isFlagship = project.name === "Momentum AI Suite";
+            return (
+              <div 
+                key={project.id}
+                className={`energy-card ${isFlagship ? 'flagship-project' : ''}`}
+                style={{
+                  borderRadius: '12px',
+                  padding: '2rem',
+                  position: 'relative',
+                  animationDelay: `${index * 0.2}s`,
+                  ...(isFlagship && {
+                    border: '3px solid hsl(0 84% 60%) !important',
+                    boxShadow: '0 0 40px hsl(0 84% 60% / 0.4), inset 0 0 40px hsl(0 84% 60% / 0.1) !important',
+                    background: 'linear-gradient(135deg, hsl(var(--background)), hsl(0 84% 60% / 0.08)) !important',
+                    transform: 'scale(1.02)'
+                  })
+                }}
+              >
+            
               {/* Project header */}
               <div style={{
                 display: 'flex',
@@ -435,7 +457,8 @@ export const ProjectMatrix = () => {
                 )}
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
 
         {/* Bottom scan line */}

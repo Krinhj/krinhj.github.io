@@ -57,3 +57,21 @@ ehthumbs.db
 *.swp
 *.swo
 *~
+
+# Portfolio data export tools (development only)
+portfolio-data-extractor.js
+portfolio-data-extractor.ts
+extract-portfolio-data.*
+resume-data-export.*
+extracted-data/
+portfolio-export/
+
+# Personal/private files
+personal-notes.md
+resume-data.json
+extracted-portfolio-data.json
+
+# Temporary files
+temp/
+tmp/
+*.tmp
