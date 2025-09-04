@@ -81,7 +81,7 @@ export const exportPortfolioData = () => {
 
 // Development-only data extraction (for resume generation)
 export const getResumeData = () => {
-  if (process.env.NODE_ENV !== 'development') {
+  if (typeof window !== 'undefined' && (window as any).__DEV__ !== true) {
     console.warn('getResumeData() is only available in development mode');
     return null;
   }

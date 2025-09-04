@@ -1,4 +1,4 @@
-import { Calendar, MapPin, Code, GraduationCap, Info } from 'lucide-react';
+import { Code, GraduationCap } from 'lucide-react';
 
 export interface Experience {
   id: number;

@@ -1,30 +1,7 @@
 import React from 'react';
-import { Code, Database, Server, Wrench } from 'lucide-react';
+import { skillCategories, aiMlSkills } from '../../data';
 
 export const TechnicalArsenal = () => {
-  const skillCategories = [
-    {
-      title: "Languages",
-      icon: Code,
-      skills: ["Python", "SQL", "TypeScript", "JavaScript", "C#", "Java", "PHP"]
-    },
-    {
-      title: "Frameworks",
-      icon: Server,
-      skills: ["React", "Node.js", ".NET Framework", "Tauri V2", "Express"]
-    },
-    {
-      title: "Databases",
-      icon: Database,
-      skills: ["SQL Server", "MySQL", "MongoDB", "Supabase", "Firebase"]
-    },
-    {
-      title: "Tools",
-      icon: Wrench,
-      skills: ["VS Code", "Visual Studio 2022", "Unity Editor", "Postman", "Git"]
-    }
-  ];
-
   return (
     <section style={{
       padding: '5rem 1rem',
@@ -180,7 +157,7 @@ export const TechnicalArsenal = () => {
               gap: '0.75rem',
               marginBottom: '1rem'
             }}>
-              {["OpenAI API", "Hugging Face", "Pandas", "Machine Learning", "NLP"].map((tech, index) => (
+              {aiMlSkills.map((tech, index) => (
                 <span 
                   key={index}
                   style={{

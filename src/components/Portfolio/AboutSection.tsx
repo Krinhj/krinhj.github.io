@@ -1,5 +1,6 @@
 import React from 'react';
 import { Code2, Brain, Rocket, Calendar } from 'lucide-react';
+import { aboutSummary, keyStrengths } from '../../data';
 
 export const AboutSection = () => {
   return (
@@ -68,26 +69,11 @@ export const AboutSection = () => {
             fontSize: '1.1rem',
             marginBottom: '2rem'
           }}>
-            <p style={{ marginBottom: '1.5rem' }}>
-              I am a recent Computer Science graduate with a passion for building innovative, user-focused solutions. 
-              Experienced in full-stack development, system architecture, database management, and AI-focused technologies like 
-              LLMs, Vector Databases, and RAG techniques.
-            </p>
-            
-            <p style={{ marginBottom: '1.5rem' }}>
-              As a Computer Science student who focused on Software Development and Databases, I have experience in building robust applications and efficient system designs. During my internship at the Department of Budget and Management, I contributed to enterprise-scale 
-              government systems, working with national financial data and modernizing legacy infrastructure. 
-              I thrive on solving complex technical challenges and transforming ideas into scalable, real-world applications.
-            </p>
-              
-            <p style={{ marginBottom: '1.5rem' }}>
-              To put it simply, I turn everyday problems into opportunities for innovation through relentless curiosity and persistence.
-            </p>
-            
-            <p>
-              Currently developing Momentum AI Suite - an ambitious AI-powered productivity ecosystem that showcases 
-              my expertise in modern web technologies, AI, and complex system integration.
-            </p>
+            {aboutSummary.professionalSummary.map((paragraph, index) => (
+              <p key={index} style={{ marginBottom: index === aboutSummary.professionalSummary.length - 1 ? 0 : '1.5rem' }}>
+                {paragraph}
+              </p>
+            ))}
           </div>
 
           {/* Key Strengths */}
@@ -106,121 +92,49 @@ export const AboutSection = () => {
               gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
               gap: '1rem'
             }}>
-              <div style={{
-                padding: '1rem',
-                border: '1px solid hsl(var(--primary) / 0.2)',
-                borderRadius: '8px',
-                backgroundColor: 'hsl(var(--primary) / 0.05)'
-              }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  marginBottom: '0.5rem'
-                }}>
-                  <Code2 size={18} style={{ color: 'hsl(var(--primary))' }} />
-                  <span style={{
-                    fontWeight: 'bold',
-                    color: 'hsl(var(--primary))'
+              {keyStrengths.map((strength, index) => {
+                const getIcon = (title: string) => {
+                  switch (title) {
+                    case 'Full-Stack Development': return Code2;
+                    case 'AI Integration': return Brain;
+                    case 'System Architecture': return Rocket;
+                    case 'Project Leadership': return Calendar;
+                    default: return Code2;
+                  }
+                };
+                const IconComponent = getIcon(strength.title);
+                
+                return (
+                  <div key={index} style={{
+                    padding: '1rem',
+                    border: '1px solid hsl(var(--primary) / 0.2)',
+                    borderRadius: '8px',
+                    backgroundColor: 'hsl(var(--primary) / 0.05)'
                   }}>
-                    Full-Stack Development
-                  </span>
-                </div>
-                <p style={{
-                  fontSize: '0.9rem',
-                  color: 'hsl(var(--foreground) / 0.8)',
-                  lineHeight: 1.5
-                }}>
-                  React, Node.js, TypeScript, Python - Building scalable web applications from front-end to database
-                </p>
-              </div>
-
-              <div style={{
-                padding: '1rem',
-                border: '1px solid hsl(var(--primary) / 0.2)',
-                borderRadius: '8px',
-                backgroundColor: 'hsl(var(--primary) / 0.05)'
-              }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  marginBottom: '0.5rem'
-                }}>
-                  <Brain size={18} style={{ color: 'hsl(var(--primary))' }} />
-                  <span style={{
-                    fontWeight: 'bold',
-                    color: 'hsl(var(--primary))'
-                  }}>
-                    AI Integration
-                  </span>
-                </div>
-                <p style={{
-                  fontSize: '0.9rem',
-                  color: 'hsl(var(--foreground) / 0.8)',
-                  lineHeight: 1.5
-                }}>
-                  Large Language Models, vector databases, and AI-powered applications
-                </p>
-              </div>
-
-              <div style={{
-                padding: '1rem',
-                border: '1px solid hsl(var(--primary) / 0.2)',
-                borderRadius: '8px',
-                backgroundColor: 'hsl(var(--primary) / 0.05)'
-              }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  marginBottom: '0.5rem'
-                }}>
-                  <Rocket size={18} style={{ color: 'hsl(var(--primary))' }} />
-                  <span style={{
-                    fontWeight: 'bold',
-                    color: 'hsl(var(--primary))'
-                  }}>
-                    System Architecture
-                  </span>
-                </div>
-                <p style={{
-                  fontSize: '0.9rem',
-                  color: 'hsl(var(--foreground) / 0.8)',
-                  lineHeight: 1.5
-                }}>
-                  Designing complex, multi-component systems with focus on scalability and maintainability
-                </p>
-              </div>
-
-              <div style={{
-                padding: '1rem',
-                border: '1px solid hsl(var(--primary) / 0.2)',
-                borderRadius: '8px',
-                backgroundColor: 'hsl(var(--primary) / 0.05)'
-              }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  marginBottom: '0.5rem'
-                }}>
-                  <Calendar size={18} style={{ color: 'hsl(var(--primary))' }} />
-                  <span style={{
-                    fontWeight: 'bold',
-                    color: 'hsl(var(--primary))'
-                  }}>
-                    Project Leadership
-                  </span>
-                </div>
-                <p style={{
-                  fontSize: '0.9rem',
-                  color: 'hsl(var(--foreground) / 0.8)',
-                  lineHeight: 1.5
-                }}>
-                  Leading development teams, managing complex projects from conception to deployment
-                </p>
-              </div>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      marginBottom: '0.5rem'
+                    }}>
+                      <IconComponent size={18} style={{ color: 'hsl(var(--primary))' }} />
+                      <span style={{
+                        fontWeight: 'bold',
+                        color: 'hsl(var(--primary))'
+                      }}>
+                        {strength.title}
+                      </span>
+                    </div>
+                    <p style={{
+                      fontSize: '0.9rem',
+                      color: 'hsl(var(--foreground) / 0.8)',
+                      lineHeight: 1.5
+                    }}>
+                      {strength.description}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

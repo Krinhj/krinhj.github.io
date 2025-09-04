@@ -1,30 +1,8 @@
 import React from 'react';
-import { Mail, Linkedin, Github, MapPin, ExternalLink } from 'lucide-react';
+import { Mail, ExternalLink } from 'lucide-react';
+import { contactMethods, contactCallToAction } from '../../data';
 
 export const ContactPortal = () => {
-  const contactMethods = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "ron.talabuconjr.dev@gmail.com",
-      link: "mailto:ron.talabuconjr.dev@gmail.com",
-      color: "primary"
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      value: "ronnie-talabucon-jr",
-      link: "https://www.linkedin.com/in/ronnie-talabucon-jr-30528b31b",
-      color: "primary-glow"
-    },
-    {
-      icon: Github,
-      label: "GitHub",
-      value: "@Krinhj",
-      link: "https://github.com/Krinhj",
-      color: "primary"
-    }
-  ];
 
   return (
     <section style={{
@@ -150,7 +128,7 @@ export const ContactPortal = () => {
               color: 'hsl(var(--primary))',
               marginBottom: '1rem'
             }}>
-              Ready to Build Something Amazing?
+              {contactCallToAction.title}
             </h3>
             <p style={{
               color: 'hsl(var(--foreground) / 0.8)',
@@ -158,8 +136,7 @@ export const ContactPortal = () => {
               lineHeight: 1.6,
               fontSize: '1rem'
             }}>
-              Let's collaborate on your next project. Whether it's building cutting-edge web applications, 
-              architecting robust databases, or exploring AI-powered solutions, I'm ready to make it happen.
+              {contactCallToAction.description}
             </p>
             
             <div style={{
@@ -171,7 +148,7 @@ export const ContactPortal = () => {
               flexWrap: 'wrap'
             }}>
               <a
-                href="mailto:ron.talabuconjr.dev@gmail.com"
+                href={contactCallToAction.primaryAction.link}
                 className="neon-button"
                 style={{
                   display: 'flex',
@@ -187,10 +164,10 @@ export const ContactPortal = () => {
                 }}
               >
                 <Mail size={16} />
-                SEND MESSAGE
+                {contactCallToAction.primaryAction.label}
               </a>
               <a
-                href="/Talabucon_Resume.pdf"
+                href={contactCallToAction.secondaryAction.link}
                 className="neon-button"
                 style={{
                   display: 'flex',
@@ -207,7 +184,7 @@ export const ContactPortal = () => {
                 }}
               >
                 <ExternalLink size={16} />
-                DOWNLOAD RESUME
+                {contactCallToAction.secondaryAction.label}
               </a>
             </div>
           </div>

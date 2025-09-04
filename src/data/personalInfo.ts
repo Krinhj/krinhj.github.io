@@ -1,4 +1,4 @@
-import { Mail, Linkedin, Github, MapPin } from 'lucide-react';
+import { Mail, Linkedin, Github } from 'lucide-react';
 
 export interface ContactMethod {
   icon: any;

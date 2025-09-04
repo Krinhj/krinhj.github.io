@@ -60,6 +60,7 @@ ehthumbs.db
 
 # Portfolio data export tools (development only)
 portfolio-data-extractor.js
+portfolio-data-extractor.cjs
 portfolio-data-extractor.ts
 extract-portfolio-data.*
 resume-data-export.*
