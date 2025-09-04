@@ -153,7 +153,7 @@ export const ProjectMatrix = () => {
       isPublicRepo: true
     },
     {
-      id: 3,
+      id: 4,
       name: "Danger Zone",
       subtitle: "Unity Thesis Project",
       description: "Comprehensive 3D disaster simulation game built in Unity with C#. Features real-time scoring algorithms, Firebase-powered leaderboards, and persistent run history system for educational disaster preparedness training.",
@@ -202,7 +202,7 @@ export const ProjectMatrix = () => {
       ]
     },
     {
-      id: 4,
+      id: 5,
       name: "TDEE Calculator API",
       subtitle: "Production REST API",
       description: "High-performance REST API deployed on RapidAPI marketplace. Calculates Total Daily Energy Expenditure with precision algorithms.",
@@ -214,7 +214,7 @@ export const ProjectMatrix = () => {
       isPublicRepo: true
     },
     {
-      id: 5,
+      id: 6,
       name: "Baptism Records Manager",
       subtitle: "Parish Management Desktop App",
       description: "Comprehensive parish management system built with Tauri V2. Features full CRUD operations, permissions-based access control, automated backup/restore system, and detailed audit logging for all administrative actions.",
@@ -226,7 +226,7 @@ export const ProjectMatrix = () => {
       isPublicRepo: false
     },
     {
-      id: 6,
+      id: 7,
       name: "MediTriage AI",
       subtitle: "Healthcare Chatbot System",
       description: "Intelligent medical triage chatbot using advanced NLP and DDXPlus Dataset. Assists patients with symptom assessment and healthcare navigation.",
