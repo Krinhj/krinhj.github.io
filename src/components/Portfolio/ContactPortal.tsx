@@ -168,6 +168,8 @@ export const ContactPortal = () => {
               </a>
               <a
                 href={contactCallToAction.secondaryAction.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="neon-button"
                 style={{
                   display: 'flex',

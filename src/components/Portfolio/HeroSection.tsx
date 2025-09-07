@@ -243,7 +243,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </button>
           <a 
             href="/Talabucon_Resume.pdf"
-            download="Talabucon_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="neon-button"
             style={{
               borderRadius: '8px',
@@ -257,7 +258,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               justifyContent: 'center'
             }}
           >
-            DOWNLOAD CV
+            VIEW CV
           </a>
           <a 
             href="https://github.com/Krinhj" 

@@ -83,7 +83,7 @@ export const contactCallToAction = {
     link: "mailto:ron.talabuconjr.dev@gmail.com"
   },
   secondaryAction: {
-    label: "DOWNLOAD RESUME",
+    label: "VIEW RESUME",
     link: "/Talabucon_Resume.pdf"
   }
 };
