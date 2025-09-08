@@ -20,6 +20,10 @@ import DZObjectiveTab from '../assets/screenshots/DangerZone/Objective Tab.jpg';
 import DZLevelComplete from '../assets/screenshots/DangerZone/Level Complete Screen.jpg';
 import DZLeaderboard from '../assets/screenshots/DangerZone/Leaderboard View.jpg';
 
+// Momentum Screenshots
+import MomentumDashboard from '../assets/screenshots/Momentum/MomentumDashboard.png';
+import ChronosDashboard from '../assets/screenshots/Momentum/SubtaskBug.png';
+
 export interface ProjectComponent {
   name: string;
   description: string;
@@ -107,6 +111,10 @@ export const projects: Project[] = [
     impact: "Momentum AI Suite represents the convergence of modern AI capabilities with practical productivity needs. By integrating a custom-trained language model directly into a comprehensive self-improvement platform, this project demonstrates advanced full-stack development skills, AI implementation expertise, and complex system architecture design. The platform showcases my ability to build cutting-edge applications that solve real-world problems through intelligent automation and personalized user experiences.",
     timeline: "2024 - Present (Major Personal Project)",
     teamSize: "Solo Developer & AI Architect",
+    screenshots: [
+      MomentumDashboard,
+      ChronosDashboard
+    ],
     isPublicRepo: false
   },
   {
