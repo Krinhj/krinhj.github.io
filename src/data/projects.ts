@@ -21,8 +21,8 @@ import DZLevelComplete from '../assets/screenshots/DangerZone/Level Complete Scr
 import DZLeaderboard from '../assets/screenshots/DangerZone/Leaderboard View.jpg';
 
 // Momentum Screenshots
-import MomentumDashboard from '../assets/screenshots/Momentum/MomentumDashboard.png';
-import ChronosDashboard from '../assets/screenshots/Momentum/SubtaskBug.png';
+import MomentumDashboard from '../assets/screenshots/Momentum/MomentumDashboard2.png';
+import ChronosDashboard from '../assets/screenshots/Momentum/CHRONOSDashboard6.png';
 
 export interface ProjectComponent {
   name: string;
