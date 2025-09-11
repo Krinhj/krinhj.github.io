@@ -24,6 +24,13 @@ import DZLeaderboard from '../assets/screenshots/DangerZone/Leaderboard View.jpg
 import MomentumDashboard from '../assets/screenshots/Momentum/MomentumDashboard2.png';
 import ChronosDashboard from '../assets/screenshots/Momentum/CHRONOSDashboard6.png';
 
+// Baptismal Records Screenshots
+import BaptismalDashboard from '../assets/screenshots/BaptismalRecords/BaptismalRecordsMain.png';
+import AddRecord from '../assets/screenshots/BaptismalRecords/AddRecord.png';
+import UserManagement from '../assets/screenshots/BaptismalRecords/UserManagement.png';
+import Backup from '../assets/screenshots/BaptismalRecords/Backup.png';
+import AuditLog from '../assets/screenshots/BaptismalRecords/AuditLogs.png';
+
 export interface ProjectComponent {
   name: string;
   description: string;
@@ -240,6 +247,13 @@ export const projects: Project[] = [
     link: "#",
     github: "https://github.com/Krinhj",
     color: "primary",
+    screenshots: [
+      BaptismalDashboard,
+      AddRecord,
+      UserManagement,
+      Backup,
+      AuditLog
+    ],
     isPublicRepo: false
   },
   {
