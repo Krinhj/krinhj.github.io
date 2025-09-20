@@ -31,6 +31,9 @@ import UserManagement from '../assets/screenshots/BaptismalRecords/UserManagemen
 import Backup from '../assets/screenshots/BaptismalRecords/Backup.png';
 import AuditLog from '../assets/screenshots/BaptismalRecords/AuditLogs.png';
 
+// GetMeHired Screenshots
+import LandingPage from '../assets/screenshots/GetMeHired/LandingPage.png';
+
 export interface ProjectComponent {
   name: string;
   description: string;
@@ -134,7 +137,10 @@ export const projects: Project[] = [
     link: "https://get-me-hired.vercel.app",
     github: "https://github.com/Krinhj",
     color: "primary",
-    isPublicRepo: false
+    isPublicRepo: false,
+    screenshots: [
+      LandingPage
+    ]
   },
   {
     id: 3,
