@@ -133,7 +133,7 @@ export const projects: Project[] = [
     subtitle: "AI-Powered Job Application Tracking Platform",
     description: "Job application tracker powered by OpenAI API. Smart categorization, Resume Builder, Cover Letter Writer, and AI-driven insights for job seekers.",
     tech: ["React", "Node.js", "OpenAI API", "Vercel", "Supabase"],
-    status: "LIVE",
+    status: "UPGRADING",
     link: "https://get-me-hired.vercel.app",
     github: "https://github.com/Krinhj",
     color: "primary",
