@@ -119,7 +119,7 @@ export const projects: Project[] = [
       "Developing context-aware AI responses that understand user patterns and provide meaningful insights"
     ],
     impact: "Momentum AI Suite represents the convergence of modern AI capabilities with practical productivity needs. By integrating a custom-trained language model directly into a comprehensive self-improvement platform, this project demonstrates advanced full-stack development skills, AI implementation expertise, and complex system architecture design. The platform showcases my ability to build cutting-edge applications that solve real-world problems through intelligent automation and personalized user experiences.",
-    timeline: "2024 - Present (Major Personal Project)",
+    timeline: "August 2025 - Present (Major Personal Project)",
     teamSize: "Solo Developer & AI Architect",
     screenshots: [
       MomentumDashboard,
@@ -137,10 +137,12 @@ export const projects: Project[] = [
     link: "https://get-me-hired.vercel.app",
     github: "https://github.com/Krinhj",
     color: "primary",
-    isPublicRepo: false,
+    teamSize: "Solo Developer",
+    timeline: "July 2025 - Present (Upgrading with n8n Workflow Integration)",
     screenshots: [
       LandingPage
-    ]
+    ],
+    isPublicRepo: false
   },
   {
     id: 3,
@@ -170,7 +172,7 @@ export const projects: Project[] = [
       "Building a scalable API architecture that can handle high student traffic during exam periods"
     ],
     impact: "Built after my graduation from CPU (June 2025) to help my brother and fellow students, this project demonstrates practical application of modern web development skills to solve real-world problems. The application has potential for official university adoption and showcases my commitment to using technology for social good.",
-    timeline: "June 2025 - Post Graduation Project",
+    timeline: "August 2025 - Post Graduation Project",
     teamSize: "Solo Developer",
     screenshots: [
       MainUI,
@@ -214,7 +216,7 @@ export const projects: Project[] = [
       "Balancing educational content with engaging gameplay mechanics while meeting academic requirements"
     ],
     impact: "This thesis project demonstrates advanced Unity development skills, team leadership, and educational game design principles. Successfully led a 4-person development team to completion as academic requirement while creating a practical tool for disaster preparedness education. The project showcases ability to manage development teams, work with complex 3D environments, real-time databases, and comprehensive game design.",
-    timeline: "Academic Thesis Project - 2024",
+    timeline: "2024 - 2025 (Academic Year)",
     teamSize: "Team of 4 - Project Leader & Game Designer",
     screenshots: [
       DZTitleScreen,
@@ -253,6 +255,15 @@ export const projects: Project[] = [
     link: "#",
     github: "https://github.com/Krinhj",
     color: "primary",
+    timeline: "July 19, 2025 - July 27, 2025 (Deployed to Parish)",
+    teamSize: "Solo Developer",
+    features: [
+      "Full CRUD operations for baptismal records with intuitive UI",
+      "Permissions-based access control for different user roles (Admin, Staff)",
+      "Automated backup and restore system to prevent data loss",
+      "Detailed audit logging of all administrative actions for accountability",
+      "Search and filter functionality for quick record retrieval",
+    ],
     screenshots: [
       BaptismalDashboard,
       AddRecord,
