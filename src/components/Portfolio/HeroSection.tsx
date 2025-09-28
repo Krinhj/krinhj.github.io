@@ -279,7 +279,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <span style={{ fontSize: '1rem' }}>💻</span> GITHUB
           </a>
           <a 
-            href="https://www.linkedin.com/in/ronnie-talabucon-jr-30528b31b" 
+            href="https://www.linkedin.com/in/ronnietalabuconjr"
             target="_blank" 
             rel="noopener noreferrer" 
             className="neon-button"

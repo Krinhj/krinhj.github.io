@@ -26,7 +26,7 @@ export const contactMethods: ContactMethod[] = [
     icon: Linkedin,
     label: "LinkedIn",
     value: "ronnie-talabucon-jr",
-    link: "https://www.linkedin.com/in/ronnie-talabucon-jr-30528b31b",
+    link: "https://www.linkedin.com/in/ronnietalabuconjr",
     color: "primary-glow"
   },
   {
