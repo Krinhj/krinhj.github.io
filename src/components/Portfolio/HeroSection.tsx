@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { personalInfo } from '../../data/personalInfo';
 
 interface HeroSectionProps {
   audioEnabled?: boolean;
@@ -279,7 +280,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <span style={{ fontSize: '1rem' }}>💻</span> GITHUB
           </a>
           <a 
-            href="https://www.linkedin.com/in/ronnietalabuconjr"
+            href= {personalInfo.linkedin}
             target="_blank" 
             rel="noopener noreferrer" 
             className="neon-button"

@@ -42,7 +42,7 @@ export const personalInfo = {
   name: "Ronnie Talabucon Jr.",
   title: "Full-stack Developer • AI Enthusiast • System Architect",
   email: "ron.talabuconjr.dev@gmail.com",
-  linkedin: "https://www.linkedin.com/in/ronnie-talabucon-jr-30528b31b",
+  linkedin: "https://www.linkedin.com/in/ronnietalabuconjr",
   github: "https://github.com/Krinhj",
   resumePath: "/Talabucon_Resume.pdf"
 };
