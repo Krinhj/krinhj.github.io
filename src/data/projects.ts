@@ -23,6 +23,8 @@ import DZLeaderboard from '../assets/screenshots/DangerZone/Leaderboard View.jpg
 // Momentum Screenshots
 import MomentumDashboard from '../assets/screenshots/Momentum/MomentumDashboard2.png';
 import ChronosDashboard from '../assets/screenshots/Momentum/CHRONOSDashboard6.png';
+import DemeterDashboard from '../assets/screenshots/Momentum/DEMETERDashboard.png';
+import WeightProgress from '../assets/screenshots/Momentum/WeightProgress.png';
 
 // Baptismal Records Screenshots
 import BaptismalDashboard from '../assets/screenshots/BaptismalRecords/BaptismalRecordsMain.png';
@@ -123,7 +125,9 @@ export const projects: Project[] = [
     teamSize: "Solo Developer & AI Architect",
     screenshots: [
       MomentumDashboard,
-      ChronosDashboard
+      ChronosDashboard,
+      DemeterDashboard,
+      WeightProgress
     ],
     isPublicRepo: false
   },
