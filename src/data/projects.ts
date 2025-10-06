@@ -136,17 +136,17 @@ export const projects: Project[] = [
     name: "GetMeHired",
     subtitle: "AI-Powered Job Application Tracking Platform",
     description: "Job application tracker powered by OpenAI API. Smart categorization, Resume Builder, Cover Letter Writer, and AI-driven insights for job seekers.",
-    tech: ["React", "Node.js", "OpenAI API", "Vercel", "Supabase"],
-    status: "UPGRADING",
-    link: "https://get-me-hired.vercel.app",
-    github: "https://github.com/Krinhj",
+    tech: ["NextJS", "Node.js", "OpenAI API", "Vercel", "Supabase"],
+    status: "LIVE",
+    link: "https://getmehired-v2.vercel.app",
+    github: "https://github.com/Krinhj/gmh-case-study",
     color: "primary",
     teamSize: "Solo Developer",
-    timeline: "July 2025 - Present (Upgrading with n8n Workflow Integration)",
+    timeline: "July 2025 - Present",
     screenshots: [
       LandingPage
     ],
-    isPublicRepo: false
+    isPublicRepo: true
   },
   {
     id: 3,
