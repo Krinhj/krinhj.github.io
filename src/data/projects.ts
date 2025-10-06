@@ -35,6 +35,12 @@ import AuditLog from '../assets/screenshots/BaptismalRecords/AuditLogs.png';
 
 // GetMeHired Screenshots
 import LandingPage from '../assets/screenshots/GetMeHired/LandingPage.png';
+import Dashboard from '../assets/screenshots/GetMeHired/Dashboard.png';
+import Applications from '../assets/screenshots/GetMeHired/Apps.png';
+import ViewApplication from '../assets/screenshots/GetMeHired/App.png';
+import MatchScore from '../assets/screenshots/GetMeHired/MatchScore.png';
+import Profile from '../assets/screenshots/GetMeHired/Profile.png';
+import Generate from '../assets/screenshots/GetMeHired/Generate.png';
 
 export interface ProjectComponent {
   name: string;
@@ -144,7 +150,13 @@ export const projects: Project[] = [
     teamSize: "Solo Developer",
     timeline: "July 2025 - Present",
     screenshots: [
-      LandingPage
+      LandingPage,
+      Dashboard,
+      Applications,
+      ViewApplication,
+      MatchScore,
+      Profile,
+      Generate
     ],
     isPublicRepo: true
   },
