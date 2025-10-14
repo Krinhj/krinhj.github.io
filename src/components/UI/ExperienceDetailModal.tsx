@@ -28,6 +28,16 @@ export const ExperienceDetailModal: React.FC<ExperienceDetailModalProps> = ({ ex
   const [modalClosing, setModalClosing] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Derived flags to avoid empty sections and show graceful fallbacks
+  const hasSkills = Array.isArray(experience?.skills) && experience.skills.length > 0;
+  const hasAchievements = Array.isArray(experience?.achievements) && experience.achievements.length > 0;
+  const hasChallenges = Array.isArray(experience?.challenges) && experience.challenges.length > 0;
+  const hasHighlights = Array.isArray(experience?.highlights) && experience.highlights.length > 0;
+  const hasImages = Array.isArray(experience?.images) && experience.images.length > 0;
+  const hasImpact = Boolean(experience?.impact && experience.impact.trim().length > 0);
+  const hasDescription = Boolean(experience?.detailedDescription && experience.detailedDescription.trim().length > 0);
+  const hasAnyContent = hasDescription || hasSkills || hasAchievements || hasChallenges || hasHighlights || hasImpact || hasImages;
+
   // Handle closing animations
   const handleClose = () => {
     setModalClosing(true);
@@ -239,7 +249,7 @@ export const ExperienceDetailModal: React.FC<ExperienceDetailModalProps> = ({ ex
             maxWidth: '100%'
           }}>
             {/* Description */}
-            {experience.detailedDescription && (
+            {hasDescription && (
               <div style={{ marginBottom: '2rem' }}>
                 <h3 style={{
                   fontSize: '1.5rem',
@@ -264,7 +274,7 @@ export const ExperienceDetailModal: React.FC<ExperienceDetailModalProps> = ({ ex
             )}
 
             {/* Key Skills & Technologies */}
-            {experience.skills && (
+            {hasSkills && (
               <div style={{ marginBottom: '2rem' }}>
                 <h3 style={{
                   fontSize: '1.5rem',
@@ -306,6 +316,7 @@ export const ExperienceDetailModal: React.FC<ExperienceDetailModalProps> = ({ ex
             )}
 
             {/* Key Achievements */}
+            {hasAchievements && (
             <div style={{ marginBottom: '2rem' }}>
               <h3 style={{
                 fontSize: '1.5rem',
@@ -347,9 +358,10 @@ export const ExperienceDetailModal: React.FC<ExperienceDetailModalProps> = ({ ex
                 ))}
               </ul>
             </div>
+            )}
 
             {/* Impact */}
-            {experience.impact && (
+            {hasImpact && (
               <div style={{ marginBottom: '2rem' }}>
                 <h3 style={{
                   fontSize: '1.5rem',
@@ -374,7 +386,7 @@ export const ExperienceDetailModal: React.FC<ExperienceDetailModalProps> = ({ ex
             )}
 
             {/* Challenges */}
-            {experience.challenges && (
+            {hasChallenges && (
               <div style={{ marginBottom: '2rem' }}>
                 <h3 style={{
                   fontSize: '1.5rem',
@@ -415,7 +427,7 @@ export const ExperienceDetailModal: React.FC<ExperienceDetailModalProps> = ({ ex
             )}
 
             {/* Highlights */}
-            {experience.highlights && (
+            {hasHighlights && (
               <div style={{ marginBottom: '2rem' }}>
                 <h3 style={{
                   fontSize: '1.5rem',
@@ -456,7 +468,7 @@ export const ExperienceDetailModal: React.FC<ExperienceDetailModalProps> = ({ ex
             )}
 
             {/* Images */}
-            {experience.images && experience.images.length > 0 && (
+            {hasImages && (
               <div style={{ marginBottom: '2rem' }}>
                 <h3 style={{
                   fontSize: '1.5rem',
@@ -504,6 +516,37 @@ export const ExperienceDetailModal: React.FC<ExperienceDetailModalProps> = ({ ex
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Fallback when no content yet */}
+            {!hasAnyContent && (
+              <div style={{
+                marginTop: '1rem',
+                padding: '1.25rem',
+                border: '1px dashed hsl(var(--primary) / 0.4)',
+                borderRadius: '12px',
+                background: 'hsl(var(--primary) / 0.05)'
+              }}>
+                <h3 style={{
+                  fontSize: '1.25rem',
+                  fontWeight: 'bold',
+                  color: 'hsl(var(--primary))',
+                  marginBottom: '0.75rem'
+                }}>
+                  Getting Started
+                </h3>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  <li style={{ color: 'hsl(var(--foreground) / 0.9)', marginBottom: '0.5rem' }}>
+                    Settling into the role and aligning goals.
+                  </li>
+                  <li style={{ color: 'hsl(var(--foreground) / 0.9)', marginBottom: '0.5rem' }}>
+                    Setting up tools, workflows, and environment.
+                  </li>
+                  <li style={{ color: 'hsl(var(--foreground) / 0.9)' }}>
+                    Initial projects in scoping — updates coming soon.
+                  </li>
+                </ul>
               </div>
             )}
           </div>

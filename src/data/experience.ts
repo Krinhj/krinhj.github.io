@@ -19,6 +19,22 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
+    id: 3,
+    title: "AI Software Developer",
+    company: "Zaigo Labs",
+    location: "New York Metropolitan Area (Remote)",
+    period: "Oct 2025 - Present",
+    type: "FULL-TIME",
+    achievements: [],
+    detailedDescription: "",
+    skills: [],
+    challenges: [],
+    impact: "",
+    highlights: [],
+    icon: Code,
+    color: "primary"
+  },
+  {
     id: 1,
     title: "Backend Developer Intern",
     company: "Department of Budget and Management - Central Office",
