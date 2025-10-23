@@ -76,3 +76,6 @@ extracted-portfolio-data.json
 temp/
 tmp/
 *.tmp
+
+# Working assets
+docs/screenshots/

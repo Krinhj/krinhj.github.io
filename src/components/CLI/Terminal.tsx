@@ -1,6 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import type { FormEvent } from 'react';
+import { Send } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useCommandHandler } from './CommandHandler';
+import {
+  useCommandHandler,
+  createMessage,
+  INITIAL_SYSTEM_LINES,
+} from './CommandHandler';
+import type { TerminalMessage } from './CommandHandler';
+import {
+  streamAiChat,
+  type ChatMessage,
+  type StreamDonePayload,
+} from '../../lib/aiChat';
 import { BootSequence } from '../Effects/BootSequence';
 import { MatrixTransition } from '../Effects/MatrixTransition';
 import Index from '../../pages/Index';
@@ -10,302 +22,415 @@ interface TerminalProps {
 }
 
 const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
-  const [terminalHistory, setTerminalHistory] = useState([
-    '> SYNTHWAVE PORTFOLIO SYSTEM v2.0',
-    '> Initializing cyberpunk interface...',
-    '> Type "pf help" for available commands',
-    '> Type "pf boot" to launch portfolio'
+  const [terminalHistory, setTerminalHistory] = useState<TerminalMessage[]>([
+    createMessage('system', INITIAL_SYSTEM_LINES),
   ]);
   const [currentInput, setCurrentInput] = useState('');
-  const [isHacking, setIsHacking] = useState(false);
   const [showBootSequence, setShowBootSequence] = useState(false);
   const [showMatrixTransition, setShowMatrixTransition] = useState(false);
   const [terminalDark, setTerminalDark] = useState(false);
-  const [terminalBounds, setTerminalBounds] = useState<DOMRect | null>(null);
+  const [isStreaming, setIsStreaming] = useState(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalContentRef = useRef<HTMLDivElement>(null);
-  const terminalRef = useRef<HTMLDivElement>(null);
+  const streamAbortRef = useRef<AbortController | null>(null);
   const navigate = useNavigate();
 
-  // Get command handler with boot sequence setter
-  const { handleCommand } = useCommandHandler({ 
-    setTerminalHistory, 
-    setIsHacking, 
-    setShowBootSequence 
+  const appendMessages = useCallback(
+    (messages: TerminalMessage[]) => {
+      setTerminalHistory((prev) => [...prev, ...messages]);
+    },
+    [setTerminalHistory],
+  );
+
+  const replaceMessages = useCallback(
+    (messages: TerminalMessage[]) => {
+      setTerminalHistory(messages);
+    },
+    [setTerminalHistory],
+  );
+
+  const { handleCommand } = useCommandHandler({
+    appendMessages,
+    replaceMessages,
+    setShowBootSequence,
   });
 
-  // Handle boot sequence completion - now triggers terminal dark then matrix transition
+  const stopActiveStream = useCallback(() => {
+    if (streamAbortRef.current) {
+      streamAbortRef.current.abort();
+      streamAbortRef.current = null;
+    }
+    setIsStreaming(false);
+  }, []);
+
   const handleBootComplete = () => {
     setShowBootSequence(false);
-    
-    // Get terminal bounds for positioning the circle
-    if (terminalContentRef.current) {
-      const bounds = terminalContentRef.current.getBoundingClientRect();
-      setTerminalBounds(bounds);
-    }
-    
-    // Make terminal go dark first
+
     setTimeout(() => {
       setTerminalDark(true);
     }, 300);
-    
-    // Then start matrix transition
+
     setTimeout(() => {
       setShowMatrixTransition(true);
-      // Keep terminal dark but don't hide it completely during transition
     }, 800);
   };
 
-  // Handle matrix transition completion - navigate without hiding transition
   const handleMatrixTransitionComplete = () => {
-    // Navigate immediately but keep matrix transition visible to prevent flash
     navigate('/index');
-    // Don't set showMatrixTransition to false - let the navigation handle the cleanup
   };
 
-  // Auto-scroll to bottom when terminal history changes
   useEffect(() => {
     if (terminalContentRef.current) {
-      terminalContentRef.current.scrollTop = terminalContentRef.current.scrollHeight;
+      terminalContentRef.current.scrollTop =
+        terminalContentRef.current.scrollHeight;
     }
-  }, [terminalHistory]);
+  }, [terminalHistory, showBootSequence]);
 
-  // Auto-focus CLI input
   useEffect(() => {
     if (inputRef.current) {
-      setTimeout(() => {
+      const focusTimer = setTimeout(() => {
         inputRef.current?.focus();
       }, 100);
+
+      return () => clearTimeout(focusTimer);
     }
   }, []);
 
-  // Keep focus on input
   useEffect(() => {
-    const handleClick = () => {
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
+    const handleDocumentClick = () => {
+      inputRef.current?.focus();
     };
 
-    document.addEventListener('click', handleClick);
-    return () => document.removeEventListener('click', handleClick);
+    document.addEventListener('click', handleDocumentClick);
+    return () => document.removeEventListener('click', handleDocumentClick);
   }, []);
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleCommand(currentInput, terminalHistory, setCurrentInput);
+  useEffect(
+    () => () => {
+      streamAbortRef.current?.abort();
+    },
+    [],
+  );
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const rawInput = currentInput;
+    const trimmed = rawInput.trim();
+
+    if (!trimmed) {
+      setCurrentInput('');
+      return;
     }
+
+    const userMessageEntry = createMessage('user', [rawInput]);
+
+    if (trimmed.startsWith('/')) {
+      stopActiveStream();
+      appendMessages([userMessageEntry]);
+      handleCommand(trimmed);
+      setCurrentInput('');
+      return;
+    }
+
+    stopActiveStream();
+
+    const conversationContext: ChatMessage[] = terminalHistory
+      .filter((message) => {
+        if (message.role === 'assistant') {
+          return true;
+        }
+        if (message.role === 'user') {
+          const text = message.lines.join('\n').trim();
+          return text.length > 0 && !text.startsWith('/');
+        }
+        return false;
+      })
+      .map((message) => ({
+        role: message.role,
+        content: message.lines.join('\n'),
+      })) as ChatMessage[];
+
+    const assistantDraft = createMessage('assistant', ['assistant is thinking...']);
+    appendMessages([userMessageEntry, assistantDraft]);
+
+    let aggregatedAssistantText = '';
+    const updateAssistantDraft = (text: string, placeholder = false) => {
+      const normalized =
+        text.length > 0
+          ? text
+          : placeholder
+          ? 'assistant is thinking...'
+          : '';
+      const lines =
+        normalized.length > 0 ? normalized.split(/\r?\n/) : [''];
+      setTerminalHistory((prev) =>
+        prev.map((message) =>
+          message.id === assistantDraft.id ? { ...message, lines } : message,
+        ),
+      );
+    };
+
+    setIsStreaming(true);
+    streamAbortRef.current = streamAiChat({
+      messages: [
+        ...conversationContext,
+        { role: 'user', content: rawInput } as ChatMessage,
+      ],
+      onChunk: (chunk) => {
+        aggregatedAssistantText += chunk;
+        updateAssistantDraft(aggregatedAssistantText, true);
+      },
+      onComplete: (payload?: StreamDonePayload) => {
+        if (!aggregatedAssistantText && payload?.content) {
+          aggregatedAssistantText = payload.content;
+          updateAssistantDraft(aggregatedAssistantText);
+        } else if (!aggregatedAssistantText) {
+          updateAssistantDraft('Assistant did not return a response. Please try again.');
+        }
+
+        const directive =
+          payload?.action?.command ??
+          payload?.command ??
+          payload?.action ??
+          null;
+        if (typeof directive === 'string' && directive.trim().length > 0) {
+          const normalizedDirective = directive.trim();
+          handleCommand(
+            normalizedDirective.startsWith('/')
+              ? normalizedDirective
+              : `/${normalizedDirective}`,
+          );
+        }
+
+        streamAbortRef.current = null;
+        setIsStreaming(false);
+      },
+      onError: (error) => {
+        const errorMessage = error.message || 'Assistant unavailable';
+        updateAssistantDraft(`Assistant error: ${errorMessage}`);
+        streamAbortRef.current = null;
+        setIsStreaming(false);
+      },
+    });
+
+    setCurrentInput('');
   };
 
   return (
-    <div 
+    <div
       className={className}
-      style={{ 
-        width: '100%', 
+      style={{
+        width: '100%',
         maxWidth: 'min(64rem, 95vw)',
-        margin: '0 auto' // Center the terminal
-      }}>
-      <div style={{
-        borderRadius: '8px',
-        overflow: 'hidden',
-        backdropFilter: 'blur(10px)',
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        border: '2px solid hsl(var(--primary) / 0.3)',
-        height: 'fit-content', // Prevent expanding beyond content
-        transition: 'none' // Remove any hover transitions
-      }}>
-        
-        {/* Terminal Header */}
-        <div style={{
+        margin: '3rem auto',
+      }}
+    >
+      <div
+        style={{
+          borderRadius: '8px',
+          overflow: 'hidden',
+          backdropFilter: 'blur(10px)',
+          backgroundColor: 'rgba(0, 0, 0, 0.9)',
+          border: '2px solid hsl(var(--primary) / 0.3)',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '1rem',
-          borderBottom: '1px solid hsl(var(--primary) / 0.3)',
-          backgroundColor: 'hsl(var(--primary) / 0.05)'
-        }}>
-          <div style={{
+          flexDirection: 'column',
+          transition: 'none',
+          minHeight: '620px',
+          height: 'clamp(620px, 80vh, 720px)',
+        }}
+      >
+        <div
+          style={{
             display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem'
-          }}>
-            <div style={{
-              width: '12px',
-              height: '12px',
-              borderRadius: '50%',
-              backgroundColor: 'hsl(var(--primary))',
-              boxShadow: 'var(--shadow-glow)',
-              animation: 'energy-pulse 2s ease-in-out infinite'
-            }} />
-            <span style={{
-              color: 'hsl(var(--primary))',
-              fontWeight: 'bold',
-              fontSize: '0.875rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em'
-            }} className="mono-font">
-              SYNTHWAVE TERMINAL
-            </span>
+            flexDirection: 'column',
+            gap: '0.75rem',
+            padding: '1.25rem',
+            borderBottom: '1px solid hsl(var(--primary) / 0.3)',
+            backgroundColor: 'hsl(var(--primary) / 0.05)',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
+              }}
+            >
+              <div
+                style={{
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%',
+                  backgroundColor: 'hsl(var(--primary))',
+                  boxShadow: 'var(--shadow-glow)',
+                  animation: 'energy-pulse 2s ease-in-out infinite',
+                }}
+              />
+              <span
+                style={{
+                  color: 'hsl(var(--primary))',
+                  fontWeight: 'bold',
+                  fontSize: '0.875rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                }}
+                className="mono-font"
+              >
+                SYNTHWAVE TERMINAL
+              </span>
+            </div>
+            <div
+              style={{
+                color: 'hsl(var(--primary) / 0.6)',
+                fontSize: '0.75rem',
+              }}
+              className="mono-font"
+            >
+              Connected to krinhj.portfolio.local
+            </div>
           </div>
-          <div style={{
-            color: 'hsl(var(--primary) / 0.6)',
-            fontSize: '0.75rem'
-          }} className="mono-font">
-            Connected to krinhj.portfolio.local
+          <div>
+            <h1
+              style={{
+                margin: 0,
+                fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+                color: 'hsl(var(--primary))',
+                fontFamily: 'Share Tech Mono, monospace',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+              }}
+            >
+              KRINHJ Portfolio Terminal
+            </h1>
+            <p
+              style={{
+                marginTop: '0.4rem',
+                color: 'hsl(var(--foreground) / 0.75)',
+                fontSize: 'clamp(0.85rem, 2vw, 1rem)',
+                fontFamily: 'Share Tech Mono, monospace',
+              }}
+            >
+              Ask anything about my work or type a command. Say "open the portfolio" to launch the full experience.
+            </p>
           </div>
         </div>
-        
-        {/* Terminal Content - Auto-scrolling ONLY within terminal */}
-        <div 
+
+        <div
           ref={terminalContentRef}
+          className="mono-font terminal-history"
+          role="log"
+          aria-live="polite"
           style={{
-            height: 'min(500px, 60vh)', // Responsive height for mobile
+            flex: 1,
+            minHeight: 0,
             overflowY: 'auto',
             overflowX: 'hidden',
             padding: '1rem',
-            fontSize: 'clamp(0.75rem, 2vw, 0.875rem)', // Responsive font size
+            fontSize: 'clamp(0.75rem, 2vw, 0.875rem)',
             scrollBehavior: 'smooth',
-            position: 'relative'
+            position: 'relative',
           }}
-          className="mono-font"
         >
-          {/* Dark overlay when terminal goes dark - keep visible during matrix transition */}
           {terminalDark && (
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'hsl(var(--background) / 0.95)',
-              zIndex: 20,
-              transition: 'opacity 0.5s ease-out',
-              opacity: 1
-            }} />
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'hsl(var(--background) / 0.95)',
+                zIndex: 20,
+                transition: 'opacity 0.5s ease-out',
+                opacity: 1,
+              }}
+            />
           )}
-          {/* Boot Sequence Overlay */}
+
           {showBootSequence && (
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.95)',
-              zIndex: 10,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <BootSequence 
-                onComplete={handleBootComplete}
-                inTerminal={true}
-              />
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.95)',
+                zIndex: 10,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <BootSequence onComplete={handleBootComplete} inTerminal />
             </div>
           )}
 
-          {!showBootSequence && (
-            <>
-              {terminalHistory.map((line, index) => (
-                <div 
-                  key={index}
-                  style={{
-                    marginBottom: '2px',
-                    whiteSpace: 'pre-wrap',
-                    wordBreak: 'break-word',
-                    overflowWrap: 'anywhere',
-                    color: line.startsWith('>') 
-                      ? 'hsl(var(--primary))' 
-                      : line.includes('[HACKING]')
-                        ? '#EF4444'
-                        : line.includes('▓') || line.includes('═') || line.includes('╔') 
-                          ? 'hsl(var(--primary) / 0.8)' 
-                          : '#4ADE80'
-                  }}
-                >
-                  {line}
-                </div>
-              ))}
-              
-              {/* Input Line */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '0.5rem',
-                marginTop: '1rem',
-                minHeight: '20px'
-              }}>
-                <span style={{
-                  color: 'hsl(var(--primary))',
-                  fontWeight: 'bold',
-                  flexShrink: 0
-                }}>
-                  {'>'}
-                </span>
-                <div style={{ flex: 1, position: 'relative' }}>
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={currentInput}
-                    onChange={(e) => setCurrentInput(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    style={{
-                      backgroundColor: 'transparent',
-                      color: '#4ADE80',
-                      fontFamily: 'inherit',
-                      outline: 'none',
-                      border: 'none',
-                      width: '100%',
-                      caretColor: 'transparent',
-                      fontSize: '0.875rem'
-                    }}
-                    className="mono-font"
-                    placeholder={currentInput ? "" : "Type 'pf help' for commands..."}
-                    autoComplete="off"
-                    spellCheck="false"
-                    autoFocus
-                  />
-                  {/* Custom Cursor */}
-                  <div 
-                    style={{
-                      position: 'absolute',
-                      top: '0',
-                      width: '2px',
-                      height: '16px',
-                      backgroundColor: '#4ADE80',
-                      boxShadow: '0 0 5px #4ADE80',
-                      pointerEvents: 'none',
-                      animation: 'cursor-blink 1s infinite',
-                      left: currentInput.length === 0
-                        ? '0px' // Position right after the input, before placeholder
-                        : `${currentInput.length * 7.2}px` // Position after typed text
-                    }}
-                  />
-                </div>
+          {!showBootSequence &&
+            terminalHistory.map((message) => (
+              <div
+                key={message.id}
+                className={`terminal-message terminal-message--${message.role}`}
+              >
+                <pre className="terminal-message__text">
+                  {message.lines.join('\n')}
+                </pre>
               </div>
-            </>
-          )}
+            ))}
         </div>
-        
-        {/* Terminal Footer */}
-        <div style={{
-          padding: '0.75rem',
-          borderTop: '1px solid hsl(var(--primary) / 0.3)',
-          backgroundColor: 'hsl(var(--primary) / 0.05)',
-          color: 'hsl(var(--primary) / 0.6)',
-          fontSize: '0.75rem',
-          textAlign: 'center'
-        }} className="mono-font">
-          Press TAB for autocomplete • CTRL+C to interrupt • Type "pf boot" to launch portfolio
+
+        <form className="terminal-footer" onSubmit={handleSubmit}>
+          <input
+            id="terminal-input"
+            ref={inputRef}
+            type="text"
+            value={currentInput}
+            onChange={(event) => setCurrentInput(event.target.value)}
+            autoComplete="off"
+            spellCheck={false}
+            className="terminal-input"
+            placeholder='Ask about projects or type commands like "/help"'
+            aria-label="Chat input"
+            disabled={isStreaming || showBootSequence || showMatrixTransition}
+          />
+          <button
+            type="submit"
+            className="terminal-send-btn"
+            aria-label="Send message"
+            disabled={isStreaming || showBootSequence || showMatrixTransition}
+          >
+            <Send size={16} strokeWidth={2} />
+          </button>
+        </form>
+
+        <div
+          style={{
+            padding: '0.75rem',
+            borderTop: '1px solid hsl(var(--primary) / 0.2)',
+            backgroundColor: 'hsl(var(--primary) / 0.05)',
+            color: 'hsl(var(--primary) / 0.6)',
+            fontSize: '0.75rem',
+            textAlign: 'center',
+          }}
+          className="mono-font"
+        >
+          Try "/help" for commands or ask the assistant to open the portfolio.
         </div>
       </div>
 
-      {/* Matrix Transition Overlay */}
-      <MatrixTransition 
+      <MatrixTransition
         isActive={showMatrixTransition}
         onTransitionComplete={handleMatrixTransitionComplete}
         portfolioContent={<Index />}
-        terminalBounds={terminalBounds}
       />
     </div>
   );

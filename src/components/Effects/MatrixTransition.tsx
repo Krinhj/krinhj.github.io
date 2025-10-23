@@ -4,17 +4,14 @@ interface MatrixTransitionProps {
   onTransitionComplete: () => void;
   isActive: boolean;
   portfolioContent?: React.ReactNode;
-  terminalBounds?: DOMRect;
 }
 
 export const MatrixTransition: React.FC<MatrixTransitionProps> = ({
   onTransitionComplete,
   isActive,
-  portfolioContent,
-  terminalBounds
+  portfolioContent
 }) => {
   const [phase, setPhase] = useState<'idle' | 'blinking' | 'expanding' | 'revealing' | 'complete'>('idle');
-  const [showCircle, setShowCircle] = useState(false);
 
   useEffect(() => {
     if (!isActive) return;
@@ -23,7 +20,6 @@ export const MatrixTransition: React.FC<MatrixTransitionProps> = ({
     const sequence = async () => {
       // Phase 1: Show blinking circle (terminal is already dark)
       setPhase('blinking');
-      setShowCircle(true);
       
       // Blink for 1.5 seconds
       await new Promise(resolve => setTimeout(resolve, 1500));
