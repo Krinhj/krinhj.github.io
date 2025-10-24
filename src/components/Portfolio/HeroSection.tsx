@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { personalInfo } from '../../data/personalInfo';
+import { personalInfo, aboutSummary } from '../../data/personalInfo';
 
 interface HeroSectionProps {
   audioEnabled?: boolean;
@@ -13,6 +13,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const [typedText, setTypedText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
   const fullText = 'KRINHJ';
+  const introSummary = aboutSummary.professionalSummary.slice(0, 1);
 
   useEffect(() => {
     let index = 0;
@@ -37,59 +38,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }, []);
 
   return (
-    <section id='hero-section' style={{
-      height: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      position: 'relative',
-      margin: 0,
-      padding: 0,
-      marginTop: 0,
-      width: '100%'
-    }}>
-      {/* Background overlay for better text readability - made more transparent */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        backgroundColor: 'hsl(var(--background) / 0.3)',
-        zIndex: 10
-      }} />
-      
-      {/* Main hero content */}
-      <div style={{
-        textAlign: 'center',
-        zIndex: 20,
-        position: 'relative',
-        padding: '0 1rem',
-        maxWidth: '100%'
-      }}>
-        {/* Main name with cleaner holographic effect */}
-        <h1 
-          style={{
-            fontSize: 'clamp(2.5rem, 8vw, 6rem)',
-            fontWeight: 900,
-            marginBottom: '1rem',
-            letterSpacing: '0.1em',
-            lineHeight: 0.9,
-            textTransform: 'uppercase',
-            color: 'hsl(var(--primary))',
-            textShadow: `
-              0 0 20px hsl(var(--primary) / 0.6),
-              0 0 40px hsl(var(--primary) / 0.4),
-              0 0 60px hsl(var(--primary) / 0.2)
-            `,
-            fontFamily: 'Share Tech Mono, Courier New, monospace'
-          }}
-        >
-          RONNIE TALABUCON JR.
-        </h1>
+    <section id="hero-section" className="hero-section">
+      <div className="hero-overlay" />
 
-        {/* Audio Visualizer or Scan line under big name */}
-        <div style={{ marginBottom: '1rem', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="hero-content">
+        <h1 className="hero-headline">Ronnie Talabucon Jr.</h1>
+
+        <div className="hero-wave">
           {audioEnabled ? (
             frequencyData.length > 0 ? (
-              // Audio Waveform Line
               <svg 
                 width="min(400px, 80vw)" 
                 height="40" 
@@ -116,22 +73,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <path
                   d={`M 0 20 ${frequencyData.slice(0, 32).map((value, index) => {
                     const x = (index / 31) * 400;
-                    // Much more dramatic amplitude - boost the values
-                    const amplified = Math.max(0.05, value * 8); // Amplify by 8x
-                    const y = 20 + (amplified - 0.4) * 100; // Bigger ±50px amplitude
+                    const amplified = Math.max(0.05, value * 8);
+                    const y = 20 + (amplified - 0.4) * 100;
                     return `L ${x} ${Math.max(2, Math.min(38, y))}`;
                   }).join(' ')}`}
                   fill="none"
                   stroke="url(#waveGradient)"
                   strokeWidth="3"
                   filter="url(#glow)"
-                  style={{ 
-                    transition: 'none' // Remove transition for immediate response
-                  }}
                 />
               </svg>
             ) : (
-              // Audio enabled but no data - show gentle wave
               <svg 
                 width="min(400px, 80vw)" 
                 height="40" 
@@ -158,7 +110,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </svg>
             )
           ) : (
-            // Static Scan Line
             <div className="scan-line" style={{ width: '60%' }}>
               <div style={{
                 height: '1px',
@@ -169,62 +120,28 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           )}
         </div>
 
-        {/* Terminal-style username */}
-        <div style={{
-          fontSize: 'clamp(1.25rem, 4vw, 2rem)',
-          fontFamily: 'monospace',
-          color: 'hsl(var(--primary))',
-          marginBottom: '2rem'
-        }}>
-          <span style={{ color: 'hsl(var(--muted-foreground))' }}>{'>'}</span>{' '}
-          <span style={{ color: 'hsl(var(--primary-glow))' }}>{typedText}</span>
+        <div className="hero-username mono-font">
+          <span className="hero-username__prompt">{'>'}</span>
+          <span className="hero-username__value">{typedText}</span>
           {showCursor && (
-            <span
-              style={{
-                color: 'hsl(var(--primary))',
-                marginLeft: '4px',
-                animation: 'cursor-blink 1s infinite',
-                fontSize: 'inherit',
-                fontWeight: 'inherit'
-              }}
-            >
-              |
-            </span>
+            <span className="hero-username__cursor">|</span>
           )}
         </div>
 
-        {/* Subtitle */}
-        <div style={{ marginBottom: '2rem' }}>
-          <p style={{
-            fontSize: 'clamp(1.125rem, 2.5vw, 1.5rem)',
-            color: 'hsl(var(--muted-foreground))',
-            fontWeight: 300,
-            letterSpacing: '0.05em'
-          }}>
-            Full-Stack Developer • Database Architect • AI Enthusiast
-          </p>
+        <div className="hero-bio">
+          <p className="hero-subtitle">{personalInfo.title}</p>
+          {introSummary.map((paragraph) => (
+            <p key={paragraph} className="body-text body-text--center">
+              {paragraph}
+            </p>
+          ))}
         </div>
 
-        {/* Location */}
-        <div style={{
-          color: 'hsl(var(--muted-foreground))',
-          fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
-          marginBottom: '3rem',
-          opacity: 0.8
-        }}>
-          📍 Roxas City/Iloilo City, Philippines
+        <div className="hero-location">
+          📍 Roxas City / Iloilo City, Philippines
         </div>
 
-        {/* All buttons in one line */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '1rem',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: '2rem',
-          flexWrap: 'wrap'
-        }}>
+        <div className="hero-actions">
           <button 
             className="neon-button"
             onClick={() => {
@@ -233,108 +150,49 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 projectsSection.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            style={{
-              borderRadius: '8px',
-              padding: '0.75rem 1.5rem',
-              fontSize: '0.875rem',
-              fontWeight: 600
-            }}
           >
             VIEW PROJECTS
           </button>
-          <a 
+          <a
             href="/Talabucon_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="neon-button"
-            style={{
-              borderRadius: '8px',
-              padding: '0.75rem 1.5rem',
-              fontSize: '0.875rem',
-              fontWeight: 600,
-              backgroundColor: 'hsl(var(--primary) / 0.1)',
-              textDecoration: 'none',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
+            className="neon-button neon-button--solid"
           >
             VIEW CV
           </a>
-          <a 
-            href="https://github.com/Krinhj" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="neon-button"
-            style={{
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.5rem',
-              padding: '0.75rem 1.5rem',
-              fontSize: '0.875rem',
-              textDecoration: 'none'
-            }}
+          <a
+            href="https://github.com/Krinhj"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="neon-button neon-button--icon"
           >
             <span style={{ fontSize: '1rem' }}>💻</span> GITHUB
           </a>
-          <a 
-            href= {personalInfo.linkedin}
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="neon-button"
-            style={{
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.5rem',
-              padding: '0.75rem 1.5rem',
-              fontSize: '0.875rem',
-              textDecoration: 'none'
-            }}
+          <a
+            href={personalInfo.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="neon-button neon-button--icon"
           >
             <span style={{ fontSize: '1rem' }}>💼</span> LINKEDIN
           </a>
         </div>
       </div>
 
-      {/* Floating geometric shapes */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        pointerEvents: 'none'
-      }}>
-        <div style={{
-          position: 'absolute',
-          top: '25%',
-          left: '25%',
-          width: '5rem',
-          height: '5rem',
-          border: '1px solid hsl(var(--primary) / 0.3)',
-          transform: 'rotate(45deg)',
-          animation: 'float-particle 15s linear infinite reverse'
-        }} />
-        <div style={{
-          position: 'absolute',
-          top: '75%',
-          right: '25%',
-          width: '4rem',
-          height: '4rem',
-          border: '1px solid hsl(var(--primary-glow) / 0.4)',
-          animation: 'float-particle 20s linear infinite'
-        }} />
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          right: '16.666667%',
-          width: '1.5rem',
-          height: '1.5rem',
-          backgroundColor: 'hsl(var(--primary) / 0.5)',
-          borderRadius: '50%',
-          animation: 'energy-pulse 3s ease-in-out infinite'
-        }} />
+      <div className="hero-geometry-layer">
+        <div
+          className="hero-geometry-square"
+          style={{ top: '25%', left: '25%', width: '5rem', height: '5rem' }}
+        />
+        <div
+          className="hero-geometry-square hero-geometry-square--alt"
+          style={{ top: '75%', right: '25%', width: '4rem', height: '4rem' }}
+        />
+        <div
+          className="hero-geometry-dot"
+          style={{ top: '50%', right: '16.666667%', width: '1.5rem', height: '1.5rem' }}
+        />
       </div>
     </section>
   );
