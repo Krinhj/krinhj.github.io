@@ -79,3 +79,5 @@ tmp/
 
 # Working assets
 docs/screenshots/
+
+.vercel

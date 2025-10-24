@@ -16,15 +16,15 @@ export const createMessage = (
 });
 
 export const INITIAL_SYSTEM_LINES = [
-  '> SYNTHWAVE PORTFOLIO SYSTEM v2.0',
-  '> Initializing cyberpunk interface...',
-  '> Type "/help" for available commands',
-  '> Type "/boot" to launch portfolio',
+  'Greetings, explorer!',
+  'Ask anything about Ronnie Talabucon Jr. - projects, experience, or skills - and I will guide you.',
+  'Need the full portfolio interface? Ask me to open it or type "/boot".',
 ];
 
 export const CLEARED_SYSTEM_LINES = [
-  '> SYNTHWAVE PORTFOLIO SYSTEM v2.0',
-  '> Terminal cleared. Type "/help" for commands.',
+  'Terminal cleared.',
+  'I am ready for new questions about Ronnie Talabucon Jr.',
+  'Type "/help" for commands or ask me to open the portfolio.',
 ];
 
 const HELP_LINES = [
