@@ -13,6 +13,7 @@ export interface StreamDonePayload {
     type?: string;
     command?: string;
   };
+  reason?: string;
 }
 
 export interface StreamOptions {
@@ -31,6 +32,15 @@ export function streamAiChat({
   onError,
 }: StreamOptions): AbortController {
   const controller = new AbortController();
+  let hasCompleted = false;
+
+  const complete = (payload?: StreamDonePayload) => {
+    if (hasCompleted) {
+      return;
+    }
+    hasCompleted = true;
+    onComplete?.(payload);
+  };
 
   (async () => {
     try {
@@ -69,7 +79,7 @@ export function streamAiChat({
         }
 
         if (dataPayload === '[DONE]') {
-          onComplete?.();
+          complete();
           return;
         }
 
@@ -79,13 +89,16 @@ export function streamAiChat({
           if (payload.type === 'chunk' && typeof payload.content === 'string') {
             onChunk(payload.content);
           } else if (payload.type === 'done') {
-            onComplete?.(payload);
+            complete(payload);
           } else if (payload.type === 'error') {
             throw new Error(payload.message ?? 'Assistant unavailable');
           }
         } catch (error) {
+          hasCompleted = true;
           onError?.(
-            error instanceof Error ? error : new Error('Malformed stream payload'),
+            error instanceof Error
+              ? error
+              : new Error('Malformed stream payload'),
           );
         }
       };
@@ -113,11 +126,12 @@ export function streamAiChat({
         flushEvent(buffer.trim());
       }
 
-      onComplete?.();
+      complete();
     } catch (error) {
       if ((error as Error).name === 'AbortError') {
         return;
       }
+      hasCompleted = true;
       onError?.(error as Error);
     }
   })();

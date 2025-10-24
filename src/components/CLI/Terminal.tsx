@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { FormEvent } from 'react';
-import { Send } from 'lucide-react';
+import { Send, Info, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
   useCommandHandler,
@@ -17,6 +17,14 @@ import { BootSequence } from '../Effects/BootSequence';
 import { MatrixTransition } from '../Effects/MatrixTransition';
 import Index from '../../pages/Index';
 
+const ASSISTANT_INFO_SUMMARY =
+  "This assistant is the synthwave terminal guide for Ronnie Talabucon Jr.'s portfolio—it draws from the same curated profile content and design documentation that power the live experience. It can answer questions, surface highlights, and run commands like /boot when you want the full interface, all without reaching beyond what's published here.";
+
+const RUN_COMMAND_MARKER_REGEX = /<<\s*RUN_COMMAND[^>]*(?:>>|$)/gi;
+
+const sanitizeDirectiveMarkers = (text: string): string =>
+  text.replace(RUN_COMMAND_MARKER_REGEX, '');
+
 interface TerminalProps {
   className?: string;
 }
@@ -30,11 +38,25 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
   const [showMatrixTransition, setShowMatrixTransition] = useState(false);
   const [terminalDark, setTerminalDark] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [activeAssistantMessageId, setActiveAssistantMessageId] = useState<
+    string | null
+  >(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalContentRef = useRef<HTMLDivElement>(null);
   const streamAbortRef = useRef<AbortController | null>(null);
+  const typingIntervalRef = useRef<number | null>(null);
+  const clearTypingRef = useRef<(() => void) | null>(null);
   const navigate = useNavigate();
+
+  const openInfoModal = useCallback(() => {
+    setShowInfoModal(true);
+  }, []);
+
+  const closeInfoModal = useCallback(() => {
+    setShowInfoModal(false);
+  }, []);
 
   const appendMessages = useCallback(
     (messages: TerminalMessage[]) => {
@@ -61,7 +83,14 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
       streamAbortRef.current.abort();
       streamAbortRef.current = null;
     }
+    if (typingIntervalRef.current !== null) {
+      window.clearInterval(typingIntervalRef.current);
+      typingIntervalRef.current = null;
+    }
+    clearTypingRef.current?.();
+    clearTypingRef.current = null;
     setIsStreaming(false);
+    setActiveAssistantMessageId(null);
   }, []);
 
   const handleBootComplete = () => {
@@ -99,12 +128,29 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
 
   useEffect(() => {
     const handleDocumentClick = () => {
-      inputRef.current?.focus();
+      if (!showInfoModal) {
+        inputRef.current?.focus();
+      }
     };
 
     document.addEventListener('click', handleDocumentClick);
     return () => document.removeEventListener('click', handleDocumentClick);
-  }, []);
+  }, [showInfoModal]);
+
+  useEffect(() => {
+    if (!showInfoModal) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeInfoModal();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [showInfoModal, closeInfoModal]);
 
   useEffect(
     () => () => {
@@ -152,23 +198,67 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
         content: message.lines.join('\n'),
       })) as ChatMessage[];
 
-    const assistantDraft = createMessage('assistant', ['assistant is thinking...']);
+    const thinkingLine = 'Assistant is thinking';
+    const assistantDraft = createMessage('assistant', [thinkingLine]);
     appendMessages([userMessageEntry, assistantDraft]);
+    setActiveAssistantMessageId(assistantDraft.id);
 
     let aggregatedAssistantText = '';
+    let displayedAssistantText = '';
+    let pendingCharacters: string[] = [];
+    let settleTimerId: number | null = null;
+
     const updateAssistantDraft = (text: string, placeholder = false) => {
       const normalized =
-        text.length > 0
-          ? text
-          : placeholder
-          ? 'assistant is thinking...'
-          : '';
+        text.length > 0 ? text : placeholder ? thinkingLine : '';
       const lines =
         normalized.length > 0 ? normalized.split(/\r?\n/) : [''];
       setTerminalHistory((prev) =>
         prev.map((message) =>
           message.id === assistantDraft.id ? { ...message, lines } : message,
         ),
+      );
+    };
+
+    const clearTyping = () => {
+      pendingCharacters = [];
+      if (settleTimerId !== null) {
+        window.clearInterval(settleTimerId);
+        settleTimerId = null;
+      }
+      if (typingIntervalRef.current !== null) {
+        window.clearInterval(typingIntervalRef.current);
+        typingIntervalRef.current = null;
+      }
+    };
+
+    clearTypingRef.current = clearTyping;
+
+    const flushPendingCharacters = () => {
+      if (pendingCharacters.length === 0) {
+        if (typingIntervalRef.current !== null) {
+          window.clearInterval(typingIntervalRef.current);
+          typingIntervalRef.current = null;
+        }
+        return;
+      }
+
+      const batchSize = Math.max(
+        1,
+        Math.min(2, Math.ceil(pendingCharacters.length / 40)),
+      );
+      const nextBatch = pendingCharacters.splice(0, batchSize).join('');
+      displayedAssistantText += nextBatch;
+      updateAssistantDraft(displayedAssistantText, true);
+    };
+
+    const ensureTypingLoop = () => {
+      if (typingIntervalRef.current !== null) {
+        return;
+      }
+      typingIntervalRef.current = window.setInterval(
+        flushPendingCharacters,
+        38,
       );
     };
 
@@ -179,15 +269,35 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
         { role: 'user', content: rawInput } as ChatMessage,
       ],
       onChunk: (chunk) => {
-        aggregatedAssistantText += chunk;
-        updateAssistantDraft(aggregatedAssistantText, true);
+        const sanitizedChunk = sanitizeDirectiveMarkers(chunk);
+        if (!sanitizedChunk) {
+          return;
+        }
+        aggregatedAssistantText = sanitizeDirectiveMarkers(
+          aggregatedAssistantText + sanitizedChunk,
+        );
+        pendingCharacters = pendingCharacters.concat([...sanitizedChunk]);
+        ensureTypingLoop();
       },
       onComplete: (payload?: StreamDonePayload) => {
         if (!aggregatedAssistantText && payload?.content) {
-          aggregatedAssistantText = payload.content;
-          updateAssistantDraft(aggregatedAssistantText);
+          aggregatedAssistantText = sanitizeDirectiveMarkers(payload.content);
         } else if (!aggregatedAssistantText) {
-          updateAssistantDraft('Assistant did not return a response. Please try again.');
+          aggregatedAssistantText =
+            'Assistant did not return a response. Please try again.';
+          updateAssistantDraft(aggregatedAssistantText);
+        }
+
+        const remainingCharacters =
+          aggregatedAssistantText.slice(displayedAssistantText.length);
+        if (
+          remainingCharacters.length > 0 &&
+          pendingCharacters.length === 0
+        ) {
+          pendingCharacters = pendingCharacters.concat([
+            ...remainingCharacters,
+          ]);
+          ensureTypingLoop();
         }
 
         const directive =
@@ -206,12 +316,39 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
 
         streamAbortRef.current = null;
         setIsStreaming(false);
+        setActiveAssistantMessageId(null);
+
+        const finalizeMessage = () => {
+          clearTyping();
+          displayedAssistantText = aggregatedAssistantText;
+          if (aggregatedAssistantText.length > 0) {
+            updateAssistantDraft(aggregatedAssistantText);
+          }
+          clearTypingRef.current = null;
+        };
+
+        if (pendingCharacters.length === 0) {
+          finalizeMessage();
+        } else {
+          settleTimerId = window.setInterval(() => {
+            if (pendingCharacters.length === 0) {
+              if (settleTimerId !== null) {
+                window.clearInterval(settleTimerId);
+                settleTimerId = null;
+              }
+              finalizeMessage();
+            }
+          }, 36);
+        }
       },
       onError: (error) => {
         const errorMessage = error.message || 'Assistant unavailable';
+        clearTyping();
         updateAssistantDraft(`Assistant error: ${errorMessage}`);
         streamAbortRef.current = null;
         setIsStreaming(false);
+        setActiveAssistantMessageId(null);
+        clearTypingRef.current = null;
       },
     });
 
@@ -290,12 +427,31 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
             </div>
             <div
               style={{
-                color: 'hsl(var(--primary) / 0.6)',
-                fontSize: '0.75rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem',
               }}
-              className="mono-font"
             >
-              Connected to krinhj.portfolio.local
+              <div
+                style={{
+                  color: 'hsl(var(--primary) / 0.6)',
+                  fontSize: '0.75rem',
+                }}
+                className="mono-font"
+              >
+                Connected to krinhj.portfolio.local
+              </div>
+              <button
+                type="button"
+                className="terminal-info-btn"
+                aria-label="Open assistant information"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  openInfoModal();
+                }}
+              >
+                <Info size={16} strokeWidth={2} />
+              </button>
             </div>
           </div>
           <div>
@@ -379,7 +535,15 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
             terminalHistory.map((message) => (
               <div
                 key={message.id}
-                className={`terminal-message terminal-message--${message.role}`}
+                className={[
+                  'terminal-message',
+                  `terminal-message--${message.role}`,
+                  isStreaming && activeAssistantMessageId === message.id
+                    ? 'terminal-message--typing'
+                    : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
               >
                 <pre className="terminal-message__text">
                   {message.lines.join('\n')}
@@ -423,9 +587,51 @@ const Terminal: React.FC<TerminalProps> = ({ className = '' }) => {
           }}
           className="mono-font"
         >
-          Try "/help" for commands or ask the assistant to open the portfolio.
+        Try "/help" for commands or ask the assistant to open the portfolio.
         </div>
       </div>
+
+      {showInfoModal && (
+        <div
+          className="terminal-info-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="terminal-info-title"
+          onClick={closeInfoModal}
+        >
+          <div
+            className="terminal-info-modal__content"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="terminal-info-modal__header">
+              <div>
+                <h2 id="terminal-info-title">About this assistant</h2>
+                <p>
+                  Your synthwave guide for Ronnie Talabucon Jr.&apos;s
+                  portfolio.
+                </p>
+              </div>
+              <button
+                type="button"
+                className="terminal-info-modal__close"
+                aria-label="Close assistant information"
+                onClick={closeInfoModal}
+              >
+                <X size={16} strokeWidth={2} />
+              </button>
+            </div>
+
+            <div className="terminal-info-modal__body">
+              <p>{ASSISTANT_INFO_SUMMARY}</p>
+              <p>
+                Ask about projects, skills, or command it to open the portfolio—
+                and feel free to verify its instructions in natural language
+                whenever you need a refresher.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <MatrixTransition
         isActive={showMatrixTransition}
