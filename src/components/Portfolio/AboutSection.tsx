@@ -17,7 +17,7 @@ export const AboutSection = () => {
           ABOUT ME
         </h2>
         <p className="section-description">
-          Full-stack Developer • AI Enthusiast • System Architect
+          Full-stack Developer • AI Engineer • System Architect
         </p>
       </div>
 
