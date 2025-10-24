@@ -60,15 +60,18 @@ export const exportPortfolioData = () => {
     skills: {
       categories: skillCategories.map(category => ({
         title: category.title,
-        skills: category.skills
+        skills: category.skills.map(skill => skill.label)
       })),
-      aiMlSkills,
-      allSkills: skillCategories.flatMap(category => category.skills).concat(aiMlSkills)
+      aiMlSkills: aiMlSkills.map(skill => skill.label),
+      allSkills: skillCategories
+        .flatMap(category => category.skills.map(skill => skill.label))
+        .concat(aiMlSkills.map(skill => skill.label))
     },
     statistics: {
       totalProjects: projects.length,
       deployedProjects: deployedProjectsCount,
-      totalSkills: skillCategories.flatMap(category => category.skills).length + aiMlSkills.length,
+      totalSkills:
+        skillCategories.flatMap(category => category.skills).length + aiMlSkills.length,
       experienceEntries: experiences.length
     },
     metadata: {
