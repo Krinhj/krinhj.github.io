@@ -1,32 +1,72 @@
+import type { LucideIcon } from 'lucide-react';
 import { Code, Database, Server, Wrench } from 'lucide-react';
+
+export interface SkillToken {
+  label: string;
+  icon: string;
+}
 
 export interface SkillCategory {
   title: string;
-  icon: any;
-  skills: string[];
+  icon: LucideIcon;
+  skills: SkillToken[];
 }
 
 export const skillCategories: SkillCategory[] = [
   {
-    title: "Languages",
+    title: 'Languages',
     icon: Code,
-    skills: ["Python", "SQL", "TypeScript", "JavaScript", "C#", "Java", "PHP"]
+    skills: [
+      { label: 'Python', icon: 'python' },
+      { label: 'SQL', icon: 'sql' },
+      { label: 'TypeScript', icon: 'typescript' },
+      { label: 'JavaScript', icon: 'javascript' },
+      { label: 'C#', icon: 'csharp' },
+      { label: 'Java', icon: 'java' },
+      { label: 'PHP', icon: 'php' },
+    ],
   },
   {
-    title: "Frameworks",
+    title: 'Frameworks',
     icon: Server,
-    skills: ["Next.js","React", "Node.js", ".NET Framework", "Tauri V2", "Express"]
+    skills: [
+      { label: 'Next.js', icon: 'nextjs' },
+      { label: 'React', icon: 'react' },
+      { label: 'Node.js', icon: 'node' },
+      { label: '.NET Framework', icon: 'dotnet' },
+      { label: 'Tauri V2', icon: 'tauri' },
+      { label: 'Express', icon: 'express' },
+    ],
   },
   {
-    title: "Databases",
+    title: 'Databases',
     icon: Database,
-    skills: ["SQL Server", "MySQL", "MongoDB", "Supabase", "Firebase"]
+    skills: [
+      { label: 'SQL Server', icon: 'sqlserver' },
+      { label: 'MySQL', icon: 'mysql' },
+      { label: 'MongoDB', icon: 'mongodb' },
+      { label: 'Supabase', icon: 'supabase' },
+      { label: 'Firebase', icon: 'firebase' },
+    ],
   },
   {
-    title: "Tools",
+    title: 'Tools',
     icon: Wrench,
-    skills: ["VS Code", "Visual Studio 2022", "Unity Editor", "Postman", "Git"]
-  }
+    skills: [
+      { label: 'VS Code', icon: 'vscode' },
+      { label: 'Visual Studio 2022', icon: 'visual-studio' },
+      { label: 'Unity Editor', icon: 'unity' },
+      { label: 'Postman', icon: 'postman' },
+      { label: 'Git', icon: 'git' },
+    ],
+  },
 ];
 
-export const aiMlSkills = ["OpenAI API", "Hugging Face", "Pandas", "Machine Learning", "NLP"];
+export const aiMlSkills: SkillToken[] = [
+  { label: 'OpenAI API', icon: 'openai' },
+  { label: 'Hugging Face', icon: 'huggingface' },
+  { label: 'Pandas', icon: 'pandas' },
+  { label: 'Ollama', icon: 'ollama' },
+  { label: 'Machine Learning', icon: 'machine-learning' },
+  { label: 'NLP', icon: 'nlp' },
+];
