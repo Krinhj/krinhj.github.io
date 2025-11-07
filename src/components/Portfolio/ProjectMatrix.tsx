@@ -110,23 +110,22 @@ export const ProjectMatrix = () => {
                   </p>
                 </div>
                 <div>
-                  <span style={{
-                    padding: '0.25rem 0.75rem',
-                    borderRadius: '9999px',
-                    fontSize: '0.75rem',
-                    fontWeight: 'bold',
-                    backgroundColor: project.status === 'LIVE' 
-                      ? 'hsl(var(--primary) / 0.2)' 
-                      : project.status === 'PRODUCTION'
-                      ? 'hsl(var(--primary) / 0.2)'
-                      : 'hsl(var(--muted) / 0.2)',
-                    color: project.status === 'LIVE' 
-                      ? 'hsl(var(--primary))' 
-                      : project.status === 'PRODUCTION'
-                      ? 'hsl(var(--primary))'
-                      : 'hsl(var(--muted-foreground))',
-                    animation: project.status === 'LIVE' ? 'energy-pulse 2s ease-in-out infinite' : 'none'
-                  }}>
+                  <span 
+                    className="project-status"
+                    style={{
+                      backgroundColor: project.status === 'LIVE' 
+                        ? 'hsl(var(--primary) / 0.2)' 
+                        : project.status === 'PRODUCTION'
+                        ? 'hsl(var(--primary) / 0.2)'
+                        : 'hsl(var(--muted) / 0.2)',
+                      color: project.status === 'LIVE' 
+                        ? 'hsl(var(--primary))' 
+                        : project.status === 'PRODUCTION'
+                        ? 'hsl(var(--primary))'
+                        : 'hsl(var(--muted-foreground))',
+                      animation: project.status === 'LIVE' ? 'energy-pulse 2s ease-in-out infinite' : 'none'
+                    }}
+                  >
                     {project.status}
                   </span>
                 </div>
@@ -152,14 +151,11 @@ export const ProjectMatrix = () => {
                 {project.tech.map((tech, techIndex) => (
                   <span 
                     key={techIndex}
+                    className="project-chip"
                     style={{
-                      padding: '0.25rem 0.75rem',
                       backgroundColor: 'hsl(var(--primary) / 0.1)',
                       border: '1px solid hsl(var(--primary) / 0.3)',
-                      borderRadius: '6px',
-                      fontSize: '0.875rem',
-                      color: 'hsl(var(--primary))',
-                      fontFamily: 'monospace'
+                      color: 'hsl(var(--primary))'
                     }}
                   >
                     {tech}
@@ -175,18 +171,11 @@ export const ProjectMatrix = () => {
               }}>
                 <button
                   onClick={() => openModal(project)}
-                  className="neon-button"
+                  className="neon-button project-action"
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5rem 1rem',
-                    fontSize: '0.875rem',
-                    borderRadius: '6px',
                     backgroundColor: 'hsl(var(--primary) / 0.1)',
                     border: '1px solid hsl(var(--primary) / 0.3)',
-                    color: 'hsl(var(--primary))',
-                    cursor: 'pointer'
+                    color: 'hsl(var(--primary))'
                   }}
                 >
                   <Info size={16} />
@@ -197,16 +186,7 @@ export const ProjectMatrix = () => {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="neon-button"
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.5rem 1rem',
-                      fontSize: '0.875rem',
-                      borderRadius: '6px',
-                      textDecoration: 'none'
-                    }}
+                    className="neon-button project-action"
                   >
                     <ExternalLink size={16} />
                     LIVE
@@ -217,15 +197,8 @@ export const ProjectMatrix = () => {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="neon-button"
+                    className="neon-button project-action"
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.5rem 1rem',
-                      fontSize: '0.875rem',
-                      borderRadius: '6px',
-                      textDecoration: 'none',
                       backgroundColor: 'transparent'
                     }}
                   >
