@@ -75,7 +75,6 @@ portfolio-export/
 # Personal/private files
 personal-notes.md
 resume-data.json
-extracted-portfolio-data.json
 
 # Temporary files
 temp/
