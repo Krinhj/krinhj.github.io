@@ -17,7 +17,7 @@ interface CarouselStripProps {
 
 const CarouselStrip: React.FC<CarouselStripProps> = ({ category, speed = 28, headline }) => {
   const IconComponent = category.icon;
-  const items = [...category.skills, ...category.skills];
+  const items = [...category.skills, ...category.skills, ...category.skills];
 
   return (
     <article className="tech-strip">

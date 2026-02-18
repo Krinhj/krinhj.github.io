@@ -911,8 +911,8 @@
     align-items: center;
     gap: clamp(1.5rem, 4vw, 2.5rem);
     width: max-content;
-    padding-inline: clamp(1.5rem, 4vw, 2.75rem);
     animation: tech-strip-scroll var(--tech-strip-speed, 28s) linear infinite;
+    will-change: transform;
   }
 
   .tech-strip__viewport:hover .tech-strip__track,
@@ -966,7 +966,7 @@
       transform: translate3d(0, 0, 0);
     }
     100% {
-      transform: translate3d(-50%, 0, 0);
+      transform: translate3d(-33.333%, 0, 0);
     }
   }
 
