@@ -3,8 +3,17 @@ import path from 'path';
 
 /**
  * @typedef {{ title?: string, description?: string }} Strength
- * @typedef {{ name?: string, subtitle?: string, description?: string, status?: string, tech?: string[] }} Project
- * @typedef {{ title?: string, company?: string, location?: string, period?: string, type?: string }} Experience
+ * @typedef {{
+ *   name?: string, subtitle?: string, description?: string, detailedDescription?: string,
+ *   status?: string, tech?: string[], features?: string[], challenges?: string[],
+ *   impact?: string, timeline?: string, teamSize?: string,
+ *   components?: { name?: string, description?: string, features?: string[] }[]
+ * }} Project
+ * @typedef {{
+ *   title?: string, company?: string, location?: string, period?: string, type?: string,
+ *   achievements?: string[], detailedDescription?: string, skills?: string[],
+ *   challenges?: string[], impact?: string, highlights?: string[]
+ * }} Experience
  * @typedef {{ title?: string, skills?: string[] }} SkillCategory
  *
  * @typedef {{
@@ -12,14 +21,16 @@ import path from 'path';
  *     name?: string;
  *     title?: string;
  *     email?: string;
- *     aboutSummary?: string[];
+ *     aboutSummary?: string[] | { professionalSummary?: string[] };
  *     keyStrengths?: Strength[];
+ *     contactMethods?: { label?: string, value?: string, link?: string }[];
  *   };
  *   projects?: Project[];
  *   experience?: Experience[];
  *   skills?: {
  *     allSkills?: string[];
  *     categories?: SkillCategory[];
+ *     aiMlSkills?: string[];
  *   };
  * }} PortfolioData
  *
@@ -54,6 +65,20 @@ async function loadPortfolioData() {
 }
 
 /**
+ * Normalize aboutSummary which can be either a string[], or { professionalSummary: string[] }
+ * @param {string[] | { professionalSummary?: string[] } | undefined} aboutSummary
+ * @returns {string[]}
+ */
+function normalizeAboutSummary(aboutSummary) {
+  if (!aboutSummary) return [];
+  if (Array.isArray(aboutSummary)) return aboutSummary;
+  if (Array.isArray(aboutSummary.professionalSummary)) {
+    return aboutSummary.professionalSummary;
+  }
+  return [];
+}
+
+/**
  * @param {Strength[] | undefined} strengths
  */
 function formatStrengths(strengths) {
@@ -63,7 +88,6 @@ function formatStrengths(strengths) {
 
   const strongPoints = strengths
     .filter((item) => item?.title && item?.description)
-    .slice(0, 4)
     .map((item) => {
       const title = item.title?.trim() ?? '';
       const description = item.description?.trim()?.replace(/\.$/, '') ?? '';
@@ -85,36 +109,73 @@ function formatProjects(projects) {
     return { text: '', count: 0 };
   }
 
-  const projectLines = projects.slice(0, 6).map((project) => {
-    const fragments = [];
+  const projectLines = projects.map((project) => {
+    const parts = [];
     const name = project.name?.trim() ?? 'Untitled Project';
-    fragments.push(name);
-
     const status = project.status?.trim();
-    if (status) {
-      fragments.push(`status: ${status}`);
-    }
-
     const subtitle = project.subtitle?.trim();
+
+    parts.push(`### ${name}${status ? ` [${status}]` : ''}`);
+
     if (subtitle) {
-      fragments.push(subtitle);
+      parts.push(subtitle);
     }
 
     const description = project.description?.trim();
     if (description) {
-      fragments.push(description);
+      parts.push(description);
     }
 
-    const techStack = project.tech?.slice(0, 6).join(', ');
+    const detailedDescription = project.detailedDescription?.trim();
+    if (detailedDescription && detailedDescription !== description) {
+      parts.push(detailedDescription);
+    }
+
+    const techStack = project.tech?.join(', ');
     if (techStack) {
-      fragments.push(`stack: ${techStack}`);
+      parts.push(`Tech stack: ${techStack}`);
     }
 
-    return `- ${fragments.join(' - ')}`;
+    if (project.timeline?.trim()) {
+      parts.push(`Timeline: ${project.timeline.trim()}`);
+    }
+
+    if (project.teamSize?.trim()) {
+      parts.push(`Team: ${project.teamSize.trim()}`);
+    }
+
+    // Components (e.g. GAIA AI, Momentum Application)
+    if (project.components?.length) {
+      for (const comp of project.components) {
+        if (comp.name && comp.description) {
+          parts.push(`Component - ${comp.name}: ${comp.description}`);
+          if (comp.features?.length) {
+            parts.push(
+              comp.features.map((f) => `  * ${f}`).join('\n'),
+            );
+          }
+        }
+      }
+    }
+
+    // Features
+    if (project.features?.length) {
+      parts.push(
+        'Key features:\n' +
+          project.features.map((f) => `  - ${f}`).join('\n'),
+      );
+    }
+
+    // Impact
+    if (project.impact?.trim()) {
+      parts.push(`Impact: ${project.impact.trim()}`);
+    }
+
+    return parts.join('\n');
   });
 
   return {
-    text: ['Flagship projects:', ...projectLines].join('\n'),
+    text: ['=== Projects ===', ...projectLines].join('\n\n'),
     count: projects.length,
   };
 }
@@ -128,35 +189,60 @@ function formatExperience(experience) {
   }
 
   const experienceLines = experience.map((role) => {
-    const fragments = [];
+    const parts = [];
     const title = role.title?.trim() ?? 'Role';
-    fragments.push(title);
-
     const company = role.company?.trim();
-    if (company) {
-      fragments.push(`at ${company}`);
-    }
-
     const location = role.location?.trim();
-    if (location) {
-      fragments.push(`(${location})`);
-    }
-
     const period = role.period?.trim();
-    if (period) {
-      fragments.push(period);
-    }
-
     const type = role.type?.trim();
-    if (type) {
-      fragments.push(type.toLowerCase());
+
+    let header = `### ${title}`;
+    if (company) header += ` at ${company}`;
+    if (location) header += ` (${location})`;
+    parts.push(header);
+
+    if (period || type) {
+      parts.push(
+        [period, type?.toLowerCase()].filter(Boolean).join(' - '),
+      );
     }
 
-    return `- ${fragments.join(' - ')}`;
+    const detailedDescription = role.detailedDescription?.trim();
+    if (detailedDescription) {
+      parts.push(detailedDescription);
+    }
+
+    // Achievements
+    if (role.achievements?.length) {
+      parts.push(
+        'Achievements:\n' +
+          role.achievements.map((a) => `  - ${a}`).join('\n'),
+      );
+    }
+
+    // Skills used in role
+    if (role.skills?.length) {
+      parts.push(`Skills: ${role.skills.join(', ')}`);
+    }
+
+    // Impact
+    if (role.impact?.trim()) {
+      parts.push(`Impact: ${role.impact.trim()}`);
+    }
+
+    // Highlights
+    if (role.highlights?.length) {
+      parts.push(
+        'Highlights:\n' +
+          role.highlights.map((h) => `  - ${h}`).join('\n'),
+      );
+    }
+
+    return parts.join('\n');
   });
 
   return {
-    text: ['Experience history:', ...experienceLines].join('\n'),
+    text: ['=== Experience ===', ...experienceLines].join('\n\n'),
     count: experience.length,
   };
 }
@@ -164,8 +250,9 @@ function formatExperience(experience) {
 /**
  * @param {SkillCategory[] | undefined} categories
  * @param {string[] | undefined} allSkills
+ * @param {string[] | undefined} aiMlSkills
  */
-function formatSkills(categories, allSkills) {
+function formatSkills(categories, allSkills, aiMlSkills) {
   const uniqueSkills = new Set();
 
   if (categories?.length) {
@@ -178,34 +265,37 @@ function formatSkills(categories, allSkills) {
     allSkills.forEach((skill) => uniqueSkills.add(skill.trim()));
   }
 
+  if (aiMlSkills?.length) {
+    aiMlSkills.forEach((skill) => uniqueSkills.add(skill.trim()));
+  }
+
   const sortedSkills = Array.from(uniqueSkills)
     .filter(Boolean)
     .sort((a, b) => a.localeCompare(b));
 
-  const topSkills = sortedSkills.slice(0, 18);
-  if (!topSkills.length) {
+  if (!sortedSkills.length) {
     return { text: '', count: 0 };
   }
 
   const categoriesSummary =
     categories
       ?.filter((category) => category.title && category.skills?.length)
-      .slice(0, 4)
       .map((category) => {
         const title = category.title?.trim() ?? 'Skills';
         const subset =
           category.skills
-            ?.slice(0, 6)
-            .map((skill) => skill.trim())
+            ?.map((skill) => skill.trim())
             .join(', ') ?? '';
         return `- ${title}: ${subset}`;
       }) ?? [];
 
-  const lines = [
-    'Core skills:',
-    ...categoriesSummary,
-    `Highlighted technologies: ${topSkills.join(', ')}`,
-  ];
+  const lines = ['=== Skills ===', ...categoriesSummary];
+
+  if (aiMlSkills?.length) {
+    lines.push(`- AI/ML: ${aiMlSkills.join(', ')}`);
+  }
+
+  lines.push(`All technologies: ${sortedSkills.join(', ')}`);
 
   return { text: lines.join('\n'), count: sortedSkills.length };
 }
@@ -248,7 +338,8 @@ export async function getGroundingPayload() {
   if (data.personalInfo?.name) {
     const name = data.personalInfo.name.trim();
     const title = data.personalInfo.title?.trim();
-    const aboutSummary = data.personalInfo.aboutSummary?.join(' ');
+    const summaryParts = normalizeAboutSummary(data.personalInfo.aboutSummary);
+    const aboutSummary = summaryParts.join(' ');
 
     aboutLines.push(`Primary subject: ${name}${title ? ` - ${title}` : ''}.`);
 
@@ -257,6 +348,17 @@ export async function getGroundingPayload() {
     }
     if (data.personalInfo.email) {
       aboutLines.push(`Preferred contact: ${data.personalInfo.email.trim()}.`);
+    }
+
+    // Contact methods
+    if (data.personalInfo.contactMethods?.length) {
+      const contacts = data.personalInfo.contactMethods
+        .filter((c) => c.label && c.value)
+        .map((c) => `${c.label}: ${c.value}`)
+        .join(' | ');
+      if (contacts) {
+        aboutLines.push(`Contact: ${contacts}`);
+      }
     }
   }
 
@@ -270,19 +372,20 @@ export async function getGroundingPayload() {
     lines.push(...aboutLines);
   }
 
-  const projectSection = formatProjects(data.projects);
-  if (projectSection.text) {
-    lines.push('', projectSection.text);
-  }
-
   const experienceSection = formatExperience(data.experience);
   if (experienceSection.text) {
     lines.push('', experienceSection.text);
   }
 
+  const projectSection = formatProjects(data.projects);
+  if (projectSection.text) {
+    lines.push('', projectSection.text);
+  }
+
   const skillsSection = formatSkills(
     data.skills?.categories,
     data.skills?.allSkills,
+    data.skills?.aiMlSkills,
   );
   if (skillsSection.text) {
     lines.push('', skillsSection.text);

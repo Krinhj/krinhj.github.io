@@ -58,11 +58,16 @@ ehthumbs.db
 *.swo
 *~
 
+# OMC (oh-my-claudecode) state
+.omc/
+
+# Windows null device artifact
+nul
+
 # Portfolio data export tools (development only)
 portfolio-data-extractor.js
 portfolio-data-extractor.cjs
 portfolio-data-extractor.ts
-extract-portfolio-data.*
 resume-data-export.*
 extracted-data/
 portfolio-export/

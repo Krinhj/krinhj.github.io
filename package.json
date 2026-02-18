@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "extract-data": "node scripts/extract-portfolio-data.mjs",
+    "build": "npm run extract-data && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
