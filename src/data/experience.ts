@@ -25,7 +25,12 @@ export const experiences: Experience[] = [
     location: "New York Metropolitan Area (Remote)",
     period: "Oct 2025 - Present",
     type: "FULL-TIME",
-    achievements: [],
+    achievements: [
+      "Leading multiple client AI projects simultaneously across different industries",
+      "Built end-to-end RAG platforms with multi-modal document ingestion, vector search, and page-level source attribution",
+      "Delivered intelligent data extraction systems, AI contract reviewers, design automation tools, and a clinical OR utilization dashboard",
+      "Contributing to team growth through first-round technical interviews"
+    ],
     detailedDescription: "",
     skills: [],
     challenges: [],

@@ -8,10 +8,8 @@
     "resumePath": "/Talabucon_Resume.pdf",
     "aboutSummary": {
       "professionalSummary": [
-        "I am a recent Computer Science graduate with a passion for building innovative, user-focused solutions. Experienced in full-stack development, system architecture, database management, and AI-focused technologies like LLMs, Vector Databases, and RAG techniques.",
-        "As a Computer Science student who focused on Software Development and Databases, I have experience in building robust applications and efficient system designs. During my internship at the Department of Budget and Management, I contributed to enterprise-scale government systems, working with national financial data and modernizing legacy infrastructure. I thrive on solving complex technical challenges and transforming ideas into scalable, real-world applications.",
-        "To put it simply, I turn everyday problems into opportunities for innovation through relentless curiosity and persistence.",
-        "Currently developing Momentum AI Suite - an ambitious AI-powered productivity ecosystem that showcases my expertise in modern web technologies, AI, and complex system integration."
+        "I'm an AI Engineer and Full-Stack Developer currently building production-grade AI systems at Zaigo — RAG pipelines, multi-modal document ingestion, intelligent automation tools, and data-driven dashboards for real enterprise clients. I graduated with a BS in Computer Science from Central Philippine University in 2025 and went straight into shipping.",
+        "I've contributed to backend systems at a national scale during my internship at the Department of Budget and Management, and I now lead multiple client AI projects simultaneously — from architecture decisions through to deployment. I thrive at the intersection of LLMs, data pipelines, and practical engineering."
       ]
     },
     "keyStrengths": [
@@ -29,7 +27,7 @@
       },
       {
         "title": "Project Leadership",
-        "description": "Leading development teams, managing complex projects from conception to deployment"
+        "description": "Leading end-to-end delivery of multiple concurrent client AI projects, from scoping to production."
       }
     ],
     "contactMethods": [
@@ -316,7 +314,12 @@
       "location": "New York Metropolitan Area (Remote)",
       "period": "Oct 2025 - Present",
       "type": "FULL-TIME",
-      "achievements": [],
+      "achievements": [
+        "Leading multiple client AI projects simultaneously across different industries",
+        "Built end-to-end RAG platforms with multi-modal document ingestion, vector search, and page-level source attribution",
+        "Delivered intelligent data extraction systems, AI contract reviewers, design automation tools, and a clinical OR utilization dashboard",
+        "Contributing to team growth through first-round technical interviews"
+      ],
       "detailedDescription": "",
       "skills": [],
       "challenges": [],
