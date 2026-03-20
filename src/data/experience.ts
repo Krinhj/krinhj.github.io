@@ -31,11 +31,21 @@ export const experiences: Experience[] = [
       "Delivered intelligent data extraction systems, AI contract reviewers, design automation tools, and a clinical OR utilization dashboard",
       "Contributing to team growth through first-round technical interviews"
     ],
-    detailedDescription: "",
-    skills: [],
-    challenges: [],
-    impact: "",
-    highlights: [],
+    detailedDescription: "As an AI Engineer at Zaigo, I lead multiple simultaneous client AI projects end-to-end — from architecture decisions through to production deployment. I build production-grade RAG pipelines with multi-modal ingestion (PDF/Excel → OCR → Markdown → JSON → embeddings → Pinecone) and implement AI workflows using Ragie, Mastra, Supabase vector search, n8n, Airbyte, and custom TypeScript workers. My work spans diverse industries including legal, healthcare, engineering, and finance.",
+    skills: ["TypeScript", "Python", "RAG Architecture", "Mastra", "Ragie", "Pinecone", "OpenAI API", "Anthropic API", "Supabase", "n8n", "Airbyte", "S3", "OCR", "DataLab", "Pixtral", "Docker", "Vercel"],
+    challenges: [
+      "Architecting production-grade RAG pipelines that handle multi-modal document ingestion across PDF, Excel, and image formats",
+      "Building reliable OCR-to-embedding pipelines (PDF/Excel → OCR → Markdown → JSON → embeddings → Pinecone) for diverse document types",
+      "Adapting AI solutions across different industries with varying data structures and compliance requirements",
+      "Orchestrating complex AI workflows with multiple external services (Ragie, Mastra, n8n, Airbyte) while maintaining reliability",
+      "Implementing page-level source attribution in RAG systems for enterprise trust and auditability"
+    ],
+    impact: "Delivered production AI systems for real enterprise clients across multiple industries — from legal contract review to clinical analytics dashboards. These systems are actively used in production, processing real business data and driving decision-making for client organizations.",
+    highlights: [
+      "Leading concurrent client projects across legal, healthcare, engineering, and finance domains",
+      "Contributing to team growth by conducting first-round technical interviews for developer candidates",
+      "Building systems that handle real enterprise data at production scale"
+    ],
     icon: Code,
     color: "primary"
   },
@@ -118,7 +128,7 @@ export const experiences: Experience[] = [
 
 // Import projects data to calculate dynamic count
 const projectStatuses = [
-  "LIVE", "COMPLETED", "LIVE", "LIVE", "LIVE", "PRODUCTION", "ON HOLD"
+  "ON HOLD", "LIVE", "PRODUCTION", "PRODUCTION", "PRODUCTION", "PRODUCTION", "LIVE", "COMPLETED", "LIVE", "PRODUCTION", "ON HOLD"
 ];
 
 // Calculate deployed projects dynamically

@@ -78,7 +78,7 @@
         "QDrant",
         "Vector Database"
       ],
-      "status": "IN PROGRESS",
+      "status": "ON HOLD",
       "link": "#",
       "github": "https://github.com/Krinhj",
       "components": [
@@ -150,6 +150,42 @@
       "timeline": "July 2025 - Present",
       "teamSize": "Solo Developer",
       "isPublicRepo": true
+    },
+    {
+      "id": 8,
+      "name": "AI/RAG Knowledge Platform",
+      "subtitle": "Client Project via Zaigo",
+      "description": "End-to-end RAG system with multi-modal document ingestion and page-level source attribution. Enables enterprise clients to query their document repositories with AI-powered semantic search and get precise, cited answers.",
+      "tech": ["TypeScript", "OpenAI API", "Anthropic API", "Mastra", "Ragie", "Pinecone", "Supabase"],
+      "status": "PRODUCTION",
+      "isPublicRepo": false
+    },
+    {
+      "id": 9,
+      "name": "Intelligent Data Extraction System",
+      "subtitle": "Client Project via Zaigo",
+      "description": "Automated pipeline for structuring financial and operational data from unstructured documents. Transforms raw documents into structured, queryable data for enterprise decision-making.",
+      "tech": ["TypeScript", "DataLab", "Airbyte", "n8n", "S3"],
+      "status": "PRODUCTION",
+      "isPublicRepo": false
+    },
+    {
+      "id": 10,
+      "name": "AI Design Automation & Contract Review Tools",
+      "subtitle": "Client Project via Zaigo",
+      "description": "LLM-powered tools for engineering document generation and contract analysis. Uses vision models to understand document layouts and generate structured outputs.",
+      "tech": ["TypeScript", "OpenAI API", "Anthropic API", "Claude Vision Models", "Supabase"],
+      "status": "PRODUCTION",
+      "isPublicRepo": false
+    },
+    {
+      "id": 11,
+      "name": "OR Utilization Analytics Dashboard",
+      "subtitle": "Client Project via Zaigo",
+      "description": "Real-time dashboard surfacing clinical insights from structured anesthesia data. Provides healthcare administrators with actionable analytics on operating room utilization.",
+      "tech": ["TypeScript", "React", "Supabase"],
+      "status": "PRODUCTION",
+      "isPublicRepo": false
     },
     {
       "id": 3,
@@ -320,11 +356,21 @@
         "Delivered intelligent data extraction systems, AI contract reviewers, design automation tools, and a clinical OR utilization dashboard",
         "Contributing to team growth through first-round technical interviews"
       ],
-      "detailedDescription": "",
-      "skills": [],
-      "challenges": [],
-      "impact": "",
-      "highlights": []
+      "detailedDescription": "As an AI Engineer at Zaigo, I lead multiple simultaneous client AI projects end-to-end — from architecture decisions through to production deployment. I build production-grade RAG pipelines with multi-modal ingestion (PDF/Excel → OCR → Markdown → JSON → embeddings → Pinecone) and implement AI workflows using Ragie, Mastra, Supabase vector search, n8n, Airbyte, and custom TypeScript workers. My work spans diverse industries including legal, healthcare, engineering, and finance.",
+      "skills": ["TypeScript", "Python", "RAG Architecture", "Mastra", "Ragie", "Pinecone", "OpenAI API", "Anthropic API", "Supabase", "n8n", "Airbyte", "S3", "OCR", "DataLab", "Pixtral", "Docker", "Vercel"],
+      "challenges": [
+        "Architecting production-grade RAG pipelines that handle multi-modal document ingestion across PDF, Excel, and image formats",
+        "Building reliable OCR-to-embedding pipelines (PDF/Excel → OCR → Markdown → JSON → embeddings → Pinecone) for diverse document types",
+        "Adapting AI solutions across different industries with varying data structures and compliance requirements",
+        "Orchestrating complex AI workflows with multiple external services (Ragie, Mastra, n8n, Airbyte) while maintaining reliability",
+        "Implementing page-level source attribution in RAG systems for enterprise trust and auditability"
+      ],
+      "impact": "Delivered production AI systems for real enterprise clients across multiple industries — from legal contract review to clinical analytics dashboards. These systems are actively used in production, processing real business data and driving decision-making for client organizations.",
+      "highlights": [
+        "Leading concurrent client projects across legal, healthcare, engineering, and finance domains",
+        "Contributing to team growth by conducting first-round technical interviews for developer candidates",
+        "Building systems that handle real enterprise data at production scale"
+      ]
     },
     {
       "id": 1,
@@ -433,6 +479,7 @@
           "JavaScript",
           "C#",
           "Java",
+          "Rust",
           "PHP"
         ]
       },
@@ -444,7 +491,8 @@
           "Node.js",
           ".NET Framework",
           "Tauri V2",
-          "Express"
+          "Express",
+          "Tailwind CSS"
         ]
       },
       {
@@ -464,12 +512,24 @@
           "Visual Studio 2022",
           "Unity Editor",
           "Postman",
-          "Git"
+          "Git",
+          "Docker",
+          "Vercel",
+          "n8n",
+          "Airbyte",
+          "S3"
         ]
       }
     ],
     "aiMlSkills": [
+      "RAG Architecture",
       "OpenAI API",
+      "Anthropic API",
+      "AI SDK",
+      "Mastra",
+      "Embeddings",
+      "Pinecone",
+      "OCR (DataLab, Pixtral)",
       "Hugging Face",
       "Pandas",
       "Ollama",
@@ -483,6 +543,7 @@
       "JavaScript",
       "C#",
       "Java",
+      "Rust",
       "PHP",
       "Next.js",
       "React",
@@ -490,6 +551,7 @@
       ".NET Framework",
       "Tauri V2",
       "Express",
+      "Tailwind CSS",
       "SQL Server",
       "MySQL",
       "MongoDB",
@@ -500,7 +562,19 @@
       "Unity Editor",
       "Postman",
       "Git",
+      "Docker",
+      "Vercel",
+      "n8n",
+      "Airbyte",
+      "S3",
+      "RAG Architecture",
       "OpenAI API",
+      "Anthropic API",
+      "AI SDK",
+      "Mastra",
+      "Embeddings",
+      "Pinecone",
+      "OCR (DataLab, Pixtral)",
       "Hugging Face",
       "Pandas",
       "Ollama",
@@ -509,9 +583,9 @@
     ]
   },
   "statistics": {
-    "totalProjects": 7,
-    "deployedProjects": 5,
-    "totalSkills": 29,
+    "totalProjects": 11,
+    "deployedProjects": 9,
+    "totalSkills": 44,
     "experienceEntries": 3
   },
   "metadata": {

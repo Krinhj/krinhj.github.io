@@ -77,7 +77,7 @@ export const projects: Project[] = [
     description: "Advanced productivity platform combining a full-featured self-improvement application with GAIA AI - a custom Llama3.1-based assistant that orchestrates all system functions. Features task management, habit tracking, fitness, nutrition, finance, and intelligent AI guidance.",
     detailedDescription: "Momentum AI Suite represents my most ambitious project - a comprehensive ecosystem that revolutionizes personal productivity through intelligent automation. The platform consists of two integrated components: the Momentum Application (complete self-improvement suite) and GAIA AI (custom-trained virtual assistant), working in harmony to provide users with an unprecedented level of personalized productivity support.",
     tech: ["React", "Node.js", "TypeScript", "Tauri V2", "Rust", "Ollama", "Llama3.1", "QDrant", "Vector Database"],
-    status: "IN PROGRESS",
+    status: "ON HOLD",
     link: "#",
     github: "https://github.com/Krinhj",
     color: "primary-glow",
@@ -159,6 +159,124 @@ export const projects: Project[] = [
       Generate
     ],
     isPublicRepo: true
+  },
+  {
+    id: 8,
+    name: "AI/RAG Knowledge Platform",
+    subtitle: "Client Project via Zaigo",
+    description: "End-to-end RAG system with multi-modal document ingestion and page-level source attribution. Enables enterprise clients to query their document repositories with AI-powered semantic search and get precise, cited answers.",
+    detailedDescription: "A production RAG platform built for enterprise knowledge management. The system ingests documents across multiple formats (PDF, Excel, images) through an OCR-to-embedding pipeline, stores them in a vector database, and enables natural language queries with page-level source attribution. Designed for trust and auditability in enterprise environments.",
+    tech: ["TypeScript", "OpenAI API", "Anthropic API", "Mastra", "Ragie", "Pinecone", "Supabase"],
+    status: "PRODUCTION",
+    link: "#",
+    github: "#",
+    color: "primary",
+    features: [
+      "Multi-modal document ingestion supporting PDF, Excel, and image formats",
+      "OCR-to-embedding pipeline: PDF/Excel → OCR → Markdown → JSON → embeddings → Pinecone",
+      "Page-level source attribution for enterprise trust and auditability",
+      "Semantic search powered by vector embeddings and Pinecone",
+      "AI-powered query responses using OpenAI and Anthropic models",
+      "Workflow orchestration via Mastra and Ragie for reliable document processing"
+    ],
+    challenges: [
+      "Building reliable OCR pipelines that handle diverse document formats and layouts",
+      "Implementing accurate page-level source attribution across large document sets",
+      "Optimizing embedding quality and retrieval relevance for domain-specific content",
+      "Ensuring system reliability for production enterprise use cases"
+    ],
+    impact: "Deployed to production for enterprise clients, enabling AI-powered knowledge retrieval across large document repositories with cited, trustworthy answers.",
+    timeline: "2025 - Present",
+    teamSize: "AI Engineer (Lead)",
+    isPublicRepo: false
+  },
+  {
+    id: 9,
+    name: "Intelligent Data Extraction System",
+    subtitle: "Client Project via Zaigo",
+    description: "Automated pipeline for structuring financial and operational data from unstructured documents. Transforms raw documents into structured, queryable data for enterprise decision-making.",
+    detailedDescription: "An intelligent data extraction system that automates the process of pulling structured data from unstructured financial and operational documents. The pipeline uses OCR, AI-powered parsing, and data transformation workflows to convert raw documents into clean, structured datasets stored in cloud infrastructure.",
+    tech: ["TypeScript", "DataLab", "Airbyte", "n8n", "S3"],
+    status: "PRODUCTION",
+    link: "#",
+    github: "#",
+    color: "primary",
+    features: [
+      "Automated extraction of financial and operational data from unstructured documents",
+      "AI-powered parsing and data structuring pipeline",
+      "Integration with Airbyte for reliable data synchronization",
+      "Workflow automation using n8n for orchestrated processing",
+      "Cloud storage on S3 for scalable document and data management",
+      "OCR processing via DataLab for document digitization"
+    ],
+    challenges: [
+      "Handling diverse and inconsistent document formats across different financial institutions",
+      "Building reliable extraction logic for varying data structures and layouts",
+      "Orchestrating multi-step processing pipelines with error recovery",
+      "Ensuring data accuracy and validation for financial data"
+    ],
+    impact: "Automates manual data entry workflows for enterprise clients, reducing processing time and improving data accuracy for financial and operational reporting.",
+    timeline: "2025 - Present",
+    teamSize: "AI Engineer (Lead)",
+    isPublicRepo: false
+  },
+  {
+    id: 10,
+    name: "AI Design Automation & Contract Review Tools",
+    subtitle: "Client Project via Zaigo",
+    description: "LLM-powered tools for engineering document generation and contract analysis. Uses vision models to understand document layouts and generate structured outputs.",
+    detailedDescription: "A suite of AI-powered tools that automate engineering design document generation and legal contract review. The system leverages LLM capabilities including vision models (Claude Vision) for understanding complex document layouts, extracting key terms, and generating structured analysis reports.",
+    tech: ["TypeScript", "OpenAI API", "Anthropic API", "Claude Vision Models", "Supabase"],
+    status: "PRODUCTION",
+    link: "#",
+    github: "#",
+    color: "primary",
+    features: [
+      "LLM-powered engineering document generation with structured outputs",
+      "AI contract analysis using vision models for layout understanding",
+      "Claude Vision integration for complex document comprehension",
+      "Automated extraction of key terms, clauses, and obligations from contracts",
+      "Structured report generation for engineering and legal review workflows"
+    ],
+    challenges: [
+      "Training AI to understand domain-specific engineering document formats",
+      "Ensuring accuracy in legal contract analysis where errors have real consequences",
+      "Integrating vision models for reliable document layout comprehension",
+      "Balancing automation speed with review accuracy for professional use"
+    ],
+    impact: "Reduces manual review time for engineering documents and legal contracts, enabling faster project turnaround while maintaining professional accuracy standards.",
+    timeline: "2025 - Present",
+    teamSize: "AI Engineer (Lead)",
+    isPublicRepo: false
+  },
+  {
+    id: 11,
+    name: "OR Utilization Analytics Dashboard",
+    subtitle: "Client Project via Zaigo",
+    description: "Real-time dashboard surfacing clinical insights from structured anesthesia data. Provides healthcare administrators with actionable analytics on operating room utilization.",
+    detailedDescription: "A real-time analytics dashboard built for healthcare organizations to surface clinical insights from structured anesthesia data. The system processes and visualizes operating room utilization patterns, helping hospital administrators optimize scheduling, reduce idle time, and improve resource allocation.",
+    tech: ["TypeScript", "React", "Supabase"],
+    status: "PRODUCTION",
+    link: "#",
+    github: "#",
+    color: "primary",
+    features: [
+      "Real-time dashboard with clinical analytics and visualizations",
+      "Operating room utilization tracking and pattern analysis",
+      "Structured anesthesia data processing and aggregation",
+      "Interactive charts and metrics for healthcare administrators",
+      "Data-driven insights for scheduling optimization and resource allocation"
+    ],
+    challenges: [
+      "Working with sensitive healthcare data requiring strict privacy compliance",
+      "Designing intuitive visualizations for complex clinical metrics",
+      "Optimizing real-time query performance on large anesthesia datasets",
+      "Translating clinical data into actionable administrative insights"
+    ],
+    impact: "Provides healthcare administrators with real-time visibility into operating room utilization, enabling data-driven decisions that improve scheduling efficiency and resource allocation.",
+    timeline: "2025 - Present",
+    teamSize: "AI Engineer (Lead)",
+    isPublicRepo: false
   },
   {
     id: 3,
